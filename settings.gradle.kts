@@ -8,3 +8,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Owls"
 include(":app")
+include(":domain")

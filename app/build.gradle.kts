@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -56,6 +58,25 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling:${rootProject.extra["compose_version"]}")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
     implementation("androidx.activity:activity-compose:1.3.0-rc01")
+    kapt("com.google.dagger:hilt-android-compiler:2.37")
+    implementation("com.google.dagger:hilt-android:2.37")
+
+    // Navigation
+    implementation("androidx.navigation:navigation-compose:2.4.0-alpha04")
+
+    // Hilt Compose Navigation
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0-alpha03")
+    implementation("androidx.hilt:hilt-navigation-fragment:1.0.0")
+
+
+    implementation(project(":domain"))
+
+    // Jetpack DataStore
+    implementation("androidx.datastore:datastore-preferences:1.0.0-rc01")
+
+    // JetPack Security
+    implementation("androidx.security:security-crypto:1.1.0-alpha03")
+
 
     testImplementation("junit:junit:4.+")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
