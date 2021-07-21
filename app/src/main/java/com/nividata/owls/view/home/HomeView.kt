@@ -30,5 +30,5 @@ fun HomeView(
 
 @Composable
 fun HomeContent(movieList: List<MovieResponse>) {
-
+    Text(text = movieList.toString())
 }
