@@ -22,7 +22,19 @@ class HomeViewModel @Inject constructor(
     private val tmdbRepository: TmdbRepository,
     private val sessionManager: SessionManager
 ) : ViewModel() {
-    val notes: SharedFlow<ViewState<MovieListResponse>> = tmdbRepository.getUpcomingMovies()
+
+    val upcomingMovies: SharedFlow<ViewState<MovieListResponse>> = tmdbRepository.getUpcomingMovies()
+        .distinctUntilChanged()
+        .map { result ->
+            when (result) {
+                is ResponseResult.Success -> ViewState.success(result.data)
+                is ResponseResult.Error ->
+                    ViewState.failed(result.message)
+            }
+        }.onStart { emit(ViewState.loading()) }
+        .shareWhileObserved(viewModelScope)
+
+    val availableMovies: SharedFlow<ViewState<MovieListResponse>> = tmdbRepository.getAvailableMovies()
         .distinctUntilChanged()
         .map { result ->
             when (result) {

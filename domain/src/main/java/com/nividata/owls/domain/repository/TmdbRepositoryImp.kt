@@ -35,4 +35,16 @@ class TmdbRepositoryImp @Inject internal constructor(
         it.stackTrace
         emit(ResponseResult.error(it.stackTraceToString()))
     }
+
+    override fun getAvailableMovies(): Flow<ResponseResult<MovieListResponse>> = flow {
+        val notesResponse = tmdbService.getAvailableMovies().getResponse()
+        val state = when (notesResponse.status) {
+            State.SUCCESS -> ResponseResult.success(notesResponse)
+            else -> ResponseResult.error(notesResponse.message)
+        }
+        emit(state)
+    }.catch {
+        it.stackTrace
+        emit(ResponseResult.error(it.stackTraceToString()))
+    }
 }

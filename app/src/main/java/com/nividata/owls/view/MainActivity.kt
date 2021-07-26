@@ -9,9 +9,11 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.nividata.owls.navigation.OwlsNavigation
 import com.nividata.owls.ui.theme.OwlsTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @ExperimentalCoroutinesApi
     @ExperimentalPagerApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

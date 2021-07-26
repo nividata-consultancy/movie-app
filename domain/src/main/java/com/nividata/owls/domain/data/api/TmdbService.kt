@@ -8,4 +8,7 @@ interface TmdbService {
 
     @GET("3/movie/upcoming")
     suspend fun getUpcomingMovies(): Response<MovieListResponse>
+
+    @GET("3/movie/now_playing")
+    suspend fun getAvailableMovies(): Response<MovieListResponse>
 }

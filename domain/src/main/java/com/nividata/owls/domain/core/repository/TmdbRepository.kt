@@ -7,4 +7,5 @@ import javax.inject.Singleton
 @Singleton
 interface TmdbRepository {
     fun getUpcomingMovies(): Flow<ResponseResult<MovieListResponse>>
+    fun getAvailableMovies(): Flow<ResponseResult<MovieListResponse>>
 }
