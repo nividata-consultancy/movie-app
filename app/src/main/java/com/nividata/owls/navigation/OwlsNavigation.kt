@@ -7,12 +7,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.nividata.owls.view.home.HomeView
 import com.nividata.owls.view.splash.SplashView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 const val NOTY_NAV_HOST_ROUTE = "noty-main-route"
 
+@ExperimentalPagerApi
 @ExperimentalCoroutinesApi
 @Composable
 fun OwlsNavigation() {
