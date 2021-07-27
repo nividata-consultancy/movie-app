@@ -1,5 +1,6 @@
 package com.nividata.owls.view.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nividata.owls.domain.core.repository.ResponseResult
@@ -23,25 +24,76 @@ class HomeViewModel @Inject constructor(
     private val sessionManager: SessionManager
 ) : ViewModel() {
 
-    val upcomingMovies: SharedFlow<ViewState<MovieListResponse>> = tmdbRepository.getUpcomingMovies()
-        .distinctUntilChanged()
-        .map { result ->
-            when (result) {
-                is ResponseResult.Success -> ViewState.success(result.data)
-                is ResponseResult.Error ->
-                    ViewState.failed(result.message)
-            }
-        }.onStart { emit(ViewState.loading()) }
-        .shareWhileObserved(viewModelScope)
+    val upcomingMovies: SharedFlow<ViewState<MovieListResponse>> =
+        tmdbRepository.getUpcomingMovies()
+            .distinctUntilChanged()
+            .map { result ->
+                when (result) {
+                    is ResponseResult.Success -> ViewState.success(result.data)
+                    is ResponseResult.Error ->
+                        ViewState.failed(result.message)
+                }
+            }.onStart { emit(ViewState.loading()) }
+            .shareWhileObserved(viewModelScope)
 
-    val availableMovies: SharedFlow<ViewState<MovieListResponse>> = tmdbRepository.getAvailableMovies()
-        .distinctUntilChanged()
-        .map { result ->
-            when (result) {
-                is ResponseResult.Success -> ViewState.success(result.data)
-                is ResponseResult.Error ->
-                    ViewState.failed(result.message)
-            }
-        }.onStart { emit(ViewState.loading()) }
-        .shareWhileObserved(viewModelScope)
+    val availableMovies: SharedFlow<ViewState<MovieListResponse>> =
+        tmdbRepository.getAvailableMovies()
+            .distinctUntilChanged()
+            .map { result ->
+                when (result) {
+                    is ResponseResult.Success -> ViewState.success(result.data)
+                    is ResponseResult.Error ->
+                        ViewState.failed(result.message)
+                }
+            }.onStart { emit(ViewState.loading()) }
+            .shareWhileObserved(viewModelScope)
+
+    val trendingMovies: SharedFlow<ViewState<MovieListResponse>> =
+        tmdbRepository.getTrendingMovies()
+            .distinctUntilChanged()
+            .map { result ->
+                when (result) {
+                    is ResponseResult.Success -> ViewState.success(result.data)
+                    is ResponseResult.Error ->
+                        ViewState.failed(result.message)
+
+                }
+            }.onStart { emit(ViewState.loading()) }
+            .shareWhileObserved(viewModelScope)
+
+    val popularMoviesOnNetflix: SharedFlow<ViewState<MovieListResponse>> =
+        tmdbRepository.getPopularMoviesByNetwork(networks = "213")
+            .distinctUntilChanged()
+            .map { result ->
+                when (result) {
+                    is ResponseResult.Success -> ViewState.success(result.data)
+                    is ResponseResult.Error ->
+                        ViewState.failed(result.message)
+                }
+            }.onStart { emit(ViewState.loading()) }
+            .shareWhileObserved(viewModelScope)
+
+    val popularMoviesOnAmazon: SharedFlow<ViewState<MovieListResponse>> =
+        tmdbRepository.getPopularMoviesByNetwork(networks = "1024")
+            .distinctUntilChanged()
+            .map { result ->
+                when (result) {
+                    is ResponseResult.Success -> ViewState.success(result.data)
+                    is ResponseResult.Error ->
+                        ViewState.failed(result.message)
+                }
+            }.onStart { emit(ViewState.loading()) }
+            .shareWhileObserved(viewModelScope)
+
+    val popularMoviesOnHotstar: SharedFlow<ViewState<MovieListResponse>> =
+        tmdbRepository.getPopularMoviesByNetwork(networks = "3919")
+            .distinctUntilChanged()
+            .map { result ->
+                when (result) {
+                    is ResponseResult.Success -> ViewState.success(result.data)
+                    is ResponseResult.Error ->
+                        ViewState.failed(result.message)
+                }
+            }.onStart { emit(ViewState.loading()) }
+            .shareWhileObserved(viewModelScope)
 }

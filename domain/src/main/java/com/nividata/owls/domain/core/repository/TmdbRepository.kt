@@ -8,4 +8,6 @@ import javax.inject.Singleton
 interface TmdbRepository {
     fun getUpcomingMovies(): Flow<ResponseResult<MovieListResponse>>
     fun getAvailableMovies(): Flow<ResponseResult<MovieListResponse>>
+    fun getTrendingMovies(): Flow<ResponseResult<MovieListResponse>>
+    fun getPopularMoviesByNetwork(networks: String): Flow<ResponseResult<MovieListResponse>>
 }

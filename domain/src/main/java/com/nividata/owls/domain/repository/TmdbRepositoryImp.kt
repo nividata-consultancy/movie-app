@@ -47,4 +47,38 @@ class TmdbRepositoryImp @Inject internal constructor(
         it.stackTrace
         emit(ResponseResult.error(it.stackTraceToString()))
     }
+
+    override fun getTrendingMovies(): Flow<ResponseResult<MovieListResponse>> = flow {
+        val notesResponse = tmdbService.getTrendingMovies().getResponse()
+        val state = when (notesResponse.status) {
+            State.SUCCESS -> ResponseResult.success(notesResponse)
+            else -> ResponseResult.error(notesResponse.message)
+        }
+        emit(state)
+    }.catch {
+        it.stackTrace
+        emit(ResponseResult.error(it.stackTraceToString()))
+    }
+
+    override fun getPopularMoviesByNetwork(networks: String): Flow<ResponseResult<MovieListResponse>> =
+        flow {
+            val notesResponse = tmdbService.getPopularMoviesByNetwork(
+                options = hashMapOf(
+                    "with_networks" to networks,
+                    "release_date.lte" to "2022-01-26",
+                    "with_original_language" to "hi",
+                    "sort_by" to "popularity.desc",
+                    "certification_country" to "IN",
+                    "ott_region" to "IN"
+                )
+            ).getResponse()
+            val state = when (notesResponse.status) {
+                State.SUCCESS -> ResponseResult.success(notesResponse)
+                else -> ResponseResult.error(notesResponse.message)
+            }
+            emit(state)
+        }.catch {
+            it.stackTrace
+            emit(ResponseResult.error(it.stackTraceToString()))
+        }
 }

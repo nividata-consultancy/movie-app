@@ -2,7 +2,7 @@ package com.nividata.owls.domain.data.model.response
 
 
 data class MovieListResponse(
-    val dates: DatesResponse,
+    val dates: DatesResponse?,
     val page: Int,
     val results: List<MovieResponse>,
     val total_pages: Int,
@@ -18,7 +18,7 @@ data class DatesResponse(
 
 data class MovieResponse(
     val adult: Boolean,
-    val backdrop_path: String,
+    val backdrop_path: String?,
     val genre_ids: List<Int>,
     val id: Int,
     val original_language: String,
