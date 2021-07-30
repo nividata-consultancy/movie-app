@@ -13,9 +13,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nividata.owls.domain.data.model.response.MovieResponse
+import com.nividata.owls.domain.model.Movie
 
 @Composable
-fun ListView(movieList: List<MovieResponse>, title: String) {
+fun ListView(movieList: List<Movie>, title: String) {
     Column() {
         Text(
             text = title,

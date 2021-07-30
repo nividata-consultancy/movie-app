@@ -4,6 +4,7 @@ import com.nividata.owls.domain.model.HomeMovieList
 import com.nividata.owls.domain.core.repository.TmdbRepository
 import com.nividata.owls.domain.data.api.TmdbService
 import com.nividata.owls.domain.data.model.response.MovieListResponse
+import com.nividata.owls.domain.data.model.response.TvListResponse
 import com.nividata.owls.domain.data.util.getResponse
 import com.nividata.owls.domain.model.HomeTvList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -25,7 +26,7 @@ class TmdbRepositoryImp @Inject internal constructor(
             HomeMovieList(
                 id = 0,
                 title = "Upcoming",
-                movieList = upcomingMovie.results
+                movieList = upcomingMovie.results.map { it.toMovie() }
             )
         )
         val availableMovie = getAvailableMovies()
@@ -33,7 +34,7 @@ class TmdbRepositoryImp @Inject internal constructor(
             HomeMovieList(
                 id = 1,
                 title = "Available now",
-                movieList = availableMovie.results
+                movieList = availableMovie.results.map { it.toMovie() }
             )
         )
         val trendingMovie = getTrendingMovies()
@@ -41,86 +42,33 @@ class TmdbRepositoryImp @Inject internal constructor(
             HomeMovieList(
                 id = 2,
                 title = "Trending",
-                movieList = trendingMovie.results
+                movieList = trendingMovie.results.map { it.toMovie() }
             )
         )
-        val popularMoviesOnNetflix = getPopularMoviesByNetwork(networks = "213")
-        list.add(
-            HomeMovieList(
-                id = 3,
-                title = "Netflix",
-                movieList = popularMoviesOnNetflix.results
-            )
-        )
-        val popularMoviesOnAmazon = getPopularMoviesByNetwork(networks = "1024")
-        list.add(
-            HomeMovieList(
-                id = 4,
-                title = "Amazon Prime",
-                movieList = popularMoviesOnAmazon.results
-            )
-        )
-        val popularMoviesOnHotstar = getPopularMoviesByNetwork(networks = "3919")
-        list.add(
-            HomeMovieList(
-                id = 5,
-                title = "Disney+ Hotstar",
-                movieList = popularMoviesOnHotstar.results
-            )
-        )
-        return list
-    }
-
-    override suspend fun getHomeTv(): List<HomeTvList> {
-        val list = arrayListOf<HomeTvList>()
-        val upcomingMovie = getUpcomingMovies()
-        list.add(
-            HomeTvList(
-                id = 0,
-                title = "Upcoming",
-                tvList = upcomingMovie.results
-            )
-        )
-        val availableMovie = getAvailableMovies()
-        list.add(
-            HomeTvList(
-                id = 1,
-                title = "Available now",
-                tvList = availableMovie.results
-            )
-        )
-        val trendingMovie = getTrendingMovies()
-        list.add(
-            HomeTvList(
-                id = 2,
-                title = "Trending",
-                tvList = trendingMovie.results
-            )
-        )
-        val popularMoviesOnNetflix = getPopularMoviesByNetwork(networks = "213")
-        list.add(
-            HomeTvList(
-                id = 3,
-                title = "Netflix",
-                tvList = popularMoviesOnNetflix.results
-            )
-        )
-        val popularMoviesOnAmazon = getPopularMoviesByNetwork(networks = "1024")
-        list.add(
-            HomeTvList(
-                id = 4,
-                title = "Amazon Prime",
-                tvList = popularMoviesOnAmazon.results
-            )
-        )
-        val popularMoviesOnHotstar = getPopularMoviesByNetwork(networks = "3919")
-        list.add(
-            HomeTvList(
-                id = 5,
-                title = "Disney+ Hotstar",
-                tvList = popularMoviesOnHotstar.results
-            )
-        )
+//        val popularMoviesOnNetflix = getPopularMoviesByNetwork(networks = "213")
+//        list.add(
+//            HomeMovieList(
+//                id = 3,
+//                title = "Netflix",
+//                movieList = popularMoviesOnNetflix.results
+//            )
+//        )
+//        val popularMoviesOnAmazon = getPopularMoviesByNetwork(networks = "1024")
+//        list.add(
+//            HomeMovieList(
+//                id = 4,
+//                title = "Amazon Prime",
+//                movieList = popularMoviesOnAmazon.results
+//            )
+//        )
+//        val popularMoviesOnHotstar = getPopularMoviesByNetwork(networks = "3919")
+//        list.add(
+//            HomeMovieList(
+//                id = 5,
+//                title = "Disney+ Hotstar",
+//                movieList = popularMoviesOnHotstar.results
+//            )
+//        )
         return list
     }
 
@@ -136,8 +84,65 @@ class TmdbRepositoryImp @Inject internal constructor(
         return tmdbService.getTrendingMovies().getResponse()
     }
 
-    override suspend fun getPopularMoviesByNetwork(networks: String): MovieListResponse {
-        return tmdbService.getPopularMoviesByNetwork(
+    override suspend fun getHomeTv(): List<HomeTvList> {
+        val list = arrayListOf<HomeTvList>()
+        val upcomingMovie = getPopularTv()
+        list.add(
+            HomeTvList(
+                id = 0,
+                title = "Popular",
+                tvList = upcomingMovie.results.map { it.toMovie() }
+            )
+        )
+//        val availableMovie = getAvailableMovies()
+//        list.add(
+//            HomeTvList(
+//                id = 1,
+//                title = "Available now",
+//                tvList = availableMovie.results
+//            )
+//        )
+//        val trendingMovie = getTrendingMovies()
+//        list.add(
+//            HomeTvList(
+//                id = 2,
+//                title = "Trending",
+//                tvList = trendingMovie.results
+//            )
+//        )
+        val popularMoviesOnNetflix = getPopularMoviesByNetwork(networks = "213")
+        list.add(
+            HomeTvList(
+                id = 3,
+                title = "Netflix",
+                tvList = popularMoviesOnNetflix.results.map { it.toMovie() }
+            )
+        )
+        val popularMoviesOnAmazon = getPopularMoviesByNetwork(networks = "1024")
+        list.add(
+            HomeTvList(
+                id = 4,
+                title = "Amazon Prime",
+                tvList = popularMoviesOnAmazon.results.map { it.toMovie() }
+            )
+        )
+        val popularMoviesOnHotstar = getPopularMoviesByNetwork(networks = "3919")
+        list.add(
+            HomeTvList(
+                id = 5,
+                title = "Disney+ Hotstar",
+                tvList = popularMoviesOnHotstar.results.map { it.toMovie() }
+            )
+        )
+        return list
+    }
+
+    override suspend fun getPopularTv(): TvListResponse {
+        return tmdbService.getPopularTv().getResponse()
+    }
+
+    override suspend fun getPopularMoviesByNetwork(networks: String): TvListResponse {
+        return tmdbService.getPopularTvByNetwork(
             options = hashMapOf(
                 "with_networks" to networks,
                 "release_date.lte" to "2022-01-26",

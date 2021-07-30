@@ -26,13 +26,14 @@ import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
 import com.nividata.owls.domain.data.Constant
 import com.nividata.owls.domain.data.model.response.MovieResponse
+import com.nividata.owls.domain.model.Movie
 import java.util.*
 import kotlin.math.absoluteValue
 
 
 @ExperimentalPagerApi
 @Composable
-fun SliderView(movieList: List<MovieResponse>) {
+fun SliderView(movieList: List<Movie>) {
     HorizontalPager(
         state = rememberPagerState(
             pageCount = movieList.size,
@@ -70,7 +71,7 @@ fun SliderView(movieList: List<MovieResponse>) {
         ) {
             Box() {
                 Image(
-                    painter = rememberCoilPainter(Constant.IMAGE_BASE_URL.plus(movieList[it].backdrop_path)),
+                    painter = rememberCoilPainter(Constant.IMAGE_BASE_URL.plus(movieList[it].backdropPath)),
                     contentDescription = null,
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop,

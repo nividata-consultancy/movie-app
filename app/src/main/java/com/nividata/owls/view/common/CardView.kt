@@ -13,9 +13,10 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.coil.rememberCoilPainter
 import com.nividata.owls.domain.data.Constant
 import com.nividata.owls.domain.data.model.response.MovieResponse
+import com.nividata.owls.domain.model.Movie
 
 @Composable
-fun CardView(movie: MovieResponse) {
+fun CardView(movie: Movie) {
     Card(
         modifier = Modifier
             .height(160.dp)
@@ -23,7 +24,7 @@ fun CardView(movie: MovieResponse) {
         shape = RoundedCornerShape(4.dp)
     ) {
         Image(
-            painter = rememberCoilPainter(Constant.IMAGE_BASE_URL.plus(movie.poster_path)),
+            painter = rememberCoilPainter(Constant.IMAGE_BASE_URL.plus(movie.posterPath)),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop,
