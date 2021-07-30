@@ -27,7 +27,7 @@ fun SplashView(
 //        is ViewState.Loading -> LoaderDialog()
         is ViewState.Success -> {
             navController.navigate(
-                route = Screen.Home.route,
+                route = Screen.Main.route,
                 builder = {
                     launchSingleTop = true
                     popUpTo(NOTY_NAV_HOST_ROUTE) { inclusive = true }

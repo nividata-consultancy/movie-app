@@ -7,8 +7,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navigation
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.nividata.owls.view.home.HomeView
+import com.nividata.owls.view.main.MainView
 import com.nividata.owls.view.splash.SplashView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -23,9 +25,10 @@ fun OwlsNavigation() {
         composable(Screen.Splash.route) {
             SplashView(navController, hiltViewModel())
         }
-        composable(Screen.Home.route) {
-            HomeView(navController, hiltViewModel())
+        composable(Screen.Main.route) {
+            MainView(navController)
         }
+
         /*
         composable(Screen.AddNote.route) {
             AddNoteScreen(navController, hiltViewModel())

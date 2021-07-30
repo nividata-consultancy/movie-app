@@ -1,9 +1,12 @@
 package com.nividata.owls.navigation
 
-sealed class Screen(val route: String, val name: String) {
+import com.nividata.owls.R
+
+sealed class Screen(val route: String, val name: String, val icon: Int = 0) {
     object Splash : Screen("splash", "Splash")
     object Main : Screen("Main", "main")
-    object Home : Screen("Home", "home")
+    object Home : Screen("Home", "home", icon = R.drawable.ic_baseline_local_movies_24)
+    object Tv : Screen("Tv", "tv", icon = R.drawable.ic_baseline_tv_24)
     object SignUp : Screen("signup", "Sign Up")
     object Login : Screen("login", "Login")
     object Notes : Screen("notes", "Notes")
