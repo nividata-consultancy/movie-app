@@ -1,18 +1,18 @@
-package com.nividata.owls.view.home
+package com.nividata.owls.view.tv
 
-import com.nividata.owls.domain.HomeMovieList
+import com.nividata.owls.domain.model.HomeTvList
 import com.nividata.owls.view.base.ViewEvent
 import com.nividata.owls.view.base.ViewSideEffect
 import com.nividata.owls.view.base.ViewState
 
-sealed class HomeContract {
+sealed class TvContract {
     sealed class Event : ViewEvent {
-        data class MovieSelection(val movieId: String) : Event()
+        data class TvSelection(val movieId: String) : Event()
     }
 
 
     sealed class State : ViewState {
-        data class Success(val homeMovieList: List<HomeMovieList> = listOf()) : State()
+        data class Success(val homeTvList: List<HomeTvList> = listOf()) : State()
         object Loading : State()
         data class Failed(val message: String) : State()
     }
@@ -21,7 +21,7 @@ sealed class HomeContract {
 
     sealed class Effect : ViewSideEffect {
         sealed class Navigation : Effect() {
-            data class ToMovieDetails(val movieId: String) : Navigation()
+            data class ToTvDetails(val movieId: String) : Navigation()
         }
     }
 }

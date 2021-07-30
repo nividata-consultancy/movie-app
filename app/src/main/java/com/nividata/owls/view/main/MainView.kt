@@ -25,7 +25,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.nividata.owls.R
 import com.nividata.owls.navigation.Screen
-import com.nividata.owls.view.home.HomeView
+import com.nividata.owls.view.movie.HomeView
 import com.nividata.owls.view.tv.TvView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -50,7 +50,7 @@ fun MainView(
                 HomeView(hiltViewModel())
             }
             composable(Screen.Tv.route) {
-                TvView()
+                TvView(hiltViewModel())
             }
         }
     }

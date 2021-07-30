@@ -1,9 +1,9 @@
-package com.nividata.owls.domain
+package com.nividata.owls.domain.model
 
 import com.nividata.owls.domain.data.model.response.MovieResponse
 
-data class HomeMovieList(
+data class HomeTvList(
     val id: Int,
     val title: String,
-    val movieList: List<MovieResponse>
+    val tvList: List<MovieResponse>
 )

@@ -1,4 +1,4 @@
-package com.nividata.owls.view.home
+package com.nividata.owls.view.movie
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,14 +10,15 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.nividata.owls.view.common.MovieListView
+import com.nividata.owls.view.common.ListView
+import com.nividata.owls.view.common.SliderView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalPagerApi
 @ExperimentalCoroutinesApi
 @Composable
 fun HomeView(
-    viewModel: HomeViewModel
+    viewModel: MovieViewModel
 ) {
     val state = viewModel.viewState.value
 
@@ -33,20 +34,20 @@ fun HomeView(
     ) {
 
         when (state) {
-            is HomeContract.State.Loading -> CircularProgressIndicator(color = MaterialTheme.colors.secondary)
-            is HomeContract.State.Success -> {
+            is MovieContract.State.Loading -> CircularProgressIndicator(color = MaterialTheme.colors.secondary)
+            is MovieContract.State.Success -> {
                 state.homeMovieList.forEachIndexed { index, homeMovieList ->
                     if (index == 0) {
-                        UpcomingMovieList(homeMovieList.movieList)
+                        SliderView(homeMovieList.movieList)
                     } else {
-                        MovieListView(
+                        ListView(
                             movieList = homeMovieList.movieList,
                             title = homeMovieList.title
                         )
                     }
                 }
             }
-            is HomeContract.State.Failed -> Text(text = state.message)
+            is MovieContract.State.Failed -> Text(text = state.message)
         }
     }
 }

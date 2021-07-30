@@ -1,4 +1,4 @@
-package com.nividata.owls.view.home
+package com.nividata.owls.view.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -32,7 +32,7 @@ import kotlin.math.absoluteValue
 
 @ExperimentalPagerApi
 @Composable
-fun UpcomingMovieList(movieList: List<MovieResponse>) {
+fun SliderView(movieList: List<MovieResponse>) {
     HorizontalPager(
         state = rememberPagerState(
             pageCount = movieList.size,

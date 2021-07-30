@@ -2,14 +2,10 @@ package com.nividata.owls.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navigation
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.nividata.owls.view.home.HomeView
 import com.nividata.owls.view.main.MainView
 import com.nividata.owls.view.splash.SplashView
 import kotlinx.coroutines.ExperimentalCoroutinesApi

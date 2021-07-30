@@ -1,4 +1,4 @@
-package com.nividata.owls.view.home
+package com.nividata.owls.view.movie
 
 import androidx.lifecycle.viewModelScope
 import com.nividata.owls.domain.core.repository.TmdbRepository
@@ -9,12 +9,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class MovieViewModel @Inject constructor(
     private val tmdbRepository: TmdbRepository,
     private val sessionManager: SessionManager
-) : BaseViewModel<HomeContract.Event,
-        HomeContract.State,
-        HomeContract.Effect>() {
+) : BaseViewModel<MovieContract.Event,
+        MovieContract.State,
+        MovieContract.Effect>() {
 
     init {
         viewModelScope.launch {
@@ -22,22 +22,22 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    override fun setInitialState(): HomeContract.State = HomeContract.State.Loading
+    override fun setInitialState(): MovieContract.State = MovieContract.State.Loading
 
-    override fun handleEvents(event: HomeContract.Event) {
+    override fun handleEvents(event: MovieContract.Event) {
 
         when (event) {
-            is HomeContract.Event.MovieSelection -> {
+            is MovieContract.Event.MovieSelection -> {
                 setEffect {
-                    HomeContract.Effect.Navigation.ToMovieDetails(event.movieId)
+                    MovieContract.Effect.Navigation.ToMovieDetails(event.movieId)
                 }
             }
         }
     }
 
     private suspend fun getFoodCategories() {
-        val categories = tmdbRepository.getHomeMovies()
-        setState { HomeContract.State.Success(categories) }
+        val homeMovieList = tmdbRepository.getHomeMovies()
+        setState { MovieContract.State.Success(homeMovieList) }
 //        setEffect { FoodCategoriesContract.Effect.ToastDataWasLoaded }
     }
 }

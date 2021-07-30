@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.sp
 import com.nividata.owls.domain.data.model.response.MovieResponse
 
 @Composable
-fun MovieListView(movieList: List<MovieResponse>, title: String) {
+fun ListView(movieList: List<MovieResponse>, title: String) {
     Column() {
         Text(
             text = title,
@@ -29,7 +29,7 @@ fun MovieListView(movieList: List<MovieResponse>, title: String) {
             horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             items(movieList) {
-                MovieCardView(movie = it)
+                CardView(movie = it)
             }
         }
     }

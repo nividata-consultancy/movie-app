@@ -1,10 +1,11 @@
 package com.nividata.owls.domain.repository
 
-import com.nividata.owls.domain.HomeMovieList
+import com.nividata.owls.domain.model.HomeMovieList
 import com.nividata.owls.domain.core.repository.TmdbRepository
 import com.nividata.owls.domain.data.api.TmdbService
 import com.nividata.owls.domain.data.model.response.MovieListResponse
 import com.nividata.owls.domain.data.util.getResponse
+import com.nividata.owls.domain.model.HomeTvList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -70,6 +71,59 @@ class TmdbRepositoryImp @Inject internal constructor(
         return list
     }
 
+    override suspend fun getHomeTv(): List<HomeTvList> {
+        val list = arrayListOf<HomeTvList>()
+        val upcomingMovie = getUpcomingMovies()
+        list.add(
+            HomeTvList(
+                id = 0,
+                title = "Upcoming",
+                tvList = upcomingMovie.results
+            )
+        )
+        val availableMovie = getAvailableMovies()
+        list.add(
+            HomeTvList(
+                id = 1,
+                title = "Available now",
+                tvList = availableMovie.results
+            )
+        )
+        val trendingMovie = getTrendingMovies()
+        list.add(
+            HomeTvList(
+                id = 2,
+                title = "Trending",
+                tvList = trendingMovie.results
+            )
+        )
+        val popularMoviesOnNetflix = getPopularMoviesByNetwork(networks = "213")
+        list.add(
+            HomeTvList(
+                id = 3,
+                title = "Netflix",
+                tvList = popularMoviesOnNetflix.results
+            )
+        )
+        val popularMoviesOnAmazon = getPopularMoviesByNetwork(networks = "1024")
+        list.add(
+            HomeTvList(
+                id = 4,
+                title = "Amazon Prime",
+                tvList = popularMoviesOnAmazon.results
+            )
+        )
+        val popularMoviesOnHotstar = getPopularMoviesByNetwork(networks = "3919")
+        list.add(
+            HomeTvList(
+                id = 5,
+                title = "Disney+ Hotstar",
+                tvList = popularMoviesOnHotstar.results
+            )
+        )
+        return list
+    }
+
     override suspend fun getUpcomingMovies(): MovieListResponse {
         return tmdbService.getUpcomingMovies().getResponse()
     }
@@ -78,11 +132,11 @@ class TmdbRepositoryImp @Inject internal constructor(
         return tmdbService.getAvailableMovies().getResponse()
     }
 
-    override suspend fun getTrendingMovies(): MovieListResponse{
+    override suspend fun getTrendingMovies(): MovieListResponse {
         return tmdbService.getTrendingMovies().getResponse()
     }
 
-    override suspend fun getPopularMoviesByNetwork(networks: String): MovieListResponse{
+    override suspend fun getPopularMoviesByNetwork(networks: String): MovieListResponse {
         return tmdbService.getPopularMoviesByNetwork(
             options = hashMapOf(
                 "with_networks" to networks,

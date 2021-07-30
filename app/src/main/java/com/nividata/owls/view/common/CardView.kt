@@ -15,7 +15,7 @@ import com.nividata.owls.domain.data.Constant
 import com.nividata.owls.domain.data.model.response.MovieResponse
 
 @Composable
-fun MovieCardView(movie: MovieResponse) {
+fun CardView(movie: MovieResponse) {
     Card(
         modifier = Modifier
             .height(160.dp)

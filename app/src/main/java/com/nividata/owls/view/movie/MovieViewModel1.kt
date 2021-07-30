@@ -1,24 +1,15 @@
-package com.nividata.owls.view.home
+package com.nividata.owls.view.movie
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.nividata.owls.domain.core.repository.ResponseResult
 import com.nividata.owls.domain.core.repository.TmdbRepository
 import com.nividata.owls.domain.core.session.SessionManager
-import com.nividata.owls.domain.core.view.ViewState
-import com.nividata.owls.domain.data.model.response.MovieListResponse
-import com.nividata.owls.extention.shareWhileObserved
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @HiltViewModel
-class HomeViewModel1 @Inject constructor(
+class MovieViewModel1 @Inject constructor(
     private val tmdbRepository: TmdbRepository,
     private val sessionManager: SessionManager
 ) : ViewModel() {
