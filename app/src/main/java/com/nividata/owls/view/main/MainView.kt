@@ -25,6 +25,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.nividata.owls.R
 import com.nividata.owls.navigation.Screen
+import com.nividata.owls.view.discover.DiscoverView
 import com.nividata.owls.view.movie.HomeView
 import com.nividata.owls.view.tv.TvView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -44,13 +45,16 @@ fun MainView(
     }) {
         NavHost(
             navController = navController,
-            startDestination = Screen.Home.route,
+            startDestination = Screen.Movie.route,
         ) {
-            composable(Screen.Home.route) {
+            composable(Screen.Movie.route) {
                 HomeView(hiltViewModel())
             }
             composable(Screen.Tv.route) {
                 TvView(hiltViewModel())
+            }
+            composable(Screen.Discover.route) {
+                DiscoverView(hiltViewModel())
             }
         }
     }
@@ -83,8 +87,9 @@ fun BottomAppBar(
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
         listOf(
-            Screen.Home,
-            Screen.Tv
+            Screen.Movie,
+            Screen.Tv,
+            Screen.Discover
         ).forEach { list ->
             BottomNavigationItem(
                 icon = {
