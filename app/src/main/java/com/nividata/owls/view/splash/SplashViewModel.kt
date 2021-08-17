@@ -25,7 +25,7 @@ class SplashViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             saveToken("eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNDFjYjI2MTNkOGYxODE5MDAyODkyODIwYzQ5Yzg4ZCIsInN1YiI6IjYwZTU3MWM0ODNlZTY3MDA1ZGU1ZWYxOCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AoAnnujUJbVnstTL1ykfcLElvAoruXbVi-2JWMXC0gA")
-            delay(1000L)
+            delay(200L)
             _authFlow.emit(ViewState.success(true))
         }
     }

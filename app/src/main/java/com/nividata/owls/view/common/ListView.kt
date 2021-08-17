@@ -17,13 +17,15 @@ import com.nividata.owls.domain.model.Movie
 
 @Composable
 fun ListView(movieList: List<Movie>, title: String) {
-    Column() {
+    Column(
+        modifier = Modifier.padding(top = 10.dp)
+    ) {
         Text(
             text = title,
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
-                .padding(start = 20.dp, top = 20.dp, bottom = 20.dp)
+                .padding(start = 20.dp, top = 10.dp, bottom = 10.dp)
         )
         LazyRow(
             contentPadding = PaddingValues(horizontal = 20.dp),

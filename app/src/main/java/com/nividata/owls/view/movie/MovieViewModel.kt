@@ -25,7 +25,6 @@ class MovieViewModel @Inject constructor(
     override fun setInitialState(): MovieContract.State = MovieContract.State.Loading
 
     override fun handleEvents(event: MovieContract.Event) {
-
         when (event) {
             is MovieContract.Event.MovieSelection -> {
                 setEffect {

@@ -16,15 +16,15 @@ import com.nividata.owls.domain.data.model.response.MovieResponse
 import com.nividata.owls.domain.model.Movie
 
 @Composable
-fun CardView(movie: Movie) {
+fun SmallHCardView(movie: Movie) {
     Card(
         modifier = Modifier
-            .height(140.dp)
-            .width(95.dp),
+            .height(85.dp)
+            .width(130.dp),
         shape = RoundedCornerShape(4.dp)
     ) {
         Image(
-            painter = rememberCoilPainter(Constant.IMAGE_BASE_URL.plus(movie.posterPath)),
+            painter = rememberCoilPainter(Constant.IMAGE_BASE_URL.plus(movie.backdropPath)),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop,

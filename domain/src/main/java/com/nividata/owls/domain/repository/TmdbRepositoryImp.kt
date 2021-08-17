@@ -3,9 +3,11 @@ package com.nividata.owls.domain.repository
 import com.nividata.owls.domain.model.HomeMovieList
 import com.nividata.owls.domain.core.repository.TmdbRepository
 import com.nividata.owls.domain.data.api.TmdbService
+import com.nividata.owls.domain.data.model.response.GenreList
 import com.nividata.owls.domain.data.model.response.MovieListResponse
 import com.nividata.owls.domain.data.model.response.TvListResponse
 import com.nividata.owls.domain.data.util.getResponse
+import com.nividata.owls.domain.model.GenreTypeWise
 import com.nividata.owls.domain.model.HomeTvList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
@@ -21,18 +23,10 @@ class TmdbRepositoryImp @Inject internal constructor(
 ) : TmdbRepository {
     override suspend fun getHomeMovies(): List<HomeMovieList> {
         val list = arrayListOf<HomeMovieList>()
-        val upcomingMovie = getUpcomingMovies()
-        list.add(
-            HomeMovieList(
-                id = 0,
-                title = "Upcoming",
-                movieList = upcomingMovie.results.map { it.toMovie() }
-            )
-        )
         val availableMovie = getAvailableMovies()
         list.add(
             HomeMovieList(
-                id = 1,
+                id = 0,
                 title = "Available now",
                 movieList = availableMovie.results.map { it.toMovie() }
             )
@@ -40,11 +34,74 @@ class TmdbRepositoryImp @Inject internal constructor(
         val trendingMovie = getTrendingMovies()
         list.add(
             HomeMovieList(
-                id = 2,
+                id = 1,
                 title = "Trending",
                 movieList = trendingMovie.results.map { it.toMovie() }
             )
         )
+        val upcomingMovie = getUpcomingMovies()
+        list.add(
+            HomeMovieList(
+                id = 2,
+                title = "Upcoming",
+                movieList = upcomingMovie.results.map { it.toMovie() }
+            )
+        )
+
+        val popularMovie = getPopularMovies()
+        list.add(
+            HomeMovieList(
+                id = 3,
+                title = "Popular",
+                movieList = popularMovie.results.map { it.toMovie() }
+            )
+        )
+
+//        val kidsMovie = getPopularMovies()
+        list.add(
+            HomeMovieList(
+                id = 4,
+                title = "Kids",
+                movieList = popularMovie.results.map { it.toMovie() }
+            )
+        )
+
+        list.add(
+            HomeMovieList(
+                id = 5,
+                title = "Action",
+                movieList = popularMovie.results.map { it.toMovie() }
+            )
+        )
+        list.add(
+            HomeMovieList(
+                id = 6,
+                title = "Comedy",
+                movieList = popularMovie.results.map { it.toMovie() }
+            )
+        )
+        list.add(
+            HomeMovieList(
+                id = 7,
+                title = "Thriller",
+                movieList = popularMovie.results.map { it.toMovie() }
+            )
+        )
+        list.add(
+            HomeMovieList(
+                id = 7,
+                title = "Crime",
+                movieList = popularMovie.results.map { it.toMovie() }
+            )
+        )
+        list.add(
+            HomeMovieList(
+                id = 7,
+                title = "Family",
+                movieList = popularMovie.results.map { it.toMovie() }
+            )
+        )
+
 //        val popularMoviesOnNetflix = getPopularMoviesByNetwork(networks = "213")
 //        list.add(
 //            HomeMovieList(
@@ -82,6 +139,11 @@ class TmdbRepositoryImp @Inject internal constructor(
 
     override suspend fun getTrendingMovies(): MovieListResponse {
         return tmdbService.getTrendingMovies().getResponse()
+    }
+
+
+    override suspend fun getPopularMovies(): MovieListResponse {
+        return tmdbService.getPopularMovies().getResponse()
     }
 
     override suspend fun getHomeTv(): List<HomeTvList> {
@@ -152,5 +214,19 @@ class TmdbRepositoryImp @Inject internal constructor(
                 "ott_region" to "IN"
             )
         ).getResponse()
+    }
+
+    override suspend fun getMovieGenre(): GenreList {
+        return tmdbService.getMovieGenre().getResponse()
+    }
+
+    override suspend fun getTvGenre(): GenreList {
+        return tmdbService.getTvGenre().getResponse()
+    }
+
+    override suspend fun getGenre(): GenreTypeWise {
+        val movieGenreList = getMovieGenre()
+        val tvGenreList = getTvGenre()
+        return GenreTypeWise(movieGenre = movieGenreList.genres, tvGenre = tvGenreList.genres)
     }
 }
