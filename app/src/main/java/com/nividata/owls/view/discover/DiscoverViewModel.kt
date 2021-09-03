@@ -5,6 +5,8 @@ import com.nividata.owls.domain.core.repository.TmdbRepository
 import com.nividata.owls.domain.core.session.SessionManager
 import com.nividata.owls.domain.data.model.response.GenreList
 import com.nividata.owls.domain.model.GenreTypeWise
+import com.nividata.owls.domain.model.People
+import com.nividata.owls.domain.model.PeopleList
 import com.nividata.owls.view.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -18,6 +20,7 @@ class DiscoverViewModel @Inject constructor(
         DiscoverContract.State,
         DiscoverContract.Effect>() {
     lateinit var genreTypeWise: GenreTypeWise
+    lateinit var peopleList: PeopleList
 
     init {
         viewModelScope.launch {
@@ -39,24 +42,30 @@ class DiscoverViewModel @Inject constructor(
                     setState {
                         DiscoverContract.State.Success(
                             genreTypeWise.movieGenre,
-                            Type.MOVIE
+                            Type.MOVIE, peopleList.results
                         )
                     }
                 else
                     setState {
                         DiscoverContract.State.Success(
                             genreTypeWise.tvGenre,
-                            Type.SHOW
+                            Type.SHOW, peopleList.results
                         )
                     }
-
             }
         }
     }
 
     private suspend fun getInitData() {
         genreTypeWise = tmdbRepository.getGenre()
-        setState { DiscoverContract.State.Success(genreTypeWise.movieGenre, Type.MOVIE) }
+        peopleList = tmdbRepository.getPeople()
+        setState {
+            DiscoverContract.State.Success(
+                genreTypeWise.movieGenre,
+                Type.MOVIE,
+                peopleList.results
+            )
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 package com.nividata.owls.view.discover
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -12,11 +13,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.accompanist.coil.rememberCoilPainter
+import com.nividata.owls.domain.data.Constant
 import com.nividata.owls.domain.data.model.response.Genres
+import com.nividata.owls.domain.model.People
 
 @Composable
 fun DiscoverView(
@@ -42,6 +47,7 @@ fun DiscoverView(
             is DiscoverContract.State.Loading -> CircularProgressIndicator(color = MaterialTheme.colors.secondary)
             is DiscoverContract.State.Success -> {
                 GenreListView(state.genreList)
+                PeopleView(genreList = state.peopleList)
             }
             is DiscoverContract.State.Failed -> Text(text = state.message)
         }
@@ -132,5 +138,40 @@ fun TitleChipView(title: String) {
             fontSize = 12.sp,
             modifier = Modifier.padding(vertical = 2.dp)
         )
+    }
+}
+
+@Composable
+fun PeopleView(genreList: List<People>){
+    Column() {
+        Text(
+            "People",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(start = 12.dp, top = 12.dp, bottom = 12.dp)
+        )
+        LazyRow(
+            contentPadding = PaddingValues(horizontal = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+        ) {
+            items(genreList) {
+                Column() {
+                    Card(
+                        modifier = Modifier
+                            .height(140.dp)
+                            .width(95.dp),
+                        shape = RoundedCornerShape(4.dp)
+                    ) {
+                        Image(
+                            painter = rememberCoilPainter(Constant.IMAGE_BASE_URL.plus(it.profile_path)),
+                            contentDescription = null,
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop,
+                        )
+                    }
+                    Text(it.name)
+                }
+            }
+        }
     }
 }
