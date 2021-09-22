@@ -2,6 +2,7 @@ package com.nividata.owls.di
 
 import com.nividata.owls.domain.core.utils.moshi
 import com.nividata.owls.domain.data.Constant
+import com.nividata.owls.domain.data.api.OwlsService
 import com.nividata.owls.domain.data.api.TmdbService
 import com.nividata.owls.domain.data.interceptor.AuthInterceptor
 import dagger.Module
@@ -22,6 +23,10 @@ class NetworkModule {
         .baseUrl(Constant.API_BASE_URL)
         .addConverterFactory(MoshiConverterFactory.create(moshi))
 
+    private val owlsRetrofitBuilder: Retrofit.Builder = Retrofit.Builder()
+        .baseUrl(Constant.OWLS_BASE_URL)
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
+
 
     private val interceptor = HttpLoggingInterceptor()
         .setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -33,18 +38,18 @@ class NetworkModule {
             .addInterceptor(interceptor)
 
     @Provides
-    fun provideNotyService(authInterceptor: AuthInterceptor): TmdbService {
+    fun provideTmdbService(authInterceptor: AuthInterceptor): TmdbService {
         return baseRetrofitBuilder
             .client(okHttpClientBuilder.addInterceptor(authInterceptor).build())
             .build()
             .create(TmdbService::class.java)
     }
 
-//    @Provides
-//    fun provideNotyAuthService(): NotyAuthService {
-//        return baseRetrofitBuilder
-//            .client(okHttpClientBuilder.build())
-//            .build()
-//            .create(NotyAuthService::class.java)
-//    }
+    @Provides
+    fun provideOwlsAuthService(): OwlsService {
+        return owlsRetrofitBuilder
+            .client(okHttpClientBuilder.build())
+            .build()
+            .create(OwlsService::class.java)
+    }
 }

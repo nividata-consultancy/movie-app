@@ -36,7 +36,7 @@ fun TvView(
             is TvContract.State.Success -> {
                 state.homeTvList.forEachIndexed { index, homeMovieList ->
                     if (index == 0) {
-                        SliderView(homeMovieList.tvList)
+                        SliderView(homeMovieList.tvList, title = homeMovieList.title)
                     } else {
                         ListView(
                             movieList = homeMovieList.tvList,

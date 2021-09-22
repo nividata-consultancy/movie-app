@@ -6,6 +6,7 @@ import com.nividata.owls.domain.data.model.response.MovieListResponse
 import com.nividata.owls.domain.data.model.response.TvListResponse
 import com.nividata.owls.domain.model.GenreTypeWise
 import com.nividata.owls.domain.model.HomeTvList
+import com.nividata.owls.domain.model.PeopleList
 import javax.inject.Singleton
 
 @Singleton
@@ -22,4 +23,5 @@ interface TmdbRepository {
     suspend fun getTvGenre(): GenreList
     suspend fun getMovieGenre(): GenreList
     suspend fun getGenre(): GenreTypeWise
+    suspend fun getPeople(): PeopleList
 }

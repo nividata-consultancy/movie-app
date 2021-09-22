@@ -1,5 +1,6 @@
 package com.nividata.owls.navigation
 
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
@@ -7,11 +8,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.nividata.owls.view.main.MainView
+import com.nividata.owls.view.newMain.NewMainView
 import com.nividata.owls.view.splash.SplashView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 const val NOTY_NAV_HOST_ROUTE = "noty-main-route"
 
+@ExperimentalMaterialApi
 @ExperimentalPagerApi
 @ExperimentalCoroutinesApi
 @Composable
@@ -23,6 +26,9 @@ fun OwlsNavigation() {
         }
         composable(Screen.Main.route) {
             MainView(navController)
+        }
+        composable(Screen.NewMain.route) {
+            NewMainView(navController)
         }
 
         /*

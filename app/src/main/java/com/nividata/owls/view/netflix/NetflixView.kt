@@ -1,9 +1,10 @@
-package com.nividata.owls.view.movie
+package com.nividata.owls.view.netflix
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -18,16 +19,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.nividata.owls.domain.model.Movie
-import com.nividata.owls.view.common.ListView
-import com.nividata.owls.view.common.SliderView
-import com.nividata.owls.view.common.SmallHCardView
+import com.nividata.owls.view.common.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalPagerApi
 @ExperimentalCoroutinesApi
 @Composable
-fun HomeView(
-    viewModel: MovieViewModel
+fun NetflixView(
+    viewModel: NetflixViewModel
 ) {
     val state = viewModel.viewState.value
 
@@ -43,15 +42,15 @@ fun HomeView(
     ) {
 
         when (state) {
-            is MovieContract.State.Loading -> CircularProgressIndicator(color = MaterialTheme.colors.secondary)
-            is MovieContract.State.Success -> {
+            is NetflixContract.State.Loading -> CircularProgressIndicator(color = MaterialTheme.colors.secondary)
+            is NetflixContract.State.Success -> {
                 state.homeMovieList.forEachIndexed { index, homeMovieList ->
                     when (index) {
                         0 -> {
                             SliderView(homeMovieList.movieList, title = homeMovieList.title)
                         }
-                        2 -> {
-                            UpcomingMovie(movieList = homeMovieList.movieList)
+                        1 -> {
+                            Top10Movie(homeMovieList.movieList, title = homeMovieList.title)
                         }
                         else -> {
                             ListView(
@@ -62,24 +61,18 @@ fun HomeView(
                     }
                 }
             }
-            is MovieContract.State.Failed -> Text(text = state.message)
+            is NetflixContract.State.Failed -> Text(text = state.message)
         }
     }
 }
 
 @Composable
-fun UpcomingMovie(movieList: List<Movie>) {
+fun Top10Movie(movieList: List<Movie>, title: String) {
     Column(
-        modifier = Modifier
-            .padding(top = 10.dp)
-            .background(
-                Color.Black.copy(blue = 0.11f, red = 0.1f, green = 0.05f),
-                shape = RoundedCornerShape(4.dp)
-            )
-            .padding(bottom = 10.dp),
+        modifier = Modifier.padding(top = 10.dp)
     ) {
         Text(
-            text = "Upcoming",
+            text = title,
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
@@ -89,8 +82,8 @@ fun UpcomingMovie(movieList: List<Movie>) {
             contentPadding = PaddingValues(horizontal = 20.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            items(movieList) {
-                SmallHCardView(movie = it)
+            itemsIndexed(movieList) { index, item ->
+                RoundCardView(movie = item, index)
             }
         }
     }

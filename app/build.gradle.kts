@@ -62,6 +62,8 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.37")
     implementation("androidx.compose.ui:ui-util:${rootProject.extra["compose_version"]}")
 
+    implementation ("androidx.palette:palette-ktx:1.0.0")
+
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.4.0-alpha04")
 

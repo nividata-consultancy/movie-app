@@ -3,6 +3,7 @@ package com.nividata.owls.domain.data.api
 import com.nividata.owls.domain.data.model.response.GenreList
 import com.nividata.owls.domain.data.model.response.MovieListResponse
 import com.nividata.owls.domain.data.model.response.TvListResponse
+import com.nividata.owls.domain.model.PeopleList
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.QueryMap
@@ -35,4 +36,7 @@ interface TmdbService {
 
     @GET("3/genre/movie/list")
     suspend fun getMovieGenre(): Response<GenreList>
+
+    @GET("3/person/popular")
+    suspend fun getPeople(): Response<PeopleList>
 }

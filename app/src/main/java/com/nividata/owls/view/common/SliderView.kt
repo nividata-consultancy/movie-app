@@ -33,7 +33,14 @@ import kotlin.math.absoluteValue
 
 @ExperimentalPagerApi
 @Composable
-fun SliderView(movieList: List<Movie>) {
+fun SliderView(movieList: List<Movie>,title : String) {
+    Text(
+        text = title,
+        fontSize = 16.sp,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier
+            .padding(start = 20.dp, top = 10.dp, bottom = 10.dp)
+    )
     HorizontalPager(
         state = rememberPagerState(
             pageCount = movieList.size,

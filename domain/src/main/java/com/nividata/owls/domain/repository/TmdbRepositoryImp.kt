@@ -9,6 +9,7 @@ import com.nividata.owls.domain.data.model.response.TvListResponse
 import com.nividata.owls.domain.data.util.getResponse
 import com.nividata.owls.domain.model.GenreTypeWise
 import com.nividata.owls.domain.model.HomeTvList
+import com.nividata.owls.domain.model.PeopleList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -228,5 +229,9 @@ class TmdbRepositoryImp @Inject internal constructor(
         val movieGenreList = getMovieGenre()
         val tvGenreList = getTvGenre()
         return GenreTypeWise(movieGenre = movieGenreList.genres, tvGenre = tvGenreList.genres)
+    }
+
+    override suspend fun getPeople(): PeopleList {
+        return tmdbService.getPeople().getResponse()
     }
 }
