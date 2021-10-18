@@ -6,7 +6,7 @@ sealed class Screen(val route: String, val name: String, val icon: Int = 0) {
     object Splash : Screen("splash", "Splash")
     object Main : Screen("Main", "main")
     object NewMain : Screen("NewMain", "New Main")
-    object Netflix : Screen("Netflix", "Netflix", icon = R.drawable.ic_netflix)
+    object Netflix : Screen("Netflix", "Netflix", icon = R.drawable.netflix_logo_icon)
     object Amazon : Screen("Amazon", "Amazon", icon = R.drawable.ic_amazon_prime)
     object Hotstar : Screen("Hotstar", "Hotstar", icon = R.drawable.ic_disney_plus_hotstar)
     object Movie : Screen("Movie", "movie", icon = R.drawable.ic_baseline_local_movies_24)

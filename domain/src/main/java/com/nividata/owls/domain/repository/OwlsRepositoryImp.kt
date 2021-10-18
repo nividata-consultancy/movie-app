@@ -19,7 +19,13 @@ class OwlsRepositoryImp @Inject internal constructor(
     override suspend fun getNetflixData(): List<HomeMovieList> {
         val list = arrayListOf<HomeMovieList>()
         val netflixUpcoming =
-            tmdbService.getMoviesByType(params = mapOf("type" to "NetflixUpcoming")).getResponse()
+            tmdbService.getMoviesByType(
+                params = mapOf(
+                    "type" to "NetflixUpcoming",
+                    "page" to 1,
+                    "page_size" to 10
+                )
+            ).getResponse()
         list.add(
             HomeMovieList(
                 id = 0,
@@ -28,7 +34,13 @@ class OwlsRepositoryImp @Inject internal constructor(
             )
         )
         val netflixTop10 =
-            tmdbService.getMoviesByType(params = mapOf("type" to "NetflixTop10")).getResponse()
+            tmdbService.getMoviesByType(
+                params = mapOf(
+                    "type" to "NetflixTop10",
+                    "page" to 1,
+                    "page_size" to 10
+                )
+            ).getResponse()
         list.add(
             HomeMovieList(
                 id = 1,
@@ -37,7 +49,13 @@ class OwlsRepositoryImp @Inject internal constructor(
             )
         )
         val netflixTrending =
-            tmdbService.getMoviesByType(params = mapOf("type" to "NetflixTrending")).getResponse()
+            tmdbService.getMoviesByType(
+                params = mapOf(
+                    "type" to "NetflixTrending",
+                    "page" to 1,
+                    "page_size" to 10
+                )
+            ).getResponse()
         list.add(
             HomeMovieList(
                 id = 2,
@@ -46,7 +64,13 @@ class OwlsRepositoryImp @Inject internal constructor(
             )
         )
         val netflixPopular =
-            tmdbService.getMoviesByType(params = mapOf("type" to "NetflixPopular")).getResponse()
+            tmdbService.getMoviesByType(
+                params = mapOf(
+                    "type" to "NetflixPopular",
+                    "page" to 1,
+                    "page_size" to 10
+                )
+            ).getResponse()
         list.add(
             HomeMovieList(
                 id = 3,
@@ -60,7 +84,13 @@ class OwlsRepositoryImp @Inject internal constructor(
     override suspend fun getAmazonData(): List<HomeMovieList> {
         val list = arrayListOf<HomeMovieList>()
         val amazonUpcoming =
-            tmdbService.getMoviesByType(params = mapOf("type" to "AmazonUpcoming")).getResponse()
+            tmdbService.getMoviesByType(
+                params = mapOf(
+                    "type" to "AmazonUpcoming",
+                    "page" to 1,
+                    "page_size" to 10
+                )
+            ).getResponse()
         list.add(
             HomeMovieList(
                 id = 0,
@@ -69,7 +99,13 @@ class OwlsRepositoryImp @Inject internal constructor(
             )
         )
         val amazonTopMovie =
-            tmdbService.getMoviesByType(params = mapOf("type" to "AmazonTopMovies")).getResponse()
+            tmdbService.getMoviesByType(
+                params = mapOf(
+                    "type" to "AmazonTopMovies",
+                    "page" to 1,
+                    "page_size" to 10
+                )
+            ).getResponse()
         list.add(
             HomeMovieList(
                 id = 1,
@@ -78,7 +114,13 @@ class OwlsRepositoryImp @Inject internal constructor(
             )
         )
         val amazonLatestMovie =
-            tmdbService.getMoviesByType(params = mapOf("type" to "AmazonLatestMovies"))
+            tmdbService.getMoviesByType(
+                params = mapOf(
+                    "type" to "AmazonLatestMovies",
+                    "page" to 1,
+                    "page_size" to 10
+                )
+            )
                 .getResponse()
         list.add(
             HomeMovieList(
@@ -88,7 +130,13 @@ class OwlsRepositoryImp @Inject internal constructor(
             )
         )
         val amazonOriginal =
-            tmdbService.getMoviesByType(params = mapOf("type" to "AmazonOriginal")).getResponse()
+            tmdbService.getMoviesByType(
+                params = mapOf(
+                    "type" to "AmazonOriginal",
+                    "page" to 1,
+                    "page_size" to 10
+                )
+            ).getResponse()
         list.add(
             HomeMovieList(
                 id = 3,
@@ -102,7 +150,13 @@ class OwlsRepositoryImp @Inject internal constructor(
     override suspend fun getHotstarData(): List<HomeMovieList> {
         val list = arrayListOf<HomeMovieList>()
         val hotstarTrending =
-            tmdbService.getMoviesByType(params = mapOf("type" to "HotstarTrending")).getResponse()
+            tmdbService.getMoviesByType(
+                params = mapOf(
+                    "type" to "HotstarTrending",
+                    "page" to 1,
+                    "page_size" to 10
+                )
+            ).getResponse()
         list.add(
             HomeMovieList(
                 id = 0,
@@ -111,7 +165,13 @@ class OwlsRepositoryImp @Inject internal constructor(
             )
         )
         val hotstatNew =
-            tmdbService.getMoviesByType(params = mapOf("type" to "HotstarNew")).getResponse()
+            tmdbService.getMoviesByType(
+                params = mapOf(
+                    "type" to "HotstarNew",
+                    "page" to 1,
+                    "page_size" to 10
+                )
+            ).getResponse()
         list.add(
             HomeMovieList(
                 id = 1,
@@ -120,7 +180,13 @@ class OwlsRepositoryImp @Inject internal constructor(
             )
         )
         val hotstarSpecials =
-            tmdbService.getMoviesByType(params = mapOf("type" to "HotstarSpecials")).getResponse()
+            tmdbService.getMoviesByType(
+                params = mapOf(
+                    "type" to "HotstarSpecials",
+                    "page" to 1,
+                    "page_size" to 10
+                )
+            ).getResponse()
         list.add(
             HomeMovieList(
                 id = 2,
