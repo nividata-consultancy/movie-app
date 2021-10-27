@@ -4,13 +4,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.*
 import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -41,12 +39,20 @@ fun NewMainView(
     val tabs = listOf(Screen.Netflix, Screen.Amazon, Screen.Hotstar)
     val pagerState = rememberPagerState(pageCount = tabs.size)
 
+    val onMovieClicked: (Int) -> Unit = {
+        navMainController.navigate(Screen.MovieDetail.route(it))
+    }
+
     Scaffold(topBar = {
         Toolbar()
     }) {
         Column {
             Tabs(tabs = tabs, pagerState = pagerState)
-            TabsContent(tabs = tabs, pagerState = pagerState)
+            TabsContent(
+                tabs = tabs,
+                pagerState = pagerState,
+                onMovieClicked = onMovieClicked,
+            )
         }
     }
 }
@@ -92,12 +98,14 @@ fun Tabs(tabs: List<Screen>, pagerState: PagerState) {
 @ExperimentalCoroutinesApi
 @ExperimentalPagerApi
 @Composable
-fun TabsContent(tabs: List<Screen>, pagerState: PagerState) {
+fun TabsContent(
+    tabs: List<Screen>, pagerState: PagerState, onMovieClicked: (Int) -> Unit,
+) {
     HorizontalPager(state = pagerState) { page ->
         when (page) {
-            0 -> NetflixView(viewModel = hiltViewModel())
-            1 -> AmazonView(viewModel = hiltViewModel())
-            2 -> HotstarView(viewModel = hiltViewModel())
+            0 -> NetflixView(viewModel = hiltViewModel(), onMovieClicked = onMovieClicked)
+            1 -> AmazonView(viewModel = hiltViewModel(), onMovieClicked = onMovieClicked)
+            2 -> HotstarView(viewModel = hiltViewModel(), onMovieClicked = onMovieClicked)
         }
     }
 }

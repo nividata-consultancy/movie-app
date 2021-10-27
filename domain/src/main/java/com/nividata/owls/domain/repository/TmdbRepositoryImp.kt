@@ -1,15 +1,13 @@
 package com.nividata.owls.domain.repository
 
-import com.nividata.owls.domain.model.HomeMovieList
 import com.nividata.owls.domain.core.repository.TmdbRepository
 import com.nividata.owls.domain.data.api.TmdbService
 import com.nividata.owls.domain.data.model.response.GenreList
+import com.nividata.owls.domain.data.model.response.MovieList
 import com.nividata.owls.domain.data.model.response.MovieListResponse
 import com.nividata.owls.domain.data.model.response.TvListResponse
 import com.nividata.owls.domain.data.util.getResponse
-import com.nividata.owls.domain.model.GenreTypeWise
-import com.nividata.owls.domain.model.HomeTvList
-import com.nividata.owls.domain.model.PeopleList
+import com.nividata.owls.domain.model.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -233,5 +231,24 @@ class TmdbRepositoryImp @Inject internal constructor(
 
     override suspend fun getPeople(): PeopleList {
         return tmdbService.getPeople().getResponse()
+    }
+
+
+    override suspend fun getMovieDetails(id: Int): MovieDetails {
+        return tmdbService.getMovieDetails(id).getResponse()
+    }
+
+    override suspend fun getCastCrew(id: Int): CastCrew {
+        return tmdbService.getCastCrew(id).getResponse()
+    }
+
+    override suspend fun getMovieRecommendations(id: Int): HomeMovieList {
+        val recommendations =
+            tmdbService.getMovieRecommendations(id, mapOf("param" to 1)).getResponse()
+        return HomeMovieList(
+            id = 1,
+            title = "Recommendations",
+            movieList = recommendations.results.map { it.toMovie() }
+        )
     }
 }

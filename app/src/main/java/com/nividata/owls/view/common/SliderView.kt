@@ -1,6 +1,7 @@
 package com.nividata.owls.view.common
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -27,13 +28,15 @@ import com.google.accompanist.pager.rememberPagerState
 import com.nividata.owls.domain.data.Constant
 import com.nividata.owls.domain.data.model.response.MovieResponse
 import com.nividata.owls.domain.model.Movie
+import com.nividata.owls.navigation.NOTY_NAV_HOST_ROUTE
+import com.nividata.owls.navigation.Screen
 import java.util.*
 import kotlin.math.absoluteValue
 
 
 @ExperimentalPagerApi
 @Composable
-fun SliderView(movieList: List<Movie>,title : String) {
+fun SliderView(movieList: List<Movie>, title: String, onMovieClicked: (Int) -> Unit) {
     Text(
         text = title,
         fontSize = 16.sp,
@@ -72,7 +75,10 @@ fun SliderView(movieList: List<Movie>,title : String) {
                     )
                 }
                 .fillMaxWidth(0.8f)
-                .height(170.dp),
+                .height(170.dp)
+                .clickable {
+                    onMovieClicked(movieList[it].id)
+                },
             shape = RoundedCornerShape(8.dp),
             elevation = 8.dp,
         ) {

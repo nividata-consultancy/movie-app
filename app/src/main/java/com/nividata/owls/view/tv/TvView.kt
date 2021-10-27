@@ -35,14 +35,14 @@ fun TvView(
             is TvContract.State.Loading -> CircularProgressIndicator(color = MaterialTheme.colors.secondary)
             is TvContract.State.Success -> {
                 state.homeTvList.forEachIndexed { index, homeMovieList ->
-                    if (index == 0) {
-                        SliderView(homeMovieList.tvList, title = homeMovieList.title)
-                    } else {
+//                    if (index == 0) {
+//                        SliderView(homeMovieList.tvList, title = homeMovieList.title)
+//                    } else {
                         ListView(
                             movieList = homeMovieList.tvList,
                             title = homeMovieList.title
                         )
-                    }
+//                    }
                 }
             }
             is TvContract.State.Failed -> Text(text = state.message)

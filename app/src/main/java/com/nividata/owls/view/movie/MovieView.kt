@@ -27,14 +27,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 @Composable
 fun HomeView(
-    viewModel: MovieViewModel
+    viewModel: MovieViewModel,
 ) {
     val state = viewModel.viewState.value
 
-//    val onNoteClicked: (Note) -> Unit = {
-//        println("Note Clicked")
-//        navController.navigate(Screen.NotesDetail.route(it.id))
-//    }
 
     Column(
         modifier = Modifier
@@ -47,9 +43,13 @@ fun HomeView(
             is MovieContract.State.Success -> {
                 state.homeMovieList.forEachIndexed { index, homeMovieList ->
                     when (index) {
-                        0 -> {
-                            SliderView(homeMovieList.movieList, title = homeMovieList.title)
-                        }
+//                        0 -> {
+//                            SliderView(
+//                                homeMovieList.movieList,
+//                                title = homeMovieList.title,
+//                                onMovieClicked = onMovieClicked,
+//                            )
+//                        }
                         2 -> {
                             UpcomingMovie(movieList = homeMovieList.movieList)
                         }

@@ -1,11 +1,15 @@
 package com.nividata.owls.domain.data.api
 
 import com.nividata.owls.domain.data.model.response.GenreList
+import com.nividata.owls.domain.data.model.response.MovieList
 import com.nividata.owls.domain.data.model.response.MovieListResponse
 import com.nividata.owls.domain.data.model.response.TvListResponse
+import com.nividata.owls.domain.model.CastCrew
+import com.nividata.owls.domain.model.MovieDetails
 import com.nividata.owls.domain.model.PeopleList
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.QueryMap
 
 interface TmdbService {
@@ -39,4 +43,16 @@ interface TmdbService {
 
     @GET("3/person/popular")
     suspend fun getPeople(): Response<PeopleList>
+
+    @GET("3/movie/{id}")
+    suspend fun getMovieDetails(@Path("id") id: Int): Response<MovieDetails>
+
+    @GET("3/movie/{id}/credits")
+    suspend fun getCastCrew(@Path("id") id: Int): Response<CastCrew>
+
+    @GET("3/movie/{id}/recommendations")
+    suspend fun getMovieRecommendations(
+        @Path("id") id: Int,
+        @QueryMap options: Map<String, Int>
+    ): Response<MovieListResponse>
 }
