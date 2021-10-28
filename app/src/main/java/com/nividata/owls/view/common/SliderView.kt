@@ -26,17 +26,14 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
 import com.nividata.owls.domain.data.Constant
-import com.nividata.owls.domain.data.model.response.MovieResponse
 import com.nividata.owls.domain.model.Movie
-import com.nividata.owls.navigation.NOTY_NAV_HOST_ROUTE
-import com.nividata.owls.navigation.Screen
 import java.util.*
 import kotlin.math.absoluteValue
 
 
 @ExperimentalPagerApi
 @Composable
-fun SliderView(movieList: List<Movie>, title: String, onMovieClicked: (Int) -> Unit) {
+fun SliderView(movieList: List<Movie>, title: String, onItemClicked: (Int, String) -> Unit) {
     Text(
         text = title,
         fontSize = 16.sp,
@@ -77,7 +74,7 @@ fun SliderView(movieList: List<Movie>, title: String, onMovieClicked: (Int) -> U
                 .fillMaxWidth(0.8f)
                 .height(170.dp)
                 .clickable {
-                    onMovieClicked(movieList[it].id)
+                    onItemClicked(movieList[it].id, movieList[it].type)
                 },
             shape = RoundedCornerShape(8.dp),
             elevation = 8.dp,

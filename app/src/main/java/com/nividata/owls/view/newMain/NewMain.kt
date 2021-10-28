@@ -13,8 +13,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
@@ -33,15 +32,10 @@ import kotlinx.coroutines.launch
 @ExperimentalPagerApi
 @Composable
 fun NewMainView(
-    navMainController: NavController
+    navController: NavHostController
 ) {
-    val navController = rememberNavController()
     val tabs = listOf(Screen.Netflix, Screen.Amazon, Screen.Hotstar)
     val pagerState = rememberPagerState(pageCount = tabs.size)
-
-    val onMovieClicked: (Int) -> Unit = {
-        navMainController.navigate(Screen.MovieDetail.route(it))
-    }
 
     Scaffold(topBar = {
         Toolbar()
@@ -51,7 +45,7 @@ fun NewMainView(
             TabsContent(
                 tabs = tabs,
                 pagerState = pagerState,
-                onMovieClicked = onMovieClicked,
+                navController = navController,
             )
         }
     }
@@ -99,13 +93,15 @@ fun Tabs(tabs: List<Screen>, pagerState: PagerState) {
 @ExperimentalPagerApi
 @Composable
 fun TabsContent(
-    tabs: List<Screen>, pagerState: PagerState, onMovieClicked: (Int) -> Unit,
+    tabs: List<Screen>,
+    pagerState: PagerState,
+    navController: NavHostController,
 ) {
     HorizontalPager(state = pagerState) { page ->
         when (page) {
-            0 -> NetflixView(viewModel = hiltViewModel(), onMovieClicked = onMovieClicked)
-            1 -> AmazonView(viewModel = hiltViewModel(), onMovieClicked = onMovieClicked)
-            2 -> HotstarView(viewModel = hiltViewModel(), onMovieClicked = onMovieClicked)
+            0 -> NetflixView(viewModel = hiltViewModel(), navController = navController)
+            1 -> AmazonView(viewModel = hiltViewModel(), navController = navController)
+            2 -> HotstarView(viewModel = hiltViewModel(), navController = navController)
         }
     }
 }

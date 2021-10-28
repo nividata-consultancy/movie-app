@@ -1,6 +1,7 @@
 package com.nividata.owls.view.common
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -12,15 +13,17 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.coil.rememberCoilPainter
 import com.nividata.owls.domain.data.Constant
-import com.nividata.owls.domain.data.model.response.MovieResponse
 import com.nividata.owls.domain.model.Movie
 
 @Composable
-fun CardView(movie: Movie) {
+fun CardView(movie: Movie, onItemClicked: (Int, String) -> Unit) {
     Card(
         modifier = Modifier
             .height(140.dp)
-            .width(95.dp),
+            .width(95.dp)
+            .clickable {
+                onItemClicked(movie.id, movie.type)
+            },
         shape = RoundedCornerShape(4.dp)
     ) {
         Image(

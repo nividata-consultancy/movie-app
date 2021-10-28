@@ -1,4 +1,4 @@
-package com.nividata.owls.view.movieDetails
+package com.nividata.owls.view.tvDetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -16,13 +16,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
-class MovieDetailsViewModel @AssistedInject constructor(
+class TvDetailsViewModel @AssistedInject constructor(
     private val tmdbRepository: TmdbRepository,
     private val sessionManager: SessionManager,
-    @Assisted private val movieId: Int
-) : BaseViewModel<MovieDetailsContract.Event,
-        MovieDetailsContract.State,
-        MovieDetailsContract.Effect>() {
+    @Assisted private val tvId: Int
+) : BaseViewModel<TvDetailsContract.Event,
+        TvDetailsContract.State,
+        TvDetailsContract.Effect>() {
 
     init {
         viewModelScope.launch {
@@ -30,38 +30,38 @@ class MovieDetailsViewModel @AssistedInject constructor(
         }
     }
 
-    override fun setInitialState(): MovieDetailsContract.State = MovieDetailsContract.State.Loading
+    override fun setInitialState(): TvDetailsContract.State = TvDetailsContract.State.Loading
 
-    override fun handleEvents(event: MovieDetailsContract.Event) {
+    override fun handleEvents(event: TvDetailsContract.Event) {
         when (event) {
-            is MovieDetailsContract.Event.MovieSelection -> {
+            is TvDetailsContract.Event.TvSelection -> {
                 setEffect {
-                    MovieDetailsContract.Effect.Navigation.ToMovieDetails(event.movieId)
+                    TvDetailsContract.Effect.Navigation.ToTvDetails(event.tvId)
                 }
             }
         }
     }
 
     private suspend fun getMovieDetails() {
-        val homeMovieList = tmdbRepository.getMovieDetails(movieId)
-        val castCrew = tmdbRepository.getMovieCastCrew(movieId)
-        val recommendations = tmdbRepository.getMovieRecommendations(movieId)
-        setState { MovieDetailsContract.State.Success(homeMovieList, castCrew, recommendations) }
+        val homeMovieList = tmdbRepository.getTvDetails(tvId)
+        val castCrew = tmdbRepository.getTvCastCrew(tvId)
+        val recommendations = tmdbRepository.getTvRecommendations(tvId)
+        setState { TvDetailsContract.State.Success(homeMovieList, castCrew, recommendations) }
     }
 
     @AssistedFactory
     interface Factory {
-        fun create(movieId: Int): MovieDetailsViewModel
+        fun create(tvId: Int): TvDetailsViewModel
     }
 
     @Suppress("UNCHECKED_CAST")
     companion object {
         fun provideFactory(
             assistedFactory: Factory,
-            movieId: Int
+            tvId: Int
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return assistedFactory.create(movieId) as T
+                return assistedFactory.create(tvId) as T
             }
         }
     }

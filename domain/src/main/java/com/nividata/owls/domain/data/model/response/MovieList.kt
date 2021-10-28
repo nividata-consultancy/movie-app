@@ -43,6 +43,7 @@ data class Movies(
     fun toMovie(): Movie = Movie(
         id = id,
         title = if (type == "movie") title!! else name!!,
+        type = type,
         backdropPath = backdrop_path,
         posterPath = poster_path
     )

@@ -22,6 +22,12 @@ sealed class Screen(val route: String, val name: String, val icon: Int = 0) {
         const val ARG_MOVIE_ID: String = "movieId"
     }
 
+    object TvDetail : Screen("tvDetails/{tvId}", "Tv Details") {
+        fun route(tvId: Int) = "tvDetails/$tvId"
+
+        const val ARG_TV_ID: String = "tvId"
+    }
+
     object AddNote : Screen("note/new", "New note")
     object About : Screen("about", "About")
 }

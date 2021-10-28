@@ -19,7 +19,7 @@ class AmazonViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            getFoodCategories()
+            getAmazonData()
         }
     }
 
@@ -27,21 +27,26 @@ class AmazonViewModel @Inject constructor(
 
     override fun handleEvents(event: AmazonContract.Event) {
         when (event) {
-            is AmazonContract.Event.NetflixSelection -> {
-                setEffect {
-                    AmazonContract.Effect.Navigation.ToMovieDetails(event.movieId)
+            is AmazonContract.Event.AmazonItemSelection -> {
+                if (event.type == "movie") {
+                    setEffect {
+                        AmazonContract.Effect.Navigation.ToMovieDetails(event.id)
+                    }
+                } else {
+                    setEffect {
+                        AmazonContract.Effect.Navigation.ToTvDetails(event.id)
+                    }
                 }
             }
         }
     }
 
-    private suspend fun getFoodCategories() {
-        try{
-        val homeMovieList = owlsRepository.getAmazonData()
-        setState { AmazonContract.State.Success(homeMovieList) }
-//        setEffect { FoodCategoriesContract.Effect.ToastDataWasLoaded }
-        }catch (e:Exception){
-            Log.e("ok",e.toString())
+    private suspend fun getAmazonData() {
+        try {
+            val homeMovieList = owlsRepository.getAmazonData()
+            setState { AmazonContract.State.Success(homeMovieList) }
+        } catch (e: Exception) {
+            Log.e("ok", e.toString())
         }
     }
 }

@@ -10,7 +10,7 @@ data class MovieListResponse(
     val total_pages: Int,
     val total_results: Int,
     override val status: State = State.SUCCESS,
-    override val message: String=""
+    override val message: String = ""
 ) : BaseResponse
 
 data class DatesResponse(
@@ -34,10 +34,11 @@ data class MovieResponse(
     val adult: Boolean,
     val release_date: String,
     val video: Boolean,
-    ){
+) {
     fun toMovie(): Movie = Movie(
         id = id,
         title = title,
+        type = "movie",
         backdropPath = backdrop_path,
         posterPath = poster_path
     )

@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -61,7 +62,7 @@ private suspend fun calculateSwatchesInImage(
 }
 
 @Composable
-fun RoundCardView(movie: Movie, index: Int) {
+fun RoundCardView(movie: Movie, index: Int, onItemClicked: (Int, String) -> Unit) {
 
     var state by remember { mutableStateOf(R.color.red) }
     val context = LocalContext.current
@@ -74,7 +75,10 @@ fun RoundCardView(movie: Movie, index: Int) {
         Card(
             modifier = Modifier
                 .height(95.dp)
-                .width(95.dp),
+                .width(95.dp)
+                .clickable {
+                    onItemClicked(movie.id, movie.type)
+                },
             shape = RoundedCornerShape(47.dp),
             border = BorderStroke(
                 width = 1.dp,

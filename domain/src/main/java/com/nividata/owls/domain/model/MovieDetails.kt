@@ -32,32 +32,6 @@ class MovieDetails(
         val id: Int,
         val name: String,
         val poster_path: String,
-        val backdrop_path: String
-    )
-
-    data class Genres(
-        val id: Int,
-        val name: String
-    )
-
-
-    data class ProductionCompanies(
-        val id: Int,
-        val logo_path: String?,
-        val name: String,
-        val origin_country: String
-    )
-
-
-    data class ProductionCountries(
-        val iso_3166_1: String,
-        val name: String
-    )
-
-
-    data class SpokenLanguages(
-        val english_name: String,
-        val iso_639_1: String,
-        val name: String
+        val backdrop_path: String?
     )
 }

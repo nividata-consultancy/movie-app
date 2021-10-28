@@ -24,6 +24,10 @@ interface TmdbRepository {
     suspend fun getPeople(): PeopleList
 
     suspend fun getMovieDetails(id: Int): MovieDetails
-    suspend fun getCastCrew(id: Int): CastCrew
+    suspend fun getMovieCastCrew(id: Int): CastCrew
     suspend fun getMovieRecommendations(id: Int): HomeMovieList
+
+    suspend fun getTvDetails(id: Int): TvDetails
+    suspend fun getTvCastCrew(id: Int): CastCrew
+    suspend fun getTvRecommendations(id: Int): HomeMovieList
 }

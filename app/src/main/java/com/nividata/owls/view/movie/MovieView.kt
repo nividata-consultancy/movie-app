@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.sp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.nividata.owls.domain.model.Movie
 import com.nividata.owls.view.common.ListView
-import com.nividata.owls.view.common.SliderView
 import com.nividata.owls.view.common.SmallHCardView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -30,7 +29,7 @@ fun HomeView(
     viewModel: MovieViewModel,
 ) {
     val state = viewModel.viewState.value
-
+    val onItemClicked: (id: Int, type: String) -> Unit = { id, type -> }
 
     Column(
         modifier = Modifier
@@ -56,7 +55,8 @@ fun HomeView(
                         else -> {
                             ListView(
                                 movieList = homeMovieList.movieList,
-                                title = homeMovieList.title
+                                title = homeMovieList.title,
+                                onItemClicked = onItemClicked
                             )
                         }
                     }

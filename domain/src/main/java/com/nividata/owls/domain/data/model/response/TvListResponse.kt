@@ -33,10 +33,11 @@ data class TvResponse(
     val original_name: String,
     val origin_country: List<String>,
     val first_air_date: String?,
-    ) {
+) {
     fun toMovie(): Movie = Movie(
         id = id,
         title = name,
+        type = "tv",
         backdropPath = backdrop_path,
         posterPath = poster_path
     )

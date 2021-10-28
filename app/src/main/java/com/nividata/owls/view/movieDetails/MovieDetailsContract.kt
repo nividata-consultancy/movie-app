@@ -1,7 +1,5 @@
 package com.nividata.owls.view.movieDetails
 
-import com.nividata.owls.domain.data.model.response.MovieList
-import com.nividata.owls.domain.data.model.response.MovieListResponse
 import com.nividata.owls.domain.model.CastCrew
 import com.nividata.owls.domain.model.HomeMovieList
 import com.nividata.owls.domain.model.MovieDetails
@@ -11,9 +9,8 @@ import com.nividata.owls.view.base.ViewState
 
 sealed class MovieDetailsContract {
     sealed class Event : ViewEvent {
-        data class MovieSelection(val movieId: String) : Event()
+        data class MovieSelection(val movieId: Int) : Event()
     }
-
 
     sealed class State : ViewState {
         data class Success(
@@ -26,11 +23,9 @@ sealed class MovieDetailsContract {
         data class Failed(val message: String) : State()
     }
 
-//    data class State(val categories: List<MovieResponse> = listOf()) : ViewState
-
     sealed class Effect : ViewSideEffect {
         sealed class Navigation : Effect() {
-            data class ToMovieDetails(val movieId: String) : Navigation()
+            data class ToMovieDetails(val movieId: Int) : Navigation()
         }
     }
 }

@@ -11,28 +11,29 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.nividata.owls.navigation.OwlsNavigation
 import com.nividata.owls.ui.theme.OwlsTheme
 import com.nividata.owls.view.movieDetails.MovieDetailsViewModel
+import com.nividata.owls.view.tvDetails.TvDetailsViewModel
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.components.ActivityComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
-import javax.inject.Inject
 
+@ExperimentalAnimationApi
+@InternalCoroutinesApi
+@ExperimentalMaterialApi
+@ExperimentalCoroutinesApi
+@ExperimentalPagerApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-//    @EntryPoint
-//    @InstallIn(ActivityComponent::class)
-//    interface ViewModelFactoryProvider {
-//        fun noteDetailViewModelFactory(): MovieDetailsViewModel.Factory
-//    }
+    @EntryPoint
+    @InstallIn(ActivityComponent::class)
+    interface ViewModelFactoryProvider {
+        fun movieDetailViewModelFactory(): MovieDetailsViewModel.Factory
+        fun tvDetailViewModelFactory(): TvDetailsViewModel.Factory
+    }
 
-    @ExperimentalAnimationApi
-    @InternalCoroutinesApi
-    @ExperimentalMaterialApi
-    @ExperimentalCoroutinesApi
-    @ExperimentalPagerApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

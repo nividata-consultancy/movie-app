@@ -2,6 +2,7 @@ package com.nividata.owls.view.common
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -21,7 +22,7 @@ import com.nividata.owls.domain.data.model.response.MovieResponse
 import com.nividata.owls.domain.model.Movie
 
 @Composable
-fun NameCardView(movie: Movie, index: Int) {
+fun NameCardView(movie: Movie, index: Int, onItemClicked: (Int, String) -> Unit) {
     Card(
         modifier = Modifier
             .height(100.dp)
@@ -34,7 +35,10 @@ fun NameCardView(movie: Movie, index: Int) {
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(73.dp),
+                    .height(73.dp)
+                    .clickable {
+                        onItemClicked(movie.id, movie.type)
+                    },
                 contentScale = ContentScale.Crop,
             )
             Text(

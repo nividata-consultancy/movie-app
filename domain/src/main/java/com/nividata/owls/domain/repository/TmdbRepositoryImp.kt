@@ -3,7 +3,6 @@ package com.nividata.owls.domain.repository
 import com.nividata.owls.domain.core.repository.TmdbRepository
 import com.nividata.owls.domain.data.api.TmdbService
 import com.nividata.owls.domain.data.model.response.GenreList
-import com.nividata.owls.domain.data.model.response.MovieList
 import com.nividata.owls.domain.data.model.response.MovieListResponse
 import com.nividata.owls.domain.data.model.response.TvListResponse
 import com.nividata.owls.domain.data.util.getResponse
@@ -238,13 +237,31 @@ class TmdbRepositoryImp @Inject internal constructor(
         return tmdbService.getMovieDetails(id).getResponse()
     }
 
-    override suspend fun getCastCrew(id: Int): CastCrew {
-        return tmdbService.getCastCrew(id).getResponse()
+    override suspend fun getMovieCastCrew(id: Int): CastCrew {
+        return tmdbService.getMovieCastCrew(id).getResponse()
     }
 
     override suspend fun getMovieRecommendations(id: Int): HomeMovieList {
         val recommendations =
             tmdbService.getMovieRecommendations(id, mapOf("param" to 1)).getResponse()
+        return HomeMovieList(
+            id = 1,
+            title = "Recommendations",
+            movieList = recommendations.results.map { it.toMovie() }
+        )
+    }
+
+    override suspend fun getTvDetails(id: Int): TvDetails {
+        return tmdbService.getTvDetails(id).getResponse()
+    }
+
+    override suspend fun getTvCastCrew(id: Int): CastCrew {
+        return tmdbService.getTvCastCrew(id).getResponse()
+    }
+
+    override suspend fun getTvRecommendations(id: Int): HomeMovieList {
+        val recommendations =
+            tmdbService.getTvRecommendations(id, mapOf("param" to 1)).getResponse()
         return HomeMovieList(
             id = 1,
             title = "Recommendations",

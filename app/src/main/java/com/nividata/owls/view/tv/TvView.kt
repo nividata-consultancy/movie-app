@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.nividata.owls.view.common.ListView
-import com.nividata.owls.view.common.SliderView
 
 @ExperimentalPagerApi
 @Composable
@@ -20,10 +19,7 @@ fun TvView(
 ) {
     val state = viewModel.viewState.value
 
-//    val onNoteClicked: (Note) -> Unit = {
-//        println("Note Clicked")
-//        navController.navigate(Screen.NotesDetail.route(it.id))
-//    }
+    val onItemClicked: (id: Int, type: String) -> Unit = { id, type -> }
 
     Column(
         modifier = Modifier
@@ -38,10 +34,11 @@ fun TvView(
 //                    if (index == 0) {
 //                        SliderView(homeMovieList.tvList, title = homeMovieList.title)
 //                    } else {
-                        ListView(
-                            movieList = homeMovieList.tvList,
-                            title = homeMovieList.title
-                        )
+                    ListView(
+                        movieList = homeMovieList.tvList,
+                        title = homeMovieList.title,
+                        onItemClicked = onItemClicked
+                    )
 //                    }
                 }
             }

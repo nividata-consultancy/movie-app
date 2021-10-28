@@ -1,25 +1,23 @@
 package com.nividata.owls.navigation
 
-import android.app.Activity
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.nividata.owls.view.MainActivity
+import com.nividata.owls.utils.assistedViewModel
 import com.nividata.owls.view.main.MainView
 import com.nividata.owls.view.movieDetails.MovieDetailsView
 import com.nividata.owls.view.movieDetails.MovieDetailsViewModel
 import com.nividata.owls.view.newMain.NewMainView
 import com.nividata.owls.view.splash.SplashView
-import dagger.hilt.android.EntryPointAccessors
+import com.nividata.owls.view.tvDetails.TvDetailsView
+import com.nividata.owls.view.tvDetails.TvDetailsViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
 
@@ -43,7 +41,6 @@ fun OwlsNavigation() {
         composable(Screen.NewMain.route) {
             NewMainView(navController)
         }
-
         composable(
             Screen.MovieDetail.route,
             arguments = listOf(
@@ -52,21 +49,25 @@ fun OwlsNavigation() {
         ) {
             val movieId = it.arguments?.getInt(Screen.MovieDetail.ARG_MOVIE_ID)
                 ?: throw IllegalStateException("'movieId' shouldn't be null")
-            MovieDetailsView(navController,  hiltViewModel()/*assistedViewModel {
-                MovieDetailsViewModel.provideFactory(noteDetailViewModelFactory(), movieId)
-            }*/)
+            MovieDetailsView(
+                navController, assistedViewModel {
+                    MovieDetailsViewModel.provideFactory(movieDetailViewModelFactory(), movieId)
+                }
+            )
         }
-        /*
-        composable(Screen.AddNote.route) {
-            AddNoteScreen(navController, hiltViewModel())
+        composable(
+            Screen.TvDetail.route,
+            arguments = listOf(
+                navArgument(Screen.TvDetail.ARG_TV_ID) { type = NavType.IntType }
+            )
+        ) {
+            val tvId = it.arguments?.getInt(Screen.TvDetail.ARG_TV_ID)
+                ?: throw IllegalStateException("'tvId' shouldn't be null")
+            TvDetailsView(
+                navController, assistedViewModel {
+                    TvDetailsViewModel.provideFactory(tvDetailViewModelFactory(), tvId)
+                }
+            )
         }
-        composable(Screen.Notes.route) {
-            NotesScreen(toggleTheme, navController, hiltViewModel())
-        }
-
-        composable(Screen.About.route) {
-            AboutScreen(navController = navController)
-        }
-        */
     }
 }

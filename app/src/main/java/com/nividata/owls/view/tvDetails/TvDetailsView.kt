@@ -1,4 +1,4 @@
-package com.nividata.owls.view.movieDetails
+package com.nividata.owls.view.tvDetails
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -32,12 +32,13 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.nividata.owls.domain.data.Constant
 import com.nividata.owls.domain.model.CastCrew
 import com.nividata.owls.domain.model.HomeMovieList
-import com.nividata.owls.domain.model.MovieDetails
+import com.nividata.owls.domain.model.TvDetails
 import com.nividata.owls.navigation.Screen
 import com.nividata.owls.view.base.LAUNCH_LISTEN_FOR_EFFECTS
 import com.nividata.owls.view.common.CastCrewView
 import com.nividata.owls.view.common.ListView
 import com.nividata.owls.view.common.RatingBar
+import com.nividata.owls.view.movieDetails.MovieDetailsContract
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -46,21 +47,21 @@ import java.util.*
 @ExperimentalPagerApi
 @ExperimentalCoroutinesApi
 @Composable
-fun MovieDetailsView(
+fun TvDetailsView(
     navController: NavHostController,
-    viewModel: MovieDetailsViewModel
+    viewModel: TvDetailsViewModel
 ) {
     val state = viewModel.viewState.value
 
     val onItemClicked: (id: Int, type: String) -> Unit = { id, _ ->
-        viewModel.setEvent(MovieDetailsContract.Event.MovieSelection(id))
+        viewModel.setEvent(TvDetailsContract.Event.TvSelection(id))
     }
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         viewModel.effect.onEach { effect ->
             when (effect) {
-                is MovieDetailsContract.Effect.Navigation.ToMovieDetails -> {
-                    navController.navigate(Screen.MovieDetail.route(effect.movieId))
+                is TvDetailsContract.Effect.Navigation.ToTvDetails -> {
+                    navController.navigate(Screen.TvDetail.route(effect.tvId))
                 }
             }
         }.collect()
@@ -73,23 +74,23 @@ fun MovieDetailsView(
     ) {
 
         when (state) {
-            is MovieDetailsContract.State.Loading -> CircularProgressIndicator(color = MaterialTheme.colors.secondary)
-            is MovieDetailsContract.State.Success -> {
+            is TvDetailsContract.State.Loading -> CircularProgressIndicator(color = MaterialTheme.colors.secondary)
+            is TvDetailsContract.State.Success -> {
                 DetailsView(
-                    movieDetails = state.movieDetails,
+                    tvDetails = state.tvDetails,
                     castCrew = state.castCrew,
                     recommendations = state.recommendations,
                     onItemClicked = onItemClicked
                 )
             }
-            is MovieDetailsContract.State.Failed -> Text(text = state.message)
+            is TvDetailsContract.State.Failed -> Text(text = state.message)
         }
     }
 }
 
 @Composable
 fun DetailsView(
-    movieDetails: MovieDetails,
+    tvDetails: TvDetails,
     castCrew: CastCrew,
     recommendations: HomeMovieList,
     onItemClicked: (Int, String) -> Unit
@@ -98,7 +99,7 @@ fun DetailsView(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = rememberCoilPainter(Constant.IMAGE_BASE_URL.plus(movieDetails.backdrop_path)),
+            painter = rememberCoilPainter(Constant.IMAGE_BASE_URL.plus(tvDetails.backdrop_path)),
             contentDescription = null,
             modifier = Modifier
                 .fillMaxSize()
@@ -132,7 +133,7 @@ fun DetailsView(
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            movieDetails.title.uppercase(Locale.getDefault()),
+            tvDetails.name.uppercase(Locale.getDefault()),
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
             style = MaterialTheme.typography.subtitle2.copy(fontSize = 18.sp),
@@ -141,18 +142,18 @@ fun DetailsView(
         )
         Spacer(modifier = Modifier.height(10.dp))
         Text(
-            movieDetails.genres.joinToString(", ") { it.name },
+            tvDetails.genres.joinToString(", ") { it.name },
             style = MaterialTheme.typography.caption,
             modifier = Modifier.padding(horizontal = 40.dp)
         )
         Spacer(modifier = Modifier.height(10.dp))
         RatingBar(
-            (movieDetails.vote_average / 2).toFloat(),
+            (tvDetails.vote_average / 2).toFloat(),
             modifier = Modifier.height(20.dp)
         )
         Spacer(modifier = Modifier.height(10.dp))
-        ExtraDetails(movieDetails = movieDetails)
-        if (!movieDetails.overview.isNullOrEmpty() || !movieDetails.tagline.isNullOrEmpty())
+        ExtraDetails(tvDetails = tvDetails)
+        if (tvDetails.overview.isNotEmpty() || tvDetails.tagline.isNotEmpty())
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.padding(
@@ -161,20 +162,22 @@ fun DetailsView(
                     end = 10.dp
                 )
             ) {
-                if (!movieDetails.tagline.isNullOrEmpty())
+                if (tvDetails.tagline.isNotEmpty()) {
                     Text(
-                        text = movieDetails.tagline!!,
+                        text = tvDetails.tagline,
                         style = MaterialTheme.typography.body1,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(horizontal = 10.dp)
                     )
-                if (!movieDetails.overview.isNullOrEmpty())
+                }
+                if (tvDetails.overview.isNotEmpty()) {
                     Text(
-                        text = movieDetails.overview!!,
+                        text = tvDetails.overview,
                         style = MaterialTheme.typography.body2,
                         modifier = Modifier.padding(top = 5.dp),
                         textAlign = TextAlign.Justify,
                     )
+                }
             }
         CastCrew(castCrew = castCrew)
         Recommendations(recommendations = recommendations, onItemClicked = onItemClicked)
@@ -183,7 +186,7 @@ fun DetailsView(
 }
 
 @Composable
-fun ExtraDetails(movieDetails: MovieDetails) {
+fun ExtraDetails(tvDetails: TvDetails) {
     Row() {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
@@ -193,26 +196,27 @@ fun ExtraDetails(movieDetails: MovieDetails) {
                 style = MaterialTheme.typography.caption
             )
             Text(
-                movieDetails.release_date.split("-").first(),
+                tvDetails.first_air_date.split("-").first(),
                 style = MaterialTheme.typography.subtitle1
             )
         }
-        if (movieDetails.production_countries.isNotEmpty()) {
+        if (tvDetails.production_countries.isNotEmpty()) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.padding(start = 30.dp)
+
             ) {
                 Text(
                     "Country",
                     style = MaterialTheme.typography.caption
                 )
                 Text(
-                    movieDetails.production_countries.first().iso_3166_1,
+                    tvDetails.production_countries.first().iso_3166_1,
                     style = MaterialTheme.typography.subtitle1
                 )
             }
         }
-        if (movieDetails.runtime != null) {
+        if (tvDetails.episode_run_time.isNotEmpty()) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.padding(start = 30.dp)
@@ -222,14 +226,13 @@ fun ExtraDetails(movieDetails: MovieDetails) {
                     style = MaterialTheme.typography.caption
                 )
                 Text(
-                    "${movieDetails.runtime} min",
+                    "${tvDetails.episode_run_time.first()} min",
                     style = MaterialTheme.typography.subtitle1
                 )
             }
         }
     }
 }
-
 
 @Composable
 fun CastCrew(castCrew: CastCrew) {
@@ -257,7 +260,6 @@ fun CastCrew(castCrew: CastCrew) {
         }
     }
 }
-
 
 @Composable
 fun Recommendations(recommendations: HomeMovieList, onItemClicked: (Int, String) -> Unit) {

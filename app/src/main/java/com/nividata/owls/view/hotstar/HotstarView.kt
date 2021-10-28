@@ -8,20 +8,44 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.nividata.owls.navigation.Screen
+import com.nividata.owls.view.base.LAUNCH_LISTEN_FOR_EFFECTS
 import com.nividata.owls.view.common.ListView
 import com.nividata.owls.view.common.SliderView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 
 @ExperimentalPagerApi
 @ExperimentalCoroutinesApi
 @Composable
 fun HotstarView(
+    navController: NavHostController,
     viewModel: HotstarViewModel,
-    onMovieClicked: (Int) -> Unit,
 ) {
     val state = viewModel.viewState.value
+
+    val onItemClicked: (id: Int, type: String) -> Unit = { id, type ->
+        viewModel.setEvent(HotstarContract.Event.HotstarItemSelection(id, type))
+    }
+
+    LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
+        viewModel.effect.onEach { effect ->
+            when (effect) {
+                is HotstarContract.Effect.Navigation.ToMovieDetails -> {
+                    navController.navigate(Screen.MovieDetail.route(effect.movieId))
+                }
+                is HotstarContract.Effect.Navigation.ToTvDetails -> {
+                    navController.navigate(Screen.TvDetail.route(effect.tvId))
+                }
+
+            }
+        }.collect()
+    }
 
     Column(
         modifier = Modifier
@@ -38,13 +62,14 @@ fun HotstarView(
                             SliderView(
                                 homeMovieList.movieList,
                                 title = homeMovieList.title,
-                                onMovieClicked = onMovieClicked
+                                onItemClicked = onItemClicked
                             )
                         }
                         else -> {
                             ListView(
                                 movieList = homeMovieList.movieList,
-                                title = homeMovieList.title
+                                title = homeMovieList.title,
+                                onItemClicked = onItemClicked
                             )
                         }
                     }

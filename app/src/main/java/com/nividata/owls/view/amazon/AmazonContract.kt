@@ -7,7 +7,7 @@ import com.nividata.owls.view.base.ViewState
 
 sealed class AmazonContract {
     sealed class Event : ViewEvent {
-        data class NetflixSelection(val movieId: String) : Event()
+        data class AmazonItemSelection(val id: Int, val type: String) : Event()
     }
 
 
@@ -17,11 +17,10 @@ sealed class AmazonContract {
         data class Failed(val message: String) : State()
     }
 
-//    data class State(val categories: List<MovieResponse> = listOf()) : ViewState
-
     sealed class Effect : ViewSideEffect {
         sealed class Navigation : Effect() {
-            data class ToMovieDetails(val movieId: String) : Navigation()
+            data class ToMovieDetails(val movieId: Int) : Navigation()
+            data class ToTvDetails(val tvId: Int) : Navigation()
         }
     }
 }

@@ -3,7 +3,6 @@ package com.nividata.owls.view.netflix
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.nividata.owls.domain.core.repository.OwlsRepository
-import com.nividata.owls.domain.core.repository.TmdbRepository
 import com.nividata.owls.domain.core.session.SessionManager
 import com.nividata.owls.view.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,13 +13,11 @@ import javax.inject.Inject
 class NetflixViewModel @Inject constructor(
     private val owlsRepository: OwlsRepository,
     private val sessionManager: SessionManager
-) : BaseViewModel<NetflixContract.Event,
-        NetflixContract.State,
-        NetflixContract.Effect>() {
+) : BaseViewModel<NetflixContract.Event, NetflixContract.State, NetflixContract.Effect>() {
 
     init {
         viewModelScope.launch {
-            getFoodCategories()
+            getNetflixData()
         }
     }
 
@@ -28,21 +25,26 @@ class NetflixViewModel @Inject constructor(
 
     override fun handleEvents(event: NetflixContract.Event) {
         when (event) {
-            is NetflixContract.Event.NetflixSelection -> {
-                setEffect {
-                    NetflixContract.Effect.Navigation.ToMovieDetails(event.movieId)
+            is NetflixContract.Event.NetflixItemSelection -> {
+                if (event.type == "movie") {
+                    setEffect {
+                        NetflixContract.Effect.Navigation.ToMovieDetails(event.id)
+                    }
+                } else {
+                    setEffect {
+                        NetflixContract.Effect.Navigation.ToTvDetails(event.id)
+                    }
                 }
             }
         }
     }
 
-    private suspend fun getFoodCategories() {
-        try{
-        val homeMovieList = owlsRepository.getNetflixData()
-        setState { NetflixContract.State.Success(homeMovieList) }
-//        setEffect { FoodCategoriesContract.Effect.ToastDataWasLoaded }
-        }catch (e:Exception){
-            Log.e("ok",e.toString())
+    private suspend fun getNetflixData() {
+        try {
+            val homeMovieList = owlsRepository.getNetflixData()
+            setState { NetflixContract.State.Success(homeMovieList) }
+        } catch (e: Exception) {
+            Log.e("ok", e.toString())
         }
     }
 }

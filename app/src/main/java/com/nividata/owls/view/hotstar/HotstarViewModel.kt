@@ -19,7 +19,7 @@ class HotstarViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            getFoodCategories()
+            getHotstarData()
         }
     }
 
@@ -27,19 +27,24 @@ class HotstarViewModel @Inject constructor(
 
     override fun handleEvents(event: HotstarContract.Event) {
         when (event) {
-            is HotstarContract.Event.NetflixSelection -> {
-                setEffect {
-                    HotstarContract.Effect.Navigation.ToMovieDetails(event.movieId)
+            is HotstarContract.Event.HotstarItemSelection -> {
+                if (event.type == "movie") {
+                    setEffect {
+                        HotstarContract.Effect.Navigation.ToMovieDetails(event.id)
+                    }
+                } else {
+                    setEffect {
+                        HotstarContract.Effect.Navigation.ToTvDetails(event.id)
+                    }
                 }
             }
         }
     }
 
-    private suspend fun getFoodCategories() {
+    private suspend fun getHotstarData() {
         try {
             val homeMovieList = owlsRepository.getHotstarData()
             setState { HotstarContract.State.Success(homeMovieList) }
-//        setEffect { FoodCategoriesContract.Effect.ToastDataWasLoaded }
         } catch (e: Exception) {
             Log.e("ok", e.toString())
         }

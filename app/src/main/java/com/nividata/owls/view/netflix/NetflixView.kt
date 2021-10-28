@@ -9,25 +9,49 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.nividata.owls.domain.model.Movie
+import com.nividata.owls.navigation.Screen
+import com.nividata.owls.view.base.LAUNCH_LISTEN_FOR_EFFECTS
 import com.nividata.owls.view.common.ListView
 import com.nividata.owls.view.common.RoundCardView
 import com.nividata.owls.view.common.SliderView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 
 @ExperimentalPagerApi
 @ExperimentalCoroutinesApi
 @Composable
 fun NetflixView(
+    navController: NavHostController,
     viewModel: NetflixViewModel,
-    onMovieClicked: (Int) -> Unit,
 ) {
     val state = viewModel.viewState.value
+
+    val onItemClicked: (id: Int, type: String) -> Unit = { id, type ->
+        viewModel.setEvent(NetflixContract.Event.NetflixItemSelection(id, type))
+    }
+
+    LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
+        viewModel.effect.onEach { effect ->
+            when (effect) {
+                is NetflixContract.Effect.Navigation.ToMovieDetails -> {
+                    navController.navigate(Screen.MovieDetail.route(effect.movieId))
+                }
+                is NetflixContract.Effect.Navigation.ToTvDetails -> {
+                    navController.navigate(Screen.TvDetail.route(effect.tvId))
+                }
+
+            }
+        }.collect()
+    }
 
     Column(
         modifier = Modifier
@@ -44,16 +68,21 @@ fun NetflixView(
                             SliderView(
                                 homeMovieList.movieList,
                                 title = homeMovieList.title,
-                                onMovieClicked = onMovieClicked
+                                onItemClicked = onItemClicked
                             )
                         }
                         1 -> {
-                            Top10Movie(homeMovieList.movieList, title = homeMovieList.title)
+                            Top10Movie(
+                                homeMovieList.movieList,
+                                title = homeMovieList.title,
+                                onItemClicked = onItemClicked
+                            )
                         }
                         else -> {
                             ListView(
                                 movieList = homeMovieList.movieList,
-                                title = homeMovieList.title
+                                title = homeMovieList.title,
+                                onItemClicked = onItemClicked
                             )
                         }
                     }
@@ -65,7 +94,7 @@ fun NetflixView(
 }
 
 @Composable
-fun Top10Movie(movieList: List<Movie>, title: String) {
+fun Top10Movie(movieList: List<Movie>, title: String, onItemClicked: (Int, String) -> Unit) {
     Column(
         modifier = Modifier.padding(top = 10.dp)
     ) {
@@ -81,7 +110,7 @@ fun Top10Movie(movieList: List<Movie>, title: String) {
             horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             itemsIndexed(movieList) { index, item ->
-                RoundCardView(movie = item, index)
+                RoundCardView(movie = item, index, onItemClicked = onItemClicked)
             }
         }
     }
