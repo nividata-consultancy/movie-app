@@ -1,5 +1,6 @@
 package com.nividata.owls.domain.repository
 
+import com.nividata.owls.domain.core.model.WatchProviderData
 import com.nividata.owls.domain.core.repository.TmdbRepository
 import com.nividata.owls.domain.data.api.TmdbService
 import com.nividata.owls.domain.data.model.response.GenreList
@@ -251,6 +252,31 @@ class TmdbRepositoryImp @Inject internal constructor(
         )
     }
 
+    override suspend fun getMovieWatchProviders(id: Int): WatchProviderData {
+        val watchProviders = tmdbService.getMovieWatchProviders(id).getResponse()
+        val list = arrayListOf<WatchProviders.Results.IN.Flatrate>()
+        if (watchProviders.results.iN != null) {
+            if (!watchProviders.results.iN.buy.isNullOrEmpty()) {
+                list.addAll(watchProviders.results.iN.buy)
+            }
+            if (!watchProviders.results.iN.flatrate.isNullOrEmpty()) {
+                list.addAll(watchProviders.results.iN.flatrate)
+            }
+            if (!watchProviders.results.iN.rent.isNullOrEmpty()) {
+                list.addAll(watchProviders.results.iN.rent)
+            }
+            return WatchProviderData(
+                link = watchProviders.results.iN.link,
+                list = list
+            )
+        } else {
+            return WatchProviderData(
+                link = "",
+                list = list
+            )
+        }
+    }
+
     override suspend fun getTvDetails(id: Int): TvDetails {
         return tmdbService.getTvDetails(id).getResponse()
     }
@@ -267,5 +293,30 @@ class TmdbRepositoryImp @Inject internal constructor(
             title = "Recommendations",
             movieList = recommendations.results.map { it.toMovie() }
         )
+    }
+
+    override suspend fun getTvWatchProviders(id: Int): WatchProviderData {
+        val watchProviders = tmdbService.getTvWatchProviders(id).getResponse()
+        val list = arrayListOf<WatchProviders.Results.IN.Flatrate>()
+        if (watchProviders.results.iN != null) {
+            if (!watchProviders.results.iN.buy.isNullOrEmpty()) {
+                list.addAll(watchProviders.results.iN.buy)
+            }
+            if (!watchProviders.results.iN.flatrate.isNullOrEmpty()) {
+                list.addAll(watchProviders.results.iN.flatrate)
+            }
+            if (!watchProviders.results.iN.rent.isNullOrEmpty()) {
+                list.addAll(watchProviders.results.iN.rent)
+            }
+            return WatchProviderData(
+                link = watchProviders.results.iN.link,
+                list = list
+            )
+        } else {
+            return WatchProviderData(
+                link = "",
+                list = list
+            )
+        }
     }
 }

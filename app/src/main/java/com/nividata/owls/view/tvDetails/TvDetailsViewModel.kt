@@ -46,7 +46,15 @@ class TvDetailsViewModel @AssistedInject constructor(
         val homeMovieList = tmdbRepository.getTvDetails(tvId)
         val castCrew = tmdbRepository.getTvCastCrew(tvId)
         val recommendations = tmdbRepository.getTvRecommendations(tvId)
-        setState { TvDetailsContract.State.Success(homeMovieList, castCrew, recommendations) }
+        val watchProviderData = tmdbRepository.getTvWatchProviders(tvId)
+        setState {
+            TvDetailsContract.State.Success(
+                homeMovieList,
+                castCrew,
+                recommendations,
+                watchProviderData,
+            )
+        }
     }
 
     @AssistedFactory

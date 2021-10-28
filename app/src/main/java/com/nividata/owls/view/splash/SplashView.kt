@@ -28,6 +28,7 @@ fun SplashView(
 
     val onMainNavigation: () -> Unit = {
         navController.navigate(Screen.NewMain.route)
+//        navController.navigate(Screen.MovieDetail.route(9486))
     }
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {

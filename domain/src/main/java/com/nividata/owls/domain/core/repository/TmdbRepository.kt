@@ -1,7 +1,7 @@
 package com.nividata.owls.domain.core.repository
 
+import com.nividata.owls.domain.core.model.WatchProviderData
 import com.nividata.owls.domain.data.model.response.GenreList
-import com.nividata.owls.domain.data.model.response.MovieList
 import com.nividata.owls.domain.data.model.response.MovieListResponse
 import com.nividata.owls.domain.data.model.response.TvListResponse
 import com.nividata.owls.domain.model.*
@@ -26,8 +26,10 @@ interface TmdbRepository {
     suspend fun getMovieDetails(id: Int): MovieDetails
     suspend fun getMovieCastCrew(id: Int): CastCrew
     suspend fun getMovieRecommendations(id: Int): HomeMovieList
+    suspend fun getMovieWatchProviders(id: Int): WatchProviderData
 
     suspend fun getTvDetails(id: Int): TvDetails
     suspend fun getTvCastCrew(id: Int): CastCrew
     suspend fun getTvRecommendations(id: Int): HomeMovieList
+    suspend fun getTvWatchProviders(id: Int): WatchProviderData
 }

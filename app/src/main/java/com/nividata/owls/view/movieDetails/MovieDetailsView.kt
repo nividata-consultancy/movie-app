@@ -1,24 +1,23 @@
 package com.nividata.owls.view.movieDetails
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -29,20 +28,23 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.google.accompanist.coil.rememberCoilPainter
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.nividata.owls.R
 import com.nividata.owls.domain.data.Constant
 import com.nividata.owls.domain.model.CastCrew
 import com.nividata.owls.domain.model.HomeMovieList
 import com.nividata.owls.domain.model.MovieDetails
 import com.nividata.owls.navigation.Screen
 import com.nividata.owls.view.base.LAUNCH_LISTEN_FOR_EFFECTS
-import com.nividata.owls.view.common.CastCrewView
-import com.nividata.owls.view.common.ListView
-import com.nividata.owls.view.common.RatingBar
+import com.nividata.owls.view.common.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import java.util.*
 
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
 @ExperimentalPagerApi
 @ExperimentalCoroutinesApi
 @Composable
@@ -66,50 +68,61 @@ fun MovieDetailsView(
         }.collect()
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-    ) {
+    val modalBottomSheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden
+    )
+    val coroutineScope = rememberCoroutineScope()
 
-        when (state) {
-            is MovieDetailsContract.State.Loading -> CircularProgressIndicator(color = MaterialTheme.colors.secondary)
-            is MovieDetailsContract.State.Success -> {
+    when (state) {
+        is MovieDetailsContract.State.Loading -> CircularProgressIndicator(color = MaterialTheme.colors.secondary)
+        is MovieDetailsContract.State.Success -> {
+            WatchListView(
+                link = state.watchProviderData.link,
+                flatrateList = state.watchProviderData.list,
+                coroutineScope = coroutineScope,
+                modalBottomSheetState = modalBottomSheetState,
+            ) {
                 DetailsView(
                     movieDetails = state.movieDetails,
                     castCrew = state.castCrew,
                     recommendations = state.recommendations,
-                    onItemClicked = onItemClicked
+                    showPlay = state.watchProviderData.list.isNotEmpty(),
+                    onItemClicked = onItemClicked,
+                    modalBottomSheetState = modalBottomSheetState,
+                    coroutineScope = coroutineScope,
                 )
             }
-            is MovieDetailsContract.State.Failed -> Text(text = state.message)
         }
+        is MovieDetailsContract.State.Failed -> Text(text = state.message)
     }
 }
 
+@ExperimentalMaterialApi
 @Composable
 fun DetailsView(
     movieDetails: MovieDetails,
     castCrew: CastCrew,
     recommendations: HomeMovieList,
-    onItemClicked: (Int, String) -> Unit
+    showPlay: Boolean,
+    onItemClicked: (Int, String) -> Unit,
+    coroutineScope: CoroutineScope,
+    modalBottomSheetState: ModalBottomSheetState,
 ) {
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
     ) {
-        Image(
-            painter = rememberCoilPainter(Constant.IMAGE_BASE_URL.plus(movieDetails.backdrop_path)),
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxSize()
-                .height(300.dp)
-                .clip(object : Shape {
+        Box() {
+            Surface(
+                shape = object : Shape {
                     override fun createOutline(
                         size: Size,
                         layoutDirection: LayoutDirection,
                         density: Density
                     ): Outline {
-                        val height = 100f
+                        val height = 150f
                         return Outline.Generic(Path().apply {
                             reset()
                             lineTo(x = 0f, y = size.height - height)
@@ -127,9 +140,34 @@ fun DetailsView(
                             close()
                         })
                     }
-                }),
-            contentScale = ContentScale.Crop,
-        )
+                },
+                elevation = 8.dp,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .height(320.dp)
+                    .padding(bottom = 20.dp),
+            ) {
+                Image(
+                    painter = rememberCoilPainter(Constant.IMAGE_BASE_URL.plus(movieDetails.backdrop_path)),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                )
+            }
+            if (showPlay)
+                PlayButton(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .clickable {
+                            coroutineScope.launch {
+                                if (modalBottomSheetState.isVisible) {
+                                    modalBottomSheetState.hide()
+                                } else {
+                                    modalBottomSheetState.show()
+                                }
+                            }
+                        }
+                )
+        }
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             movieDetails.title.uppercase(Locale.getDefault()),
@@ -230,7 +268,6 @@ fun ExtraDetails(movieDetails: MovieDetails) {
     }
 }
 
-
 @Composable
 fun CastCrew(castCrew: CastCrew) {
     if (castCrew.cast.isNotEmpty()) {
@@ -257,7 +294,6 @@ fun CastCrew(castCrew: CastCrew) {
         }
     }
 }
-
 
 @Composable
 fun Recommendations(recommendations: HomeMovieList, onItemClicked: (Int, String) -> Unit) {

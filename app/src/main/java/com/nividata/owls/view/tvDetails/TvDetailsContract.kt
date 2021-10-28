@@ -1,5 +1,6 @@
 package com.nividata.owls.view.tvDetails
 
+import com.nividata.owls.domain.core.model.WatchProviderData
 import com.nividata.owls.domain.model.CastCrew
 import com.nividata.owls.domain.model.HomeMovieList
 import com.nividata.owls.domain.model.TvDetails
@@ -16,7 +17,8 @@ sealed class TvDetailsContract {
         data class Success(
             val tvDetails: TvDetails,
             val castCrew: CastCrew,
-            val recommendations: HomeMovieList
+            val recommendations: HomeMovieList,
+            val watchProviderData: WatchProviderData,
         ) : State()
 
         object Loading : State()
