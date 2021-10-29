@@ -54,6 +54,15 @@ interface TmdbService {
         @QueryMap options: Map<String, Int>
     ): Response<MovieListResponse>
 
+    @GET("3/movie/{id}/similar")
+    suspend fun getMovieSimilar(
+        @Path("id") id: Int,
+        @QueryMap options: Map<String, Int>
+    ): Response<MovieListResponse>
+
+    @GET("3/movie/{id}/external_ids")
+    suspend fun getMovieExternalIds(@Path("id") id: Int): Response<ExternalIds>
+
     @GET("3/movie/{id}/watch/providers")
     suspend fun getMovieWatchProviders(@Path("id") id: Int): Response<WatchProviders>
 
@@ -68,7 +77,16 @@ interface TmdbService {
         @Path("id") id: Int,
         @QueryMap options: Map<String, Int>
     ): Response<TvListResponse>
-    
+
+    @GET("3/tv/{id}/similar")
+    suspend fun getTvSimilar(
+        @Path("id") id: Int,
+        @QueryMap options: Map<String, Int>
+    ): Response<TvListResponse>
+
+    @GET("3/tv/{id}/external_ids")
+    suspend fun getTvExternalIds(@Path("id") id: Int): Response<ExternalIds>
+
     @GET("3/tv/{id}/watch/providers")
     suspend fun getTvWatchProviders(@Path("id") id: Int): Response<WatchProviders>
 }

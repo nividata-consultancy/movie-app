@@ -252,6 +252,28 @@ class TmdbRepositoryImp @Inject internal constructor(
         )
     }
 
+    override suspend fun getMovieSimilar(id: Int): HomeMovieList {
+        return try {
+            val similar =
+                tmdbService.getMovieSimilar(id, mapOf("param" to 1)).getResponse()
+            HomeMovieList(
+                id = 1,
+                title = "Similar",
+                movieList = similar.results.map { it.toMovie() }
+            )
+        } catch (e: Exception) {
+            HomeMovieList(
+                id = 1,
+                title = "Similar",
+                movieList = emptyList()
+            )
+        }
+    }
+
+    override suspend fun getMovieExternalIds(id: Int): ExternalIds {
+        return tmdbService.getMovieExternalIds(id).getResponse()
+    }
+
     override suspend fun getMovieWatchProviders(id: Int): WatchProviderData {
         val watchProviders = tmdbService.getMovieWatchProviders(id).getResponse()
         val list = arrayListOf<WatchProviders.Results.IN.Flatrate>()
@@ -293,6 +315,28 @@ class TmdbRepositoryImp @Inject internal constructor(
             title = "Recommendations",
             movieList = recommendations.results.map { it.toMovie() }
         )
+    }
+
+    override suspend fun getTvSimilar(id: Int): HomeMovieList {
+        return try {
+            val similar =
+                tmdbService.getMovieSimilar(id, mapOf("param" to 1)).getResponse()
+            HomeMovieList(
+                id = 1,
+                title = "Similar",
+                movieList = similar.results.map { it.toMovie() }
+            )
+        } catch (e: Exception) {
+            HomeMovieList(
+                id = 1,
+                title = "Similar",
+                movieList = emptyList()
+            )
+        }
+    }
+
+    override suspend fun getTvExternalIds(id: Int): ExternalIds {
+        return tmdbService.getTvExternalIds(id).getResponse()
     }
 
     override suspend fun getTvWatchProviders(id: Int): WatchProviderData {
