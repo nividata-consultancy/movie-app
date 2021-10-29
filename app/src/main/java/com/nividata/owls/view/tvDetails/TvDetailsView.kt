@@ -4,6 +4,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,9 +28,7 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.coil.rememberCoilPainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.nividata.owls.domain.data.Constant
-import com.nividata.owls.domain.model.CastCrew
-import com.nividata.owls.domain.model.HomeMovieList
-import com.nividata.owls.domain.model.TvDetails
+import com.nividata.owls.domain.model.*
 import com.nividata.owls.navigation.Screen
 import com.nividata.owls.view.base.LAUNCH_LISTEN_FOR_EFFECTS
 import com.nividata.owls.view.common.*
@@ -83,6 +82,8 @@ fun TvDetailsView(
                     tvDetails = state.tvDetails,
                     castCrew = state.castCrew,
                     recommendations = state.recommendations,
+                    similar = state.similar,
+                    externalIds = state.externalIds,
                     showPlay = state.watchProviderData.list.isNotEmpty(),
                     onItemClicked = onItemClicked,
                     modalBottomSheetState = modalBottomSheetState,
@@ -100,6 +101,8 @@ fun DetailsView(
     tvDetails: TvDetails,
     castCrew: CastCrew,
     recommendations: HomeMovieList,
+    similar: HomeMovieList,
+    externalIds: ExternalIds,
     showPlay: Boolean,
     onItemClicked: (Int, String) -> Unit,
     coroutineScope: CoroutineScope,
@@ -214,8 +217,167 @@ fun DetailsView(
                 }
             }
         CastCrew(castCrew = castCrew)
+        OtherDetails(tvDetails = tvDetails)
+        ProductionCompanyView(productionCountriesList = tvDetails.production_companies)
+        ExternalLinkView(externalIds = externalIds)
         Recommendations(recommendations = recommendations, onItemClicked = onItemClicked)
+        Similar(similar = similar, onItemClicked = onItemClicked)
         Spacer(modifier = Modifier.height(10.dp))
+    }
+}
+
+@Composable
+fun CastCrew(castCrew: CastCrew) {
+    if (castCrew.cast.isNotEmpty()) {
+        Column(
+            modifier = Modifier
+                .padding(top = 10.dp)
+                .fillMaxWidth()
+        ) {
+            Text(
+                text = "Cast",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(start = 20.dp, top = 10.dp, bottom = 10.dp)
+            )
+            LazyRow(
+                contentPadding = PaddingValues(horizontal = 20.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+                items(castCrew.cast.take(10)) { item ->
+                    CastCrewView(item)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun OtherDetails(tvDetails: TvDetails) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 20.dp, top = 20.dp, end = 20.dp)
+    ) {
+        Text(
+            text = "Facts",
+            style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Bold),
+        )
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp)
+        ) {
+            Text(
+                text = "Original Name",
+                style = MaterialTheme.typography.subtitle2
+            )
+            Spacer(modifier = Modifier.width(20.dp))
+            Text(
+                text = tvDetails.original_name,
+                style = MaterialTheme.typography.body2,
+                textAlign = TextAlign.End,
+            )
+        }
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp)
+        ) {
+            Text(
+                text = "Status",
+                style = MaterialTheme.typography.subtitle2
+            )
+            Text(
+                text = tvDetails.status,
+                style = MaterialTheme.typography.body2
+            )
+        }
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp)
+        ) {
+            Text(
+                text = "Networks",
+                style = MaterialTheme.typography.subtitle2
+            )
+            LazyRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                items(tvDetails.networks) {
+                    Image(
+                        painter = rememberCoilPainter(Constant.IMAGE_BASE_URL.plus(it.logo_path)),
+                        contentDescription = null,
+                        modifier = Modifier.height(15.dp),
+                        contentScale = ContentScale.Fit,
+                    )
+                }
+            }
+        }
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp)
+        ) {
+            Text(
+                text = "Type",
+                style = MaterialTheme.typography.subtitle2
+            )
+            Text(
+                text = tvDetails.type,
+                style = MaterialTheme.typography.body2
+            )
+        }
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp)
+        ) {
+            Text(
+                text = "Original Language",
+                style = MaterialTheme.typography.subtitle2
+            )
+            Text(
+                text = Locale(tvDetails.original_language).displayName,
+                style = MaterialTheme.typography.body2
+            )
+        }
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp)
+        ) {
+            Text(
+                text = "Number Of Episodes",
+                style = MaterialTheme.typography.subtitle2
+            )
+            Text(
+                text = tvDetails.number_of_episodes.toString(),
+                style = MaterialTheme.typography.body2
+            )
+        }
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp)
+        ) {
+            Text(
+                text = "Number Of Seasons",
+                style = MaterialTheme.typography.subtitle2
+            )
+            Text(
+                text = tvDetails.number_of_seasons.toString(),
+                style = MaterialTheme.typography.body2
+            )
+        }
     }
 }
 
@@ -269,37 +431,19 @@ fun ExtraDetails(tvDetails: TvDetails) {
 }
 
 @Composable
-fun CastCrew(castCrew: CastCrew) {
-    if (castCrew.cast.isNotEmpty()) {
-        Column(
-            modifier = Modifier
-                .padding(top = 10.dp)
-                .fillMaxWidth()
-        ) {
-            Text(
-                text = "Cast",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .padding(start = 20.dp, top = 10.dp, bottom = 10.dp)
-            )
-            LazyRow(
-                contentPadding = PaddingValues(horizontal = 20.dp),
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-            ) {
-                items(castCrew.cast.take(10)) { item ->
-                    CastCrewView(item)
-                }
-            }
-        }
-    }
-}
-
-@Composable
 fun Recommendations(recommendations: HomeMovieList, onItemClicked: (Int, String) -> Unit) {
     ListView(
         movieList = recommendations.movieList,
         title = recommendations.title,
+        onItemClicked = onItemClicked
+    )
+}
+
+@Composable
+fun Similar(similar: HomeMovieList, onItemClicked: (Int, String) -> Unit) {
+    ListView(
+        movieList = similar.movieList,
+        title = similar.title,
         onItemClicked = onItemClicked
     )
 }

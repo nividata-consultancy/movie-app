@@ -1,10 +1,7 @@
 package com.nividata.owls.view.movieDetails
 
 import com.nividata.owls.domain.core.model.WatchProviderData
-import com.nividata.owls.domain.model.CastCrew
-import com.nividata.owls.domain.model.HomeMovieList
-import com.nividata.owls.domain.model.MovieDetails
-import com.nividata.owls.domain.model.WatchProviders
+import com.nividata.owls.domain.model.*
 import com.nividata.owls.view.base.ViewEvent
 import com.nividata.owls.view.base.ViewSideEffect
 import com.nividata.owls.view.base.ViewState
@@ -19,7 +16,9 @@ sealed class MovieDetailsContract {
             val movieDetails: MovieDetails,
             val castCrew: CastCrew,
             val recommendations: HomeMovieList,
+            val similar: HomeMovieList,
             val watchProviderData: WatchProviderData,
+            val externalIds: ExternalIds,
         ) : State()
 
         object Loading : State()

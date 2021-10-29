@@ -30,9 +30,7 @@ import com.google.accompanist.coil.rememberCoilPainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.nividata.owls.R
 import com.nividata.owls.domain.data.Constant
-import com.nividata.owls.domain.model.CastCrew
-import com.nividata.owls.domain.model.HomeMovieList
-import com.nividata.owls.domain.model.MovieDetails
+import com.nividata.owls.domain.model.*
 import com.nividata.owls.navigation.Screen
 import com.nividata.owls.view.base.LAUNCH_LISTEN_FOR_EFFECTS
 import com.nividata.owls.view.common.*
@@ -86,6 +84,8 @@ fun MovieDetailsView(
                     movieDetails = state.movieDetails,
                     castCrew = state.castCrew,
                     recommendations = state.recommendations,
+                    similar = state.similar,
+                    externalIds = state.externalIds,
                     showPlay = state.watchProviderData.list.isNotEmpty(),
                     onItemClicked = onItemClicked,
                     modalBottomSheetState = modalBottomSheetState,
@@ -103,6 +103,8 @@ fun DetailsView(
     movieDetails: MovieDetails,
     castCrew: CastCrew,
     recommendations: HomeMovieList,
+    similar: HomeMovieList,
+    externalIds: ExternalIds,
     showPlay: Boolean,
     onItemClicked: (Int, String) -> Unit,
     coroutineScope: CoroutineScope,
@@ -215,7 +217,11 @@ fun DetailsView(
                     )
             }
         CastCrew(castCrew = castCrew)
+        OtherDetails(movieDetails = movieDetails)
+        ProductionCompanyView(productionCountriesList = movieDetails.production_companies)
+        ExternalLinkView(externalIds = externalIds)
         Recommendations(recommendations = recommendations, onItemClicked = onItemClicked)
+        Similar(similar = similar, onItemClicked = onItemClicked)
         Spacer(modifier = Modifier.height(10.dp))
     }
 }
@@ -296,10 +302,113 @@ fun CastCrew(castCrew: CastCrew) {
 }
 
 @Composable
+fun OtherDetails(
+    movieDetails
+    : MovieDetails
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 20.dp, top = 20.dp, end = 20.dp)
+    ) {
+        Text(
+            text = "Facts",
+            style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Bold),
+        )
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp)
+        ) {
+            Text(
+                text = "Original Name",
+                style = MaterialTheme.typography.subtitle2
+            )
+            Spacer(modifier = Modifier.width(20.dp))
+            Text(
+                text = movieDetails.original_title,
+                style = MaterialTheme.typography.body2,
+                textAlign = TextAlign.End,
+            )
+        }
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp)
+        ) {
+            Text(
+                text = "Status",
+                style = MaterialTheme.typography.subtitle2
+            )
+            Text(
+                text = movieDetails.status,
+                style = MaterialTheme.typography.body2
+            )
+        }
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp)
+        ) {
+            Text(
+                text = "Original Language",
+                style = MaterialTheme.typography.subtitle2
+            )
+            Text(
+                text = Locale(movieDetails.original_language).displayName,
+                style = MaterialTheme.typography.body2
+            )
+        }
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp)
+        ) {
+            Text(
+                text = "Budget",
+                style = MaterialTheme.typography.subtitle2
+            )
+            Text(
+                text = movieDetails.budget.toString(),
+                style = MaterialTheme.typography.body2
+            )
+        }
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp)
+        ) {
+            Text(
+                text = "Revenue",
+                style = MaterialTheme.typography.subtitle2
+            )
+            Text(
+                text = movieDetails.revenue.toString(),
+                style = MaterialTheme.typography.body2
+            )
+        }
+    }
+}
+
+@Composable
 fun Recommendations(recommendations: HomeMovieList, onItemClicked: (Int, String) -> Unit) {
     ListView(
         movieList = recommendations.movieList,
         title = recommendations.title,
+        onItemClicked = onItemClicked
+    )
+}
+
+@Composable
+fun Similar(similar: HomeMovieList, onItemClicked: (Int, String) -> Unit) {
+    ListView(
+        movieList = similar.movieList,
+        title = similar.title,
         onItemClicked = onItemClicked
     )
 }

@@ -1,6 +1,7 @@
 package com.nividata.owls.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -23,6 +24,7 @@ import kotlinx.coroutines.InternalCoroutinesApi
 
 const val NOTY_NAV_HOST_ROUTE = "noty-main-route"
 
+@ExperimentalFoundationApi
 @InternalCoroutinesApi
 @ExperimentalAnimationApi
 @ExperimentalMaterialApi

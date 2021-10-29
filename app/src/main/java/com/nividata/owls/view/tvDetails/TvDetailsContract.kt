@@ -2,6 +2,7 @@ package com.nividata.owls.view.tvDetails
 
 import com.nividata.owls.domain.core.model.WatchProviderData
 import com.nividata.owls.domain.model.CastCrew
+import com.nividata.owls.domain.model.ExternalIds
 import com.nividata.owls.domain.model.HomeMovieList
 import com.nividata.owls.domain.model.TvDetails
 import com.nividata.owls.view.base.ViewEvent
@@ -18,7 +19,9 @@ sealed class TvDetailsContract {
             val tvDetails: TvDetails,
             val castCrew: CastCrew,
             val recommendations: HomeMovieList,
+            val similar: HomeMovieList,
             val watchProviderData: WatchProviderData,
+            val externalIds: ExternalIds,
         ) : State()
 
         object Loading : State()

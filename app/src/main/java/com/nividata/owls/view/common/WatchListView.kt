@@ -51,7 +51,7 @@ fun WatchListView(
                         modifier = Modifier
                             .padding(12.dp)
                             .clickable {
-                                localUriHandler.openUri(link)
+//                                localUriHandler.openUri(link)
                             }
                     ) {
                         Surface(shape = RoundedCornerShape(4.dp)) {
