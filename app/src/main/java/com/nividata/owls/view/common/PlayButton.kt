@@ -27,7 +27,7 @@ fun PlayButton(modifier: Modifier) {
             contentDescription = "",
             tint = MaterialTheme.colors.secondary,
             modifier = Modifier
-                .padding(12.dp)
+                .padding(top = 12.dp,bottom = 12.dp,end = 10.dp,start = 14.dp)
                 .width(30.dp)
                 .height(30.dp)
         )

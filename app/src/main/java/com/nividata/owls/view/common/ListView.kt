@@ -4,12 +4,16 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.nividata.owls.R
 import com.nividata.owls.domain.model.Movie
 
 @Composable
@@ -26,16 +30,27 @@ fun ListView(
                 .padding(top = 10.dp)
                 .fillMaxWidth()
         ) {
-            Text(
-                text = title,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
-                    .padding(start = 20.dp, top = 10.dp, bottom = 10.dp)
+                    .fillMaxWidth()
+                    .padding(bottom = 5.dp, top = 5.dp)
                     .clickable {
                         onMoreIconClicked(categoryType, title)
                     }
-            )
+                    .padding(start = 20.dp, top = 5.dp, bottom = 5.dp, end = 20.dp)
+            ) {
+                Text(
+                    text = title,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                )
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_24),
+                    contentDescription = "",
+                    tint = Color.White,
+                )
+            }
             LazyRow(
                 contentPadding = PaddingValues(horizontal = 20.dp),
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
