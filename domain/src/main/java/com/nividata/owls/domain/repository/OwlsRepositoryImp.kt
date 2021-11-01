@@ -1,9 +1,9 @@
 package com.nividata.owls.domain.repository
 
 import com.nividata.owls.domain.core.repository.OwlsRepository
-import com.nividata.owls.domain.model.HomeMovieList
 import com.nividata.owls.domain.data.api.OwlsService
 import com.nividata.owls.domain.data.util.getResponse
+import com.nividata.owls.domain.model.HomeMovieList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -30,6 +30,7 @@ class OwlsRepositoryImp @Inject internal constructor(
             HomeMovieList(
                 id = 0,
                 title = netflixUpcoming.data.title,
+                categoryType = netflixUpcoming.data.categoryType,
                 movieList = netflixUpcoming.data.movies.map { it.toMovie() }
             )
         )
@@ -45,6 +46,7 @@ class OwlsRepositoryImp @Inject internal constructor(
             HomeMovieList(
                 id = 1,
                 title = netflixTop10.data.title,
+                categoryType = netflixTop10.data.categoryType,
                 movieList = netflixTop10.data.movies.map { it.toMovie() }
             )
         )
@@ -60,6 +62,7 @@ class OwlsRepositoryImp @Inject internal constructor(
             HomeMovieList(
                 id = 2,
                 title = netflixTrending.data.title,
+                categoryType = netflixTrending.data.categoryType,
                 movieList = netflixTrending.data.movies.map { it.toMovie() }
             )
         )
@@ -75,6 +78,7 @@ class OwlsRepositoryImp @Inject internal constructor(
             HomeMovieList(
                 id = 3,
                 title = netflixPopular.data.title,
+                categoryType = netflixPopular.data.categoryType,
                 movieList = netflixPopular.data.movies.map { it.toMovie() }
             )
         )
@@ -95,6 +99,7 @@ class OwlsRepositoryImp @Inject internal constructor(
             HomeMovieList(
                 id = 0,
                 title = amazonUpcoming.data.title,
+                categoryType = amazonUpcoming.data.categoryType,
                 movieList = amazonUpcoming.data.movies.map { it.toMovie() }
             )
         )
@@ -110,6 +115,7 @@ class OwlsRepositoryImp @Inject internal constructor(
             HomeMovieList(
                 id = 1,
                 title = amazonTopMovie.data.title,
+                categoryType = amazonTopMovie.data.categoryType,
                 movieList = amazonTopMovie.data.movies.map { it.toMovie() }
             )
         )
@@ -126,6 +132,7 @@ class OwlsRepositoryImp @Inject internal constructor(
             HomeMovieList(
                 id = 2,
                 title = amazonLatestMovie.data.title,
+                categoryType = amazonLatestMovie.data.categoryType,
                 movieList = amazonLatestMovie.data.movies.map { it.toMovie() }
             )
         )
@@ -141,6 +148,7 @@ class OwlsRepositoryImp @Inject internal constructor(
             HomeMovieList(
                 id = 3,
                 title = amazonOriginal.data.title,
+                categoryType = amazonOriginal.data.categoryType,
                 movieList = amazonOriginal.data.movies.map { it.toMovie() }
             )
         )
@@ -161,6 +169,7 @@ class OwlsRepositoryImp @Inject internal constructor(
             HomeMovieList(
                 id = 0,
                 title = hotstarTrending.data.title,
+                categoryType = hotstarTrending.data.categoryType,
                 movieList = hotstarTrending.data.movies.map { it.toMovie() }
             )
         )
@@ -176,6 +185,7 @@ class OwlsRepositoryImp @Inject internal constructor(
             HomeMovieList(
                 id = 1,
                 title = hotstatNew.data.title,
+                categoryType = hotstatNew.data.categoryType,
                 movieList = hotstatNew.data.movies.map { it.toMovie() }
             )
         )
@@ -191,9 +201,33 @@ class OwlsRepositoryImp @Inject internal constructor(
             HomeMovieList(
                 id = 2,
                 title = hotstarSpecials.data.title,
+                categoryType = hotstarSpecials.data.categoryType,
                 movieList = hotstarSpecials.data.movies.map { it.toMovie() }
             )
         )
         return list
+    }
+
+    override suspend fun getMovieList(
+        categoryType: String,
+        page: Int,
+        pageSize: Int
+    ): HomeMovieList {
+        val movieList =
+            tmdbService.getMoviesByType(
+                params = mapOf(
+                    "type" to "HotstarSpecials",
+                    "page" to 1,
+                    "page_size" to 10
+                )
+            ).getResponse()
+
+        return HomeMovieList(
+            id = 1,
+            title = "Similar",
+            movieList = movieList.data.movies.map { it.toMovie() },
+            page = movieList.page,
+            totalPages = movieList.totalPages
+        )
     }
 }

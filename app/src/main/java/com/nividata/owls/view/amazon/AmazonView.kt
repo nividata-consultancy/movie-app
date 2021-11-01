@@ -39,6 +39,18 @@ fun AmazonView(
         viewModel.setEvent(AmazonContract.Event.AmazonItemSelection(id, type))
     }
 
+    val onMoreIconClicked: (
+        categoryType: String,
+        categoryName: String
+    ) -> Unit = { categoryName, categoryType ->
+        viewModel.setEvent(
+            AmazonContract.Event.MovieListSelection(
+                categoryName = categoryName,
+                categoryType = categoryType
+            )
+        )
+    }
+
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         viewModel.effect.onEach { effect ->
             when (effect) {
@@ -48,7 +60,14 @@ fun AmazonView(
                 is AmazonContract.Effect.Navigation.ToTvDetails -> {
                     navController.navigate(Screen.TvDetail.route(effect.tvId))
                 }
-
+                is AmazonContract.Effect.Navigation.ToMovieList -> {
+                    navController.navigate(
+                        Screen.MovieList.route(
+                            categoryName = effect.categoryName,
+                            categoryType = effect.categoryType
+                        )
+                    )
+                }
             }
         }.collect()
     }
@@ -82,7 +101,9 @@ fun AmazonView(
                             ListView(
                                 movieList = homeMovieList.movieList,
                                 title = homeMovieList.title,
-                                onItemClicked = onItemClicked
+                                onItemClicked = onItemClicked,
+                                onMoreIconClicked = onMoreIconClicked,
+                                categoryType = homeMovieList.categoryType!!,
                             )
                         }
                     }

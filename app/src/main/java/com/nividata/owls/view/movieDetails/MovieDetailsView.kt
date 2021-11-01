@@ -4,7 +4,6 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -12,12 +11,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -28,9 +25,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.google.accompanist.coil.rememberCoilPainter
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.nividata.owls.R
 import com.nividata.owls.domain.data.Constant
-import com.nividata.owls.domain.model.*
+import com.nividata.owls.domain.model.CastCrew
+import com.nividata.owls.domain.model.ExternalIds
+import com.nividata.owls.domain.model.HomeMovieList
+import com.nividata.owls.domain.model.MovieDetails
 import com.nividata.owls.navigation.Screen
 import com.nividata.owls.view.base.LAUNCH_LISTEN_FOR_EFFECTS
 import com.nividata.owls.view.common.*
@@ -56,11 +55,33 @@ fun MovieDetailsView(
         viewModel.setEvent(MovieDetailsContract.Event.MovieSelection(id))
     }
 
+    val onMoreIconClicked: (
+        categoryType: String,
+        categoryName: String
+    ) -> Unit = { categoryName, categoryType ->
+        viewModel.setEvent(
+            MovieDetailsContract.Event.MovieListSelection(
+                categoryName = categoryName,
+                categoryType = categoryType
+            )
+        )
+    }
+
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         viewModel.effect.onEach { effect ->
             when (effect) {
                 is MovieDetailsContract.Effect.Navigation.ToMovieDetails -> {
                     navController.navigate(Screen.MovieDetail.route(effect.movieId))
+                }
+                is MovieDetailsContract.Effect.Navigation.ToMovieList -> {
+                    navController.navigate(
+                        Screen.MovieList.route(
+                            id = effect.id,
+                            type = effect.type,
+                            categoryName = effect.categoryName,
+                            categoryType = effect.categoryType
+                        )
+                    )
                 }
             }
         }.collect()
@@ -88,6 +109,7 @@ fun MovieDetailsView(
                     externalIds = state.externalIds,
                     showPlay = state.watchProviderData.list.isNotEmpty(),
                     onItemClicked = onItemClicked,
+                    onMoreIconClicked = onMoreIconClicked,
                     modalBottomSheetState = modalBottomSheetState,
                     coroutineScope = coroutineScope,
                 )
@@ -107,6 +129,7 @@ fun DetailsView(
     externalIds: ExternalIds,
     showPlay: Boolean,
     onItemClicked: (Int, String) -> Unit,
+    onMoreIconClicked: (String, String) -> Unit,
     coroutineScope: CoroutineScope,
     modalBottomSheetState: ModalBottomSheetState,
 ) {
@@ -220,8 +243,16 @@ fun DetailsView(
         OtherDetails(movieDetails = movieDetails)
         ProductionCompanyView(productionCountriesList = movieDetails.production_companies)
         ExternalLinkView(externalIds = externalIds)
-        Recommendations(recommendations = recommendations, onItemClicked = onItemClicked)
-        Similar(similar = similar, onItemClicked = onItemClicked)
+        Recommendations(
+            recommendations = recommendations,
+            onItemClicked = onItemClicked,
+            onMoreIconClicked = onMoreIconClicked,
+        )
+        Similar(
+            similar = similar,
+            onItemClicked = onItemClicked,
+            onMoreIconClicked = onMoreIconClicked,
+        )
         Spacer(modifier = Modifier.height(10.dp))
     }
 }
@@ -396,19 +427,30 @@ fun OtherDetails(
 }
 
 @Composable
-fun Recommendations(recommendations: HomeMovieList, onItemClicked: (Int, String) -> Unit) {
+fun Recommendations(
+    recommendations: HomeMovieList,
+    onItemClicked: (Int, String) -> Unit,
+    onMoreIconClicked: (String, String) -> Unit,
+) {
     ListView(
         movieList = recommendations.movieList,
         title = recommendations.title,
-        onItemClicked = onItemClicked
+        onItemClicked = onItemClicked,
+        onMoreIconClicked = onMoreIconClicked,
+        categoryType = "recommendations"
     )
 }
 
 @Composable
-fun Similar(similar: HomeMovieList, onItemClicked: (Int, String) -> Unit) {
+fun Similar(
+    similar: HomeMovieList, onItemClicked: (Int, String) -> Unit,
+    onMoreIconClicked: (String, String) -> Unit,
+) {
     ListView(
         movieList = similar.movieList,
         title = similar.title,
-        onItemClicked = onItemClicked
+        onItemClicked = onItemClicked,
+        onMoreIconClicked = onMoreIconClicked,
+        categoryType = "similar"
     )
 }

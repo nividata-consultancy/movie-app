@@ -33,6 +33,18 @@ fun HotstarView(
         viewModel.setEvent(HotstarContract.Event.HotstarItemSelection(id, type))
     }
 
+    val onMoreIconClicked: (
+        categoryType: String,
+        categoryName: String
+    ) -> Unit = { categoryName, categoryType ->
+        viewModel.setEvent(
+            HotstarContract.Event.MovieListSelection(
+                categoryName = categoryName,
+                categoryType = categoryType
+            )
+        )
+    }
+
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         viewModel.effect.onEach { effect ->
             when (effect) {
@@ -42,7 +54,14 @@ fun HotstarView(
                 is HotstarContract.Effect.Navigation.ToTvDetails -> {
                     navController.navigate(Screen.TvDetail.route(effect.tvId))
                 }
-
+                is HotstarContract.Effect.Navigation.ToMovieList -> {
+                    navController.navigate(
+                        Screen.MovieList.route(
+                            categoryName = effect.categoryName,
+                            categoryType = effect.categoryType
+                        )
+                    )
+                }
             }
         }.collect()
     }
@@ -69,7 +88,9 @@ fun HotstarView(
                             ListView(
                                 movieList = homeMovieList.movieList,
                                 title = homeMovieList.title,
-                                onItemClicked = onItemClicked
+                                onItemClicked = onItemClicked,
+                                onMoreIconClicked = onMoreIconClicked,
+                                categoryType = homeMovieList.categoryType!!,
                             )
                         }
                     }

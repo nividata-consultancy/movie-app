@@ -11,6 +11,7 @@ import androidx.compose.material.Surface
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.nividata.owls.navigation.OwlsNavigation
 import com.nividata.owls.ui.theme.OwlsTheme
+import com.nividata.owls.view.movieList.MovieListViewModel
 import com.nividata.owls.view.movieDetails.MovieDetailsViewModel
 import com.nividata.owls.view.tvDetails.TvDetailsViewModel
 import dagger.hilt.EntryPoint
@@ -33,6 +34,7 @@ class MainActivity : ComponentActivity() {
     interface ViewModelFactoryProvider {
         fun movieDetailViewModelFactory(): MovieDetailsViewModel.Factory
         fun tvDetailViewModelFactory(): TvDetailsViewModel.Factory
+        fun movieListViewModelFactory(): MovieListViewModel.Factory
     }
 
     @ExperimentalFoundationApi

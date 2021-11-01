@@ -68,6 +68,8 @@ dependencies {
 
     implementation ("androidx.palette:palette-ktx:1.0.0")
 
+    implementation ("androidx.paging:paging-compose:1.0.0-alpha14")
+
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.4.0-alpha10")
 

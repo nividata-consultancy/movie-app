@@ -1,5 +1,6 @@
 package com.nividata.owls.view.common
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -12,7 +13,13 @@ import androidx.compose.ui.unit.sp
 import com.nividata.owls.domain.model.Movie
 
 @Composable
-fun ListView(movieList: List<Movie>, title: String, onItemClicked: (Int, String) -> Unit) {
+fun ListView(
+    movieList: List<Movie>,
+    title: String,
+    categoryType: String,
+    onItemClicked: (Int, String) -> Unit,
+    onMoreIconClicked: (String, String) -> Unit,
+) {
     if (movieList.isNotEmpty()) {
         Column(
             modifier = Modifier
@@ -25,6 +32,9 @@ fun ListView(movieList: List<Movie>, title: String, onItemClicked: (Int, String)
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .padding(start = 20.dp, top = 10.dp, bottom = 10.dp)
+                    .clickable {
+                        onMoreIconClicked(categoryType, title)
+                    }
             )
             LazyRow(
                 contentPadding = PaddingValues(horizontal = 20.dp),

@@ -8,10 +8,15 @@ import com.nividata.owls.domain.model.TvDetails
 import com.nividata.owls.view.base.ViewEvent
 import com.nividata.owls.view.base.ViewSideEffect
 import com.nividata.owls.view.base.ViewState
+import com.nividata.owls.view.movieDetails.MovieDetailsContract
 
 sealed class TvDetailsContract {
     sealed class Event : ViewEvent {
         data class TvSelection(val tvId: Int) : Event()
+        data class MovieListSelection(
+            val categoryName: String,
+            val categoryType: String
+        ) : Event()
     }
 
     sealed class State : ViewState {
@@ -31,6 +36,12 @@ sealed class TvDetailsContract {
     sealed class Effect : ViewSideEffect {
         sealed class Navigation : Effect() {
             data class ToTvDetails(val tvId: Int) : Navigation()
+            data class ToMovieList(
+                val id: Int?,
+                val type: String?,
+                val categoryName: String,
+                val categoryType: String
+            ) : Navigation()
         }
     }
 }

@@ -38,6 +38,14 @@ class HotstarViewModel @Inject constructor(
                     }
                 }
             }
+            is HotstarContract.Event.MovieListSelection -> {
+                setEffect {
+                    HotstarContract.Effect.Navigation.ToMovieList(
+                        categoryName = event.categoryName,
+                        categoryType = event.categoryType
+                    )
+                }
+            }
         }
     }
 

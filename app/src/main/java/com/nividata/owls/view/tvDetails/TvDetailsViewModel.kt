@@ -39,6 +39,16 @@ class TvDetailsViewModel @AssistedInject constructor(
                     TvDetailsContract.Effect.Navigation.ToTvDetails(event.tvId)
                 }
             }
+            is TvDetailsContract.Event.MovieListSelection -> {
+                setEffect {
+                    TvDetailsContract.Effect.Navigation.ToMovieList(
+                        id = tvId,
+                        type = "series",
+                        categoryName = event.categoryName,
+                        categoryType = event.categoryType
+                    )
+                }
+            }
         }
     }
 

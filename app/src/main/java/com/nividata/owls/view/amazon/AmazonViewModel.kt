@@ -38,6 +38,14 @@ class AmazonViewModel @Inject constructor(
                     }
                 }
             }
+            is AmazonContract.Event.MovieListSelection -> {
+                setEffect {
+                    AmazonContract.Effect.Navigation.ToMovieList(
+                        categoryName = event.categoryName,
+                        categoryType = event.categoryType
+                    )
+                }
+            }
         }
     }
 

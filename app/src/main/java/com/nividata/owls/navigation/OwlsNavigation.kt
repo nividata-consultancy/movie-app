@@ -15,7 +15,8 @@ import com.nividata.owls.utils.assistedViewModel
 import com.nividata.owls.view.main.MainView
 import com.nividata.owls.view.movieDetails.MovieDetailsView
 import com.nividata.owls.view.movieDetails.MovieDetailsViewModel
-import com.nividata.owls.view.newMain.NewMainView
+import com.nividata.owls.view.movieList.MovieListView
+import com.nividata.owls.view.movieList.MovieListViewModel
 import com.nividata.owls.view.splash.SplashView
 import com.nividata.owls.view.tvDetails.TvDetailsView
 import com.nividata.owls.view.tvDetails.TvDetailsViewModel
@@ -39,9 +40,6 @@ fun OwlsNavigation() {
         }
         composable(Screen.Main.route) {
             MainView(navController)
-        }
-        composable(Screen.NewMain.route) {
-            NewMainView(navController)
         }
         composable(
             Screen.MovieDetail.route,
@@ -68,6 +66,43 @@ fun OwlsNavigation() {
             TvDetailsView(
                 navController, assistedViewModel {
                     TvDetailsViewModel.provideFactory(tvDetailViewModelFactory(), tvId)
+                }
+            )
+        }
+        composable(
+            Screen.MovieList.route,
+            arguments = listOf(
+                navArgument(Screen.MovieList.ARG_ID) {
+                    nullable = true
+                    defaultValue = null
+                    type = NavType.StringType
+                },
+                navArgument(Screen.MovieList.ARG_TYPE) {
+                    nullable = true
+                    defaultValue = null
+                    type = NavType.StringType
+                },
+                navArgument(Screen.MovieList.ARG_CATEGORY_NAME) { type = NavType.StringType },
+                navArgument(Screen.MovieList.ARG_CATEGORY_TYPE) { type = NavType.StringType },
+            )
+        ) {
+            val id = it.arguments?.getString(Screen.MovieList.ARG_ID)
+            val type = it.arguments?.getString(Screen.MovieList.ARG_TYPE)
+            val categoryType = it.arguments?.getString(Screen.MovieList.ARG_CATEGORY_TYPE)
+                ?: throw IllegalStateException("'categoryType' shouldn't be null")
+            val categoryName = it.arguments?.getString(Screen.MovieList.ARG_CATEGORY_NAME)
+                ?: throw IllegalStateException("'categoryName' shouldn't be null")
+            MovieListView(
+                categoryName,
+                navController,
+                assistedViewModel {
+                    MovieListViewModel.provideFactory(
+                        movieListViewModelFactory(),
+                        id = id?.toInt(),
+                        type = type,
+                        categoryType = categoryType,
+                        categoryName = categoryName,
+                    )
                 }
             )
         }

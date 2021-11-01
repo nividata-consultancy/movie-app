@@ -8,4 +8,5 @@ interface OwlsRepository {
     suspend fun getNetflixData(): List<HomeMovieList>
     suspend fun getAmazonData(): List<HomeMovieList>
     suspend fun getHotstarData(): List<HomeMovieList>
+    suspend fun getMovieList(categoryType: String, page: Int, pageSize: Int): HomeMovieList
 }

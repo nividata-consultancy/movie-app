@@ -8,6 +8,10 @@ import com.nividata.owls.view.base.ViewState
 sealed class NetflixContract {
     sealed class Event : ViewEvent {
         data class NetflixItemSelection(val id: Int, val type: String) : Event()
+        data class MovieListSelection(
+            val categoryName: String,
+            val categoryType: String
+        ) : Event()
     }
 
     sealed class State : ViewState {
@@ -20,6 +24,10 @@ sealed class NetflixContract {
         sealed class Navigation : Effect() {
             data class ToMovieDetails(val movieId: Int) : Navigation()
             data class ToTvDetails(val tvId: Int) : Navigation()
+            data class ToMovieList(
+                val categoryName: String,
+                val categoryType: String
+            ) :Navigation()
         }
     }
 }

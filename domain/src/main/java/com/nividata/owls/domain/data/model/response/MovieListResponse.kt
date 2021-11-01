@@ -1,14 +1,15 @@
 package com.nividata.owls.domain.data.model.response
 
 import com.nividata.owls.domain.model.Movie
+import com.squareup.moshi.Json
 
 
 data class MovieListResponse(
     val dates: DatesResponse?,
     val page: Int,
     val results: List<MovieResponse>,
-    val total_pages: Int,
-    val total_results: Int,
+    @Json(name = "total_pages") val totalPages: Int,
+    @Json(name = "total_results") val totalResults: Int,
     override val status: State = State.SUCCESS,
     override val message: String = ""
 ) : BaseResponse

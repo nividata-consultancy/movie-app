@@ -36,6 +36,15 @@ class NetflixViewModel @Inject constructor(
                     }
                 }
             }
+            is NetflixContract.Event.MovieListSelection -> {
+                setEffect {
+                    NetflixContract.Effect.Navigation.ToMovieList(
+                        categoryName = event.categoryName,
+                        categoryType = event.categoryType
+                    )
+                }
+            }
+
         }
     }
 

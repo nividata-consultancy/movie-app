@@ -1,11 +1,14 @@
 package com.nividata.owls.domain.data.model.response
 
 import com.nividata.owls.domain.model.Movie
+import com.squareup.moshi.Json
 
 class MovieList(
     val success: Boolean,
     val data: Data,
-    val message: String
+    val message: String,
+    val page: Int,
+    @Json(name = "total_pages") val totalPages: Int,
 )
 
 data class Data(

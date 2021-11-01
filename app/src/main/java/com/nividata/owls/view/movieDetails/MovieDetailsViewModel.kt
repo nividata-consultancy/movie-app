@@ -39,6 +39,16 @@ class MovieDetailsViewModel @AssistedInject constructor(
                     MovieDetailsContract.Effect.Navigation.ToMovieDetails(event.movieId)
                 }
             }
+            is MovieDetailsContract.Event.MovieListSelection -> {
+                setEffect {
+                    MovieDetailsContract.Effect.Navigation.ToMovieList(
+                        id = movieId,
+                        type = "movie",
+                        categoryName = event.categoryName,
+                        categoryType = event.categoryType
+                    )
+                }
+            }
         }
     }
 

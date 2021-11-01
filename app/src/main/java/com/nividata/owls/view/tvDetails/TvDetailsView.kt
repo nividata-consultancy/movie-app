@@ -4,14 +4,12 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
@@ -54,11 +52,33 @@ fun TvDetailsView(
         viewModel.setEvent(TvDetailsContract.Event.TvSelection(id))
     }
 
+    val onMoreIconClicked: (
+        categoryType: String,
+        categoryName: String
+    ) -> Unit = { categoryName, categoryType ->
+        viewModel.setEvent(
+            TvDetailsContract.Event.MovieListSelection(
+                categoryName = categoryName,
+                categoryType = categoryType
+            )
+        )
+    }
+
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         viewModel.effect.onEach { effect ->
             when (effect) {
                 is TvDetailsContract.Effect.Navigation.ToTvDetails -> {
                     navController.navigate(Screen.TvDetail.route(effect.tvId))
+                }
+                is TvDetailsContract.Effect.Navigation.ToMovieList -> {
+                    navController.navigate(
+                        Screen.MovieList.route(
+                            id = effect.id,
+                            type = effect.type,
+                            categoryName = effect.categoryName,
+                            categoryType = effect.categoryType
+                        )
+                    )
                 }
             }
         }.collect()
@@ -86,6 +106,7 @@ fun TvDetailsView(
                     externalIds = state.externalIds,
                     showPlay = state.watchProviderData.list.isNotEmpty(),
                     onItemClicked = onItemClicked,
+                    onMoreIconClicked = onMoreIconClicked,
                     modalBottomSheetState = modalBottomSheetState,
                     coroutineScope = coroutineScope,
                 )
@@ -105,6 +126,7 @@ fun DetailsView(
     externalIds: ExternalIds,
     showPlay: Boolean,
     onItemClicked: (Int, String) -> Unit,
+    onMoreIconClicked: (String, String) -> Unit,
     coroutineScope: CoroutineScope,
     modalBottomSheetState: ModalBottomSheetState,
 ) {
@@ -220,8 +242,16 @@ fun DetailsView(
         OtherDetails(tvDetails = tvDetails)
         ProductionCompanyView(productionCountriesList = tvDetails.production_companies)
         ExternalLinkView(externalIds = externalIds)
-        Recommendations(recommendations = recommendations, onItemClicked = onItemClicked)
-        Similar(similar = similar, onItemClicked = onItemClicked)
+        Recommendations(
+            recommendations = recommendations,
+            onItemClicked = onItemClicked,
+            onMoreIconClicked = onMoreIconClicked,
+        )
+        Similar(
+            similar = similar,
+            onItemClicked = onItemClicked,
+            onMoreIconClicked = onMoreIconClicked,
+        )
         Spacer(modifier = Modifier.height(10.dp))
     }
 }
@@ -431,19 +461,30 @@ fun ExtraDetails(tvDetails: TvDetails) {
 }
 
 @Composable
-fun Recommendations(recommendations: HomeMovieList, onItemClicked: (Int, String) -> Unit) {
+fun Recommendations(
+    recommendations: HomeMovieList,
+    onItemClicked: (Int, String) -> Unit,
+    onMoreIconClicked: (String, String) -> Unit,
+) {
     ListView(
         movieList = recommendations.movieList,
         title = recommendations.title,
-        onItemClicked = onItemClicked
+        onItemClicked = onItemClicked,
+        onMoreIconClicked = onMoreIconClicked,
+        categoryType = "recommendations"
     )
 }
 
 @Composable
-fun Similar(similar: HomeMovieList, onItemClicked: (Int, String) -> Unit) {
+fun Similar(
+    similar: HomeMovieList, onItemClicked: (Int, String) -> Unit,
+    onMoreIconClicked: (String, String) -> Unit,
+) {
     ListView(
         movieList = similar.movieList,
         title = similar.title,
-        onItemClicked = onItemClicked
+        onItemClicked = onItemClicked,
+        onMoreIconClicked = onMoreIconClicked,
+        categoryType = "similar"
     )
 }
