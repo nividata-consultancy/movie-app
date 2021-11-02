@@ -43,7 +43,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = rootProject.extra["compose_version"] as String
+        kotlinCompilerExtensionVersion = "1.0.4"
         kotlinCompilerVersion = "1.4.32"
     }
 }
@@ -55,14 +55,14 @@ dependencies {
 
     implementation("com.google.android.material:material:1.4.0")
 
-    implementation("androidx.compose.ui:ui:${rootProject.extra["compose_version"]}")
-    implementation("androidx.compose.material:material:${rootProject.extra["compose_version"]}")
-    implementation("androidx.compose.ui:ui-tooling:${rootProject.extra["compose_version"]}")
+    implementation("androidx.compose.ui:ui:1.0.4")
+    implementation("androidx.compose.material:material:1.0.4")
+    implementation("androidx.compose.ui:ui-tooling:1.0.4")
 
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0-rc01")
 
-    implementation("androidx.compose.ui:ui-util:${rootProject.extra["compose_version"]}")
+    implementation("androidx.compose.ui:ui-util:1.0.4")
 
     implementation("androidx.activity:activity-compose:1.4.0-rc01")
 
@@ -94,5 +94,5 @@ dependencies {
     testImplementation("junit:junit:4.+")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:${rootProject.extra["compose_version"]}")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.0.4")
 }

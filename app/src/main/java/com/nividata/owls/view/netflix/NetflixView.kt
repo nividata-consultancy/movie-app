@@ -42,7 +42,7 @@ fun NetflixView(
     val onMoreIconClicked: (
         categoryType: String,
         categoryName: String
-    ) -> Unit = { categoryName, categoryType ->
+    ) -> Unit = { categoryType, categoryName ->
         viewModel.setEvent(
             NetflixContract.Event.MovieListSelection(
                 categoryName = categoryName,

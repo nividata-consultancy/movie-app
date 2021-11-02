@@ -11,7 +11,7 @@ import com.nividata.owls.view.base.ViewState
 
 sealed class MovieListContract {
     sealed class Event : ViewEvent {
-        data class MovieSelection(val movieId: Int) : Event()
+        data class MovieSelection(val id: Int, val type: String) : Event()
     }
 
     sealed class State : ViewState {
@@ -31,6 +31,7 @@ sealed class MovieListContract {
     sealed class Effect : ViewSideEffect {
         sealed class Navigation : Effect() {
             data class ToMovieDetails(val movieId: Int) : Navigation()
+            data class ToTvDetails(val tvId: Int) : Navigation()
         }
     }
 }

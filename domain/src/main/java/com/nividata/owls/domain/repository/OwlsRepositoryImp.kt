@@ -216,15 +216,16 @@ class OwlsRepositoryImp @Inject internal constructor(
         val movieList =
             tmdbService.getMoviesByType(
                 params = mapOf(
-                    "type" to "HotstarSpecials",
-                    "page" to 1,
-                    "page_size" to 10
+                    "type" to categoryType,
+                    "page" to page,
+                    "page_size" to pageSize
                 )
             ).getResponse()
 
         return HomeMovieList(
             id = 1,
-            title = "Similar",
+            title = movieList.data.title,
+            categoryType = movieList.data.categoryType,
             movieList = movieList.data.movies.map { it.toMovie() },
             page = movieList.page,
             totalPages = movieList.totalPages

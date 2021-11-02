@@ -11,7 +11,6 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -20,12 +19,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.nividata.owls.navigation.Screen
-import com.nividata.owls.view.base.LAUNCH_LISTEN_FOR_EFFECTS
 import com.nividata.owls.view.common.CardView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
@@ -33,27 +28,30 @@ import kotlinx.coroutines.flow.onEach
 @ExperimentalCoroutinesApi
 @Composable
 fun MovieListView(
-    categoryName:String,
+    categoryName: String,
     navController: NavHostController,
     viewModel: MovieListViewModel
 ) {
-    val state = viewModel.viewState.value
+//    val state = viewModel.viewState.value
 
-    val onItemClicked: (id: Int, type: String) -> Unit = { id, _ ->
-        viewModel.setEvent(MovieListContract.Event.MovieSelection(id))
+    val onItemClicked: (id: Int, type: String) -> Unit = { id, type ->
+//        viewModel.setEvent(MovieListContract.Event.MovieSelection(id, type))
     }
 
-    LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
-        viewModel.effect.onEach { effect ->
-            when (effect) {
-                is MovieListContract.Effect.Navigation.ToMovieDetails -> {
-                    navController.navigate(Screen.MovieDetail.route(effect.movieId))
-                }
-            }
-        }.collect()
-    }
+//    LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
+//        viewModel.effect.onEach { effect ->
+//            when (effect) {
+//                is MovieListContract.Effect.Navigation.ToMovieDetails -> {
+//                    navController.navigate(Screen.MovieDetail.route(effect.movieId))
+//                }
+//                is MovieListContract.Effect.Navigation.ToTvDetails -> {
+//                    navController.navigate(Screen.TvDetail.route(effect.tvId))
+//                }
+//            }
+//        }.collect()
+//    }
 
-    val lazyMovieItems = viewModel.getMovieList().collectAsLazyPagingItems()
+    val lazyMovieItems = viewModel.movies.collectAsLazyPagingItems()
     Scaffold(topBar = {
         Box(
             modifier = Modifier

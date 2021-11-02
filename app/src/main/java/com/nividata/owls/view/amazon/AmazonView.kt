@@ -42,7 +42,7 @@ fun AmazonView(
     val onMoreIconClicked: (
         categoryType: String,
         categoryName: String
-    ) -> Unit = { categoryName, categoryType ->
+    ) -> Unit = { categoryType, categoryName ->
         viewModel.setEvent(
             AmazonContract.Event.MovieListSelection(
                 categoryName = categoryName,

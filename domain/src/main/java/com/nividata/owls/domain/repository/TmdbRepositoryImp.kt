@@ -38,10 +38,10 @@ class TmdbRepositoryImp @Inject internal constructor(
         )
     }
 
-    override suspend fun getMovieSimilar(id: Int): HomeMovieList {
+    override suspend fun getMovieSimilar(id: Int, page: Int, pageSize: Int): HomeMovieList {
         return try {
             val similar =
-                tmdbService.getMovieSimilar(id, mapOf("page" to 1)).getResponse()
+                tmdbService.getMovieSimilar(id, mapOf("page" to page)).getResponse()
             HomeMovieList(
                 id = 1,
                 title = "Similar",
@@ -95,7 +95,7 @@ class TmdbRepositoryImp @Inject internal constructor(
 
     override suspend fun getTvRecommendations(id: Int, page: Int, pageSize: Int): HomeMovieList {
         val recommendations =
-            tmdbService.getTvRecommendations(id, mapOf("page" to 1)).getResponse()
+            tmdbService.getTvRecommendations(id, mapOf("page" to page)).getResponse()
         return HomeMovieList(
             id = 1,
             title = "Recommendations",
@@ -105,10 +105,10 @@ class TmdbRepositoryImp @Inject internal constructor(
         )
     }
 
-    override suspend fun getTvSimilar(id: Int): HomeMovieList {
+    override suspend fun getTvSimilar(id: Int, page: Int, pageSize: Int): HomeMovieList {
         return try {
             val similar =
-                tmdbService.getTvSimilar(id, mapOf("page" to 1)).getResponse()
+                tmdbService.getTvSimilar(id, mapOf("page" to page)).getResponse()
             HomeMovieList(
                 id = 1,
                 title = "Similar",

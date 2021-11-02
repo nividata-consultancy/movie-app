@@ -19,13 +19,13 @@ class MovieSource(
             if (id == null)
                 owlsRepository.getMovieList(
                     page = params.key ?: 1,
-                    pageSize = params.loadSize / 3,
+                    pageSize = 10,
                     categoryType = categoryType,
                 ) else
                 tmdbRepository.getMovieList(
                     id = id,
                     page = params.key ?: 1,
-                    pageSize = params.loadSize / 3,
+                    pageSize = 20,
                     type = type!!
                 )
 

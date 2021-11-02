@@ -26,7 +26,10 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.coil.rememberCoilPainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.nividata.owls.domain.data.Constant
-import com.nividata.owls.domain.model.*
+import com.nividata.owls.domain.model.CastCrew
+import com.nividata.owls.domain.model.ExternalIds
+import com.nividata.owls.domain.model.HomeMovieList
+import com.nividata.owls.domain.model.TvDetails
 import com.nividata.owls.navigation.Screen
 import com.nividata.owls.view.base.LAUNCH_LISTEN_FOR_EFFECTS
 import com.nividata.owls.view.common.*
@@ -68,7 +71,9 @@ fun TvDetailsView(
         viewModel.effect.onEach { effect ->
             when (effect) {
                 is TvDetailsContract.Effect.Navigation.ToTvDetails -> {
-                    navController.navigate(Screen.TvDetail.route(effect.tvId))
+                    navController.navigate(Screen.TvDetail.route(effect.tvId)) {
+                        popUpTo(Screen.Main.route)
+                    }
                 }
                 is TvDetailsContract.Effect.Navigation.ToMovieList -> {
                     navController.navigate(
@@ -78,7 +83,9 @@ fun TvDetailsView(
                             categoryName = effect.categoryName,
                             categoryType = effect.categoryType
                         )
-                    )
+                    ) {
+                        popUpTo(Screen.Main.route)
+                    }
                 }
             }
         }.collect()

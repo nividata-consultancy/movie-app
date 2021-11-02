@@ -58,7 +58,7 @@ fun MovieDetailsView(
     val onMoreIconClicked: (
         categoryType: String,
         categoryName: String
-    ) -> Unit = { categoryName, categoryType ->
+    ) -> Unit = { categoryType, categoryName ->
         viewModel.setEvent(
             MovieDetailsContract.Event.MovieListSelection(
                 categoryName = categoryName,
@@ -71,7 +71,9 @@ fun MovieDetailsView(
         viewModel.effect.onEach { effect ->
             when (effect) {
                 is MovieDetailsContract.Effect.Navigation.ToMovieDetails -> {
-                    navController.navigate(Screen.MovieDetail.route(effect.movieId))
+                    navController.navigate(Screen.MovieDetail.route(effect.movieId)) {
+                        popUpTo(Screen.Main.route)
+                    }
                 }
                 is MovieDetailsContract.Effect.Navigation.ToMovieList -> {
                     navController.navigate(
@@ -81,7 +83,9 @@ fun MovieDetailsView(
                             categoryName = effect.categoryName,
                             categoryType = effect.categoryType
                         )
-                    )
+                    ) {
+                        popUpTo(Screen.Main.route)
+                    }
                 }
             }
         }.collect()

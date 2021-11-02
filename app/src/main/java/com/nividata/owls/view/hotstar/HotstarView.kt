@@ -36,7 +36,7 @@ fun HotstarView(
     val onMoreIconClicked: (
         categoryType: String,
         categoryName: String
-    ) -> Unit = { categoryName, categoryType ->
+    ) -> Unit = { categoryType, categoryName ->
         viewModel.setEvent(
             HotstarContract.Event.MovieListSelection(
                 categoryName = categoryName,
