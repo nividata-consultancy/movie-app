@@ -1,13 +1,37 @@
 package com.nividata.owls.navigation
 
+import androidx.compose.ui.graphics.Color
 import com.nividata.owls.R
 
-sealed class Screen(val route: String, val name: String, val icon: Int = 0) {
+sealed class Screen(
+    val route: String,
+    val name: String,
+    val icon: Int = 0,
+    val selectedContentColor: Color? = null,
+    val unselectedContentColor: Color? = null,
+) {
     object Splash : Screen("splash", "Splash")
     object Main : Screen("Main", "Main")
-    object Netflix : Screen("Netflix", "Netflix", icon = R.drawable.ic_netflix)
-    object Amazon : Screen("Amazon", "Amazon", icon = R.drawable.ic_amazon_prime)
-    object Hotstar : Screen("Hotstar", "Hotstar", icon = R.drawable.ic_disney_plus_hotstar)
+    object Netflix : Screen(
+        "Netflix",
+        "Netflix",
+        icon = R.drawable.ic_netflix,
+        selectedContentColor = Color(0xffd81f26),
+    )
+
+    object Amazon : Screen(
+        "Amazon",
+        "Amazon",
+        icon = R.drawable.ic_amazon_prime_light,
+        selectedContentColor = Color(0xff00a8e1),
+    )
+
+    object Hotstar : Screen(
+        "Hotstar",
+        "Hotstar",
+        icon = R.drawable.ic_disney_plus_hotstar_light,
+        selectedContentColor = Color(0xff101c50),
+    )
 
     object MovieDetail : Screen("movieDetails/{movieId}", "Movie Details") {
         fun route(movieId: Int) = "movieDetails/$movieId"

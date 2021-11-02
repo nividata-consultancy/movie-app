@@ -1,5 +1,6 @@
 package com.nividata.owls.view.main
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
@@ -80,20 +81,25 @@ fun Tabs(tabs: List<Screen>, pagerState: PagerState) {
             .padding(horizontal = 10.dp),
     ) {
         tabs.forEachIndexed { index, tab ->
-            Tab(
+           Tab(
                 selected = pagerState.currentPage == index,
                 onClick = {
                     scope.launch {
                         pagerState.animateScrollToPage(index)
                     }
                 },
+                selectedContentColor = tab.selectedContentColor!!
             ) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(4.dp)
                 ) {
-                    Icon(painter = painterResource(id = tab.icon), contentDescription = "")
+                    Image(
+                        painter = painterResource(id = tab.icon),
+                        contentDescription = "",
+                        alpha = if (pagerState.currentPage == index) 1f else 0.5f
+                    )
                 }
             }
         }
