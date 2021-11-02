@@ -97,7 +97,7 @@ fun MovieDetailsView(
     val coroutineScope = rememberCoroutineScope()
 
     when (state) {
-        is MovieDetailsContract.State.Loading -> CircularProgressIndicator(color = MaterialTheme.colors.secondary)
+        is MovieDetailsContract.State.Loading -> ProgressView()
         is MovieDetailsContract.State.Success -> {
             WatchListView(
                 link = state.watchProviderData.link,
@@ -119,7 +119,7 @@ fun MovieDetailsView(
                 )
             }
         }
-        is MovieDetailsContract.State.Failed -> Text(text = state.message)
+        is MovieDetailsContract.State.Failed -> ErrorMessageView(message = state.message)
     }
 }
 

@@ -1,6 +1,5 @@
 package com.nividata.owls.view.common
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -37,7 +36,6 @@ fun ListView(
                     .fillMaxWidth()
                     .padding(bottom = 5.dp, top = 5.dp)
                     .clickable {
-                        Log.e("ok123", "$categoryType $title")
                         onMoreIconClicked(categoryType, title)
                     }
                     .padding(start = 20.dp, top = 5.dp, bottom = 5.dp, end = 20.dp)

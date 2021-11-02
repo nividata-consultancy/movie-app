@@ -5,6 +5,7 @@ import androidx.paging.PagingState
 import com.nividata.owls.domain.core.repository.OwlsRepository
 import com.nividata.owls.domain.core.repository.TmdbRepository
 import com.nividata.owls.domain.model.Movie
+import kotlinx.coroutines.delay
 
 class MovieSource(
     private val tmdbRepository: TmdbRepository,
@@ -21,14 +22,16 @@ class MovieSource(
                     page = params.key ?: 1,
                     pageSize = 10,
                     categoryType = categoryType,
-                ) else
+                )
+            else
                 tmdbRepository.getMovieList(
                     id = id,
                     page = params.key ?: 1,
                     pageSize = 20,
-                    type = type!!
+                    type = type!!,
+                    categoryType = categoryType,
                 )
-
+        delay(1000)
         return LoadResult.Page(
             data = homeMovieList.movieList,
             nextKey = if (homeMovieList.totalPages!! > homeMovieList.page!!) homeMovieList.page!! + 1 else null,

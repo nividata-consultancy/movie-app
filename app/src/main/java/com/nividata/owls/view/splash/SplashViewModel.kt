@@ -27,7 +27,7 @@ class SplashViewModel @Inject constructor(
 
     private suspend fun saveToken() {
         sessionManager.saveToken("eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNDFjYjI2MTNkOGYxODE5MDAyODkyODIwYzQ5Yzg4ZCIsInN1YiI6IjYwZTU3MWM0ODNlZTY3MDA1ZGU1ZWYxOCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AoAnnujUJbVnstTL1ykfcLElvAoruXbVi-2JWMXC0gA")
-        delay(50L)
+        delay(2000L)
         setState { SplashContract.State.Success(true) }
         setEffect { SplashContract.Effect.Navigation.ToMain }
     }

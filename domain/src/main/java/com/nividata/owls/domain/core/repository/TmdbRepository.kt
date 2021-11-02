@@ -20,5 +20,11 @@ interface TmdbRepository {
     suspend fun getTvExternalIds(id: Int): ExternalIds
     suspend fun getTvWatchProviders(id: Int): WatchProviderData
 
-    suspend fun getMovieList(id: Int, type: String, page: Int, pageSize: Int): HomeMovieList
+    suspend fun getMovieList(
+        id: Int,
+        type: String,
+        categoryType: String,
+        page: Int,
+        pageSize: Int
+    ): HomeMovieList
 }

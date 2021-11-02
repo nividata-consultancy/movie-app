@@ -11,6 +11,7 @@ import com.nividata.owls.domain.core.repository.OwlsRepository
 import com.nividata.owls.domain.core.repository.TmdbRepository
 import com.nividata.owls.domain.core.session.SessionManager
 import com.nividata.owls.domain.model.Movie
+import com.nividata.owls.view.base.BaseViewModel
 import dagger.Module
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -29,9 +30,9 @@ class MovieListViewModel @AssistedInject constructor(
     @Assisted("type") private val type: String?,
     @Assisted("categoryName") private val categoryName: String,
     @Assisted("categoryType") private val categoryType: String,
-) : /*BaseViewModel<MovieListContract.Event,
+) : BaseViewModel<MovieListContract.Event,
         MovieListContract.State,
-        MovieListContract.Effect>()*/ViewModel() {
+        MovieListContract.Effect>() {
 
     private var movieSource: MovieSource =
         MovieSource(
@@ -49,23 +50,23 @@ class MovieListViewModel @AssistedInject constructor(
             viewModelScope
         )
 
-//    override fun setInitialState(): MovieListContract.State = MovieListContract.State.Loading
-//
-//    override fun handleEvents(event: MovieListContract.Event) {
-//        when (event) {
-//            is MovieListContract.Event.MovieSelection -> {
-//                if (event.type == "movie") {
-//                    setEffect {
-//                        MovieListContract.Effect.Navigation.ToMovieDetails(event.id)
-//                    }
-//                } else {
-//                    setEffect {
-//                        MovieListContract.Effect.Navigation.ToTvDetails(event.id)
-//                    }
-//                }
-//            }
-//        }
-//    }
+    override fun setInitialState(): MovieListContract.State = MovieListContract.State.Loading
+
+    override fun handleEvents(event: MovieListContract.Event) {
+        when (event) {
+            is MovieListContract.Event.MovieSelection -> {
+                if (event.type == "movie") {
+                    setEffect {
+                        MovieListContract.Effect.Navigation.ToMovieDetails(event.id)
+                    }
+                } else {
+                    setEffect {
+                        MovieListContract.Effect.Navigation.ToTvDetails(event.id)
+                    }
+                }
+            }
+        }
+    }
 
 //    fun getMovieList(): Flow<PagingData<Movie>> {
 //        return Pager(

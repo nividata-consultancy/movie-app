@@ -5,8 +5,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,9 +17,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.nividata.owls.domain.model.Movie
 import com.nividata.owls.navigation.Screen
 import com.nividata.owls.view.base.LAUNCH_LISTEN_FOR_EFFECTS
-import com.nividata.owls.view.common.ListView
-import com.nividata.owls.view.common.RoundCardView
-import com.nividata.owls.view.common.SliderView
+import com.nividata.owls.view.common.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -71,16 +67,14 @@ fun NetflixView(
             }
         }.collect()
     }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-    ) {
-
-        when (state) {
-            is NetflixContract.State.Loading -> CircularProgressIndicator(color = MaterialTheme.colors.secondary)
-            is NetflixContract.State.Success -> {
+    when (state) {
+        is NetflixContract.State.Loading -> ProgressView()
+        is NetflixContract.State.Success -> {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+            ) {
                 state.homeMovieList.forEachIndexed { index, homeMovieList ->
                     when (index) {
                         0 -> {
@@ -109,8 +103,8 @@ fun NetflixView(
                     }
                 }
             }
-            is NetflixContract.State.Failed -> Text(text = state.message)
         }
+        is NetflixContract.State.Failed -> ErrorMessageView(message = state.message)
     }
 }
 

@@ -4,9 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -14,7 +11,9 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.nividata.owls.navigation.Screen
 import com.nividata.owls.view.base.LAUNCH_LISTEN_FOR_EFFECTS
+import com.nividata.owls.view.common.ErrorMessageView
 import com.nividata.owls.view.common.ListView
+import com.nividata.owls.view.common.ProgressView
 import com.nividata.owls.view.common.SliderView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -66,15 +65,14 @@ fun HotstarView(
         }.collect()
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-    ) {
-
-        when (state) {
-            is HotstarContract.State.Loading -> CircularProgressIndicator(color = MaterialTheme.colors.secondary)
-            is HotstarContract.State.Success -> {
+    when (state) {
+        is HotstarContract.State.Loading -> ProgressView()
+        is HotstarContract.State.Success -> {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+            ) {
                 state.homeMovieList.forEachIndexed { index, homeMovieList ->
                     when (index) {
                         0 -> {
@@ -95,8 +93,9 @@ fun HotstarView(
                         }
                     }
                 }
+
             }
-            is HotstarContract.State.Failed -> Text(text = state.message)
         }
+        is HotstarContract.State.Failed -> ErrorMessageView(message = state.message)
     }
 }

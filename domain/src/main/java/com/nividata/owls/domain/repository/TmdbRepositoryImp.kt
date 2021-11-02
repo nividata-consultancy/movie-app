@@ -45,13 +45,17 @@ class TmdbRepositoryImp @Inject internal constructor(
             HomeMovieList(
                 id = 1,
                 title = "Similar",
-                movieList = similar.results.map { it.toMovie() }
+                movieList = similar.results.map { it.toMovie() },
+                page = similar.page,
+                totalPages = similar.totalPages,
             )
         } catch (e: Exception) {
             HomeMovieList(
                 id = 1,
                 title = "Similar",
-                movieList = emptyList()
+                movieList = emptyList(),
+                page = 1,
+                totalPages = 1,
             )
         }
     }
@@ -112,13 +116,17 @@ class TmdbRepositoryImp @Inject internal constructor(
             HomeMovieList(
                 id = 1,
                 title = "Similar",
-                movieList = similar.results.map { it.toMovie() }
+                movieList = similar.results.map { it.toMovie() },
+                page = similar.page,
+                totalPages = similar.totalPages,
             )
         } catch (e: Exception) {
             HomeMovieList(
                 id = 1,
                 title = "Similar",
-                movieList = emptyList()
+                movieList = emptyList(),
+                page = 1,
+                totalPages = 1,
             )
         }
     }
@@ -155,13 +163,20 @@ class TmdbRepositoryImp @Inject internal constructor(
     override suspend fun getMovieList(
         id: Int,
         type: String,
+        categoryType: String,
         page: Int,
         pageSize: Int
     ): HomeMovieList {
         return if (type == "movie") {
-            getMovieRecommendations(id = id, page = page, pageSize = pageSize)
+            if (categoryType == "recommendations")
+                getMovieRecommendations(id = id, page = page, pageSize = pageSize)
+            else
+                getMovieSimilar(id = id, page = page, pageSize = pageSize)
         } else {
-            getTvRecommendations(id = id, page = page, pageSize = pageSize)
+            if (categoryType == "recommendations")
+                getTvRecommendations(id = id, page = page, pageSize = pageSize)
+            else
+                getTvSimilar(id = id, page = page, pageSize = pageSize)
         }
     }
 }

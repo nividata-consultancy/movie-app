@@ -58,7 +58,7 @@ fun TvDetailsView(
     val onMoreIconClicked: (
         categoryType: String,
         categoryName: String
-    ) -> Unit = { categoryName, categoryType ->
+    ) -> Unit = { categoryType, categoryName ->
         viewModel.setEvent(
             TvDetailsContract.Event.MovieListSelection(
                 categoryName = categoryName,
@@ -97,7 +97,7 @@ fun TvDetailsView(
     val coroutineScope = rememberCoroutineScope()
 
     when (state) {
-        is TvDetailsContract.State.Loading -> CircularProgressIndicator(color = MaterialTheme.colors.secondary)
+        is TvDetailsContract.State.Loading -> ProgressView()
         is TvDetailsContract.State.Success -> {
             WatchListView(
                 link = state.watchProviderData.link,
@@ -119,7 +119,7 @@ fun TvDetailsView(
                 )
             }
         }
-        is TvDetailsContract.State.Failed -> Text(text = state.message)
+        is TvDetailsContract.State.Failed -> ErrorMessageView(message = state.message)
     }
 }
 

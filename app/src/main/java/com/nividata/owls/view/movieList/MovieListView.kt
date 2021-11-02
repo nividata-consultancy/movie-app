@@ -11,17 +11,26 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.nividata.owls.navigation.Screen
+import com.nividata.owls.view.base.LAUNCH_LISTEN_FOR_EFFECTS
 import com.nividata.owls.view.common.CardView
+import com.nividata.owls.view.common.ProgressView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 
+@InternalCoroutinesApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
@@ -35,21 +44,21 @@ fun MovieListView(
 //    val state = viewModel.viewState.value
 
     val onItemClicked: (id: Int, type: String) -> Unit = { id, type ->
-//        viewModel.setEvent(MovieListContract.Event.MovieSelection(id, type))
+        viewModel.setEvent(MovieListContract.Event.MovieSelection(id, type))
     }
 
-//    LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
-//        viewModel.effect.onEach { effect ->
-//            when (effect) {
-//                is MovieListContract.Effect.Navigation.ToMovieDetails -> {
-//                    navController.navigate(Screen.MovieDetail.route(effect.movieId))
-//                }
-//                is MovieListContract.Effect.Navigation.ToTvDetails -> {
-//                    navController.navigate(Screen.TvDetail.route(effect.tvId))
-//                }
-//            }
-//        }.collect()
-//    }
+    LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
+        viewModel.effect.onEach { effect ->
+            when (effect) {
+                is MovieListContract.Effect.Navigation.ToMovieDetails -> {
+                    navController.navigate(Screen.MovieDetail.route(effect.movieId))
+                }
+                is MovieListContract.Effect.Navigation.ToTvDetails -> {
+                    navController.navigate(Screen.TvDetail.route(effect.tvId))
+                }
+            }
+        }.collect()
+    }
 
     val lazyMovieItems = viewModel.movies.collectAsLazyPagingItems()
     Scaffold(topBar = {
@@ -66,18 +75,25 @@ fun MovieListView(
             )
         }
     }) {
-        LazyVerticalGrid(
-            cells = GridCells.Fixed(3),
-            modifier = Modifier.padding(12.dp)
-        ) {
-            items(lazyMovieItems.itemCount) { index ->
-                lazyMovieItems[index]?.let {
-                    Box(modifier = Modifier.padding(8.dp)) {
-                        CardView(movie = it, onItemClicked = onItemClicked)
+        lazyMovieItems.apply {
+            if (loadState.refresh is LoadState.Loading) {
+                ProgressView()
+            } else {
+                LazyVerticalGrid(
+                    cells = GridCells.Fixed(3),
+                    modifier = Modifier.padding(12.dp)
+                ) {
+                    items(lazyMovieItems.itemCount) { index ->
+                        lazyMovieItems[index]?.let {
+                            Box(modifier = Modifier.padding(8.dp)) {
+                                CardView(movie = it, onItemClicked = onItemClicked)
+                            }
+                        }
                     }
                 }
             }
         }
+
     }
 //    when (state) {
 //        is MovieListContract.State.Loading -> CircularProgressIndicator(color = MaterialTheme.colors.secondary)
