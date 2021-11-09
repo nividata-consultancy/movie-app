@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.nividata.owls.domain.core.repository.TmdbRepository
-import com.nividata.owls.domain.core.session.SessionManager
 import com.nividata.owls.view.base.BaseViewModel
 import dagger.Module
 import dagger.assisted.Assisted
@@ -18,7 +17,6 @@ import kotlinx.coroutines.launch
 @ExperimentalCoroutinesApi
 class TvDetailsViewModel @AssistedInject constructor(
     private val tmdbRepository: TmdbRepository,
-    private val sessionManager: SessionManager,
     @Assisted private val tvId: Int
 ) : BaseViewModel<TvDetailsContract.Event,
         TvDetailsContract.State,

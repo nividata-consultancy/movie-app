@@ -2,7 +2,6 @@ package com.nividata.owls.di
 
 import android.app.Application
 import com.nividata.owls.domain.core.preference.PreferenceManager
-import com.nividata.owls.domain.core.session.SessionManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,7 +20,7 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideSessionManager(application: Application): SessionManager {
-        return SessionManagerImpl(application)
+    fun provideThemeManager(): ThemeManager {
+        return ThemeManager()
     }
 }

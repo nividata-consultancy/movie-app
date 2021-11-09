@@ -1,6 +1,5 @@
 package com.nividata.owls.navigation
 
-import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
@@ -40,7 +39,7 @@ fun OwlsNavigation() {
             SplashView(navController, hiltViewModel())
         }
         composable(Screen.Main.route) {
-            MainView(navController)
+            MainView(navController, hiltViewModel())
         }
         composable(
             Screen.MovieDetail.route,

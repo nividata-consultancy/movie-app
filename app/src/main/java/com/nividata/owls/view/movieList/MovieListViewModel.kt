@@ -9,7 +9,6 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.nividata.owls.domain.core.repository.OwlsRepository
 import com.nividata.owls.domain.core.repository.TmdbRepository
-import com.nividata.owls.domain.core.session.SessionManager
 import com.nividata.owls.domain.model.Movie
 import com.nividata.owls.view.base.BaseViewModel
 import dagger.Module
@@ -25,7 +24,6 @@ import kotlinx.coroutines.flow.Flow
 class MovieListViewModel @AssistedInject constructor(
     tmdbRepository: TmdbRepository,
     owlsRepository: OwlsRepository,
-    private val sessionManager: SessionManager,
     @Assisted private val id: Int?,
     @Assisted("type") private val type: String?,
     @Assisted("categoryName") private val categoryName: String,

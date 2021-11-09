@@ -1,11 +1,11 @@
 package com.nividata.owls.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.nividata.owls.navigation.Screen
 
 private val DarkColorPalette = darkColors(
     primary = Color.Black,
@@ -31,12 +31,49 @@ private val LightColorPalette = lightColors(
     onSurface = Color.Black,
 )
 
+private val NetflixColorPalette = darkColors(
+    primary = Netflix,
+    primaryVariant = Color.Black,
+    secondary = Netflix,
+    background = Color.Black,
+    surface = Color.Black,
+    onPrimary = Color.White,
+    onSecondary = Color.White,
+    onBackground = Color.White,
+    onSurface = Color.White,
+)
+
+private val AmazonColorPalette = darkColors(
+    primary = Amazon,
+    primaryVariant = Color.Black,
+    secondary = Amazon,
+    background = Color.Black,
+    surface = Color.Black,
+    onPrimary = Color.White,
+    onSecondary = Color.White,
+    onBackground = Color.White,
+    onSurface = Color.White,
+)
+
+private val HotstarColorPalette = darkColors(
+    primary = Hotstar,
+    primaryVariant = Color.Black,
+    secondary = Hotstar,
+    background = Color.Black,
+    surface = Color.Black,
+    onPrimary = Color.White,
+    onSecondary = Color.White,
+    onBackground = Color.White,
+    onSurface = Color.White,
+)
+
 @Composable
-fun OwlsTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
-    val colors = if (darkTheme) {
-        DarkColorPalette
-    } else {
-        LightColorPalette
+fun OwlsTheme(themeType: String, content: @Composable() () -> Unit) {
+    val colors = when (themeType) {
+        Screen.Netflix.route -> NetflixColorPalette
+        Screen.Amazon.route -> AmazonColorPalette
+        Screen.Hotstar.route -> HotstarColorPalette
+        else -> LightColorPalette
     }
 
     MaterialTheme(

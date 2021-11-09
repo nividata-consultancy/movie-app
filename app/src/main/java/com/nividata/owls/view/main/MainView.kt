@@ -33,10 +33,17 @@ import kotlinx.coroutines.launch
 @ExperimentalPagerApi
 @Composable
 fun MainView(
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: MainViewModel
 ) {
     val tabs = listOf(Screen.Netflix, Screen.Amazon, Screen.Hotstar)
     val pagerState = rememberPagerState(pageCount = tabs.size)
+
+    val onPageChange: (
+        index: Int
+    ) -> Unit = { index ->
+        viewModel.setEvent(MainContract.Event.ChangeTheme(index))
+    }
 
     Scaffold(topBar = {
         Box(
@@ -53,7 +60,7 @@ fun MainView(
         }
     }) {
         Column {
-            Tabs(tabs = tabs, pagerState = pagerState)
+            Tabs(tabs = tabs, pagerState = pagerState, onPageChange = onPageChange)
             TabsContent(
                 tabs = tabs,
                 pagerState = pagerState,
@@ -66,7 +73,7 @@ fun MainView(
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @Composable
-fun Tabs(tabs: List<Screen>, pagerState: PagerState) {
+fun Tabs(tabs: List<Screen>, pagerState: PagerState, onPageChange: (Int) -> Unit) {
     val scope = rememberCoroutineScope()
     TabRow(
         selectedTabIndex = pagerState.currentPage,
@@ -81,12 +88,13 @@ fun Tabs(tabs: List<Screen>, pagerState: PagerState) {
             .padding(horizontal = 10.dp),
     ) {
         tabs.forEachIndexed { index, tab ->
-           Tab(
+            Tab(
                 selected = pagerState.currentPage == index,
                 onClick = {
                     scope.launch {
                         pagerState.animateScrollToPage(index)
                     }
+                    onPageChange(index)
                 },
                 selectedContentColor = tab.selectedContentColor!!
             ) {
