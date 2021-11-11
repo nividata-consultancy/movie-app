@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.google.accompanist.coil.rememberCoilPainter
+import coil.compose.rememberImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.nividata.owls.domain.data.Constant
 import com.nividata.owls.domain.model.CastCrew
@@ -177,7 +177,7 @@ fun DetailsView(
                     .padding(bottom = 20.dp),
             ) {
                 Image(
-                    painter = rememberCoilPainter(Constant.IMAGE_BASE_URL.plus(tvDetails.backdrop_path)),
+                    painter = rememberImagePainter(Constant.IMAGE_BASE_URL.plus(tvDetails.backdrop_path)),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                 )
@@ -344,16 +344,20 @@ fun OtherDetails(tvDetails: TvDetails) {
                 text = "Networks",
                 style = MaterialTheme.typography.subtitle2
             )
-            LazyRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                items(tvDetails.networks) {
-                    Image(
-                        painter = rememberCoilPainter(Constant.IMAGE_BASE_URL.plus(it.logo_path)),
-                        contentDescription = null,
-                        modifier = Modifier.height(15.dp),
-                        contentScale = ContentScale.Fit,
-                    )
-                }
-            }
+            Text(
+                text = tvDetails.networks.joinToString(", ") { it.name },
+                style = MaterialTheme.typography.body2
+            )
+//            LazyRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+//                items(tvDetails.networks) {
+//                    Image(
+//                        painter = rememberImagePainter(Constant.IMAGE_BASE_URL.plus(it.logo_path)),
+//                        contentDescription = null,
+//                        modifier = Modifier.height(15.dp),
+//                        contentScale = ContentScale.Fit,
+//                    )
+//                }
+//            }
         }
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,

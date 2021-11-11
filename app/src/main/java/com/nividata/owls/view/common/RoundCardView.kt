@@ -1,7 +1,6 @@
 package com.nividata.owls.view.common
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -11,33 +10,28 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.palette.graphics.Palette
 import coil.Coil
+import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import coil.request.SuccessResult
-import com.google.accompanist.coil.rememberCoilPainter
+import com.nividata.owls.R
 import com.nividata.owls.domain.data.Constant
 import com.nividata.owls.domain.model.Movie
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
-import androidx.core.content.ContextCompat
-import com.nividata.owls.R
 
 private suspend fun calculateSwatchesInImage(
     context: Context,
@@ -92,7 +86,7 @@ fun RoundCardView(movie: Movie, index: Int, onItemClicked: (Int, String) -> Unit
             )
         ) {
             Image(
-                painter = rememberCoilPainter(Constant.IMAGE_BASE_URL.plus(movie.posterPath)),
+                painter = rememberImagePainter(Constant.IMAGE_BASE_URL.plus(movie.posterPath)),
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop,

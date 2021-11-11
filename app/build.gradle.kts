@@ -88,8 +88,8 @@ dependencies {
     // JetPack Security
     implementation("androidx.security:security-crypto:1.1.0-alpha03")
 
-    implementation("com.google.accompanist:accompanist-coil:0.14.0")
-    implementation("com.google.accompanist:accompanist-pager:0.14.0")
+    implementation("io.coil-kt:coil-compose:1.4.0")
+    implementation("com.google.accompanist:accompanist-pager:0.18.0")
 
     testImplementation("junit:junit:4.+")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")

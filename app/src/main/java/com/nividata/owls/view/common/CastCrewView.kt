@@ -13,7 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.accompanist.coil.rememberCoilPainter
+import coil.compose.rememberImagePainter
 import com.nividata.owls.domain.data.Constant
 import com.nividata.owls.domain.model.CastCrew
 
@@ -31,25 +31,18 @@ fun CastCrewView(cast: CastCrew.Cast) {
             shape = RoundedCornerShape(32.dp),
         ) {
             Image(
-                painter = rememberCoilPainter(Constant.IMAGE_BASE_URL.plus(cast.profile_path)),
+                painter = rememberImagePainter(Constant.IMAGE_BASE_URL.plus(cast.profile_path)),
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop,
+                alignment = Alignment.Center
             )
         }
         Text(
             text = cast.name,
             fontSize = 14.sp,
             textAlign = TextAlign.Center,
-            maxLines = 1,
-            overflow = TextOverflow.Clip,
-            modifier = Modifier.fillMaxWidth()
-        )
-        Text(
-            text = cast.known_for_department,
-            fontSize = 14.sp,
-            textAlign = TextAlign.Center,
-            maxLines = 1,
+            maxLines = 2,
             overflow = TextOverflow.Clip,
             modifier = Modifier.fillMaxWidth()
         )

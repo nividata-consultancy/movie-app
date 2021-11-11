@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.google.accompanist.coil.rememberCoilPainter
+import coil.compose.rememberImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.nividata.owls.domain.data.Constant
 import com.nividata.owls.domain.model.CastCrew
@@ -38,6 +38,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.text.NumberFormat
 import java.util.*
 
 @ExperimentalFoundationApi
@@ -177,7 +178,7 @@ fun DetailsView(
                     .padding(bottom = 20.dp),
             ) {
                 Image(
-                    painter = rememberCoilPainter(Constant.IMAGE_BASE_URL.plus(movieDetails.backdrop_path)),
+                    painter = rememberImagePainter(Constant.IMAGE_BASE_URL.plus(movieDetails.backdrop_path)),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                 )
@@ -408,7 +409,10 @@ fun OtherDetails(
                 style = MaterialTheme.typography.subtitle2
             )
             Text(
-                text = movieDetails.budget.toString(),
+                text = if (movieDetails.budget == 0) "-" else NumberFormat.getCurrencyInstance()
+                    .apply {
+                        minimumFractionDigits = 0
+                    }.format(movieDetails.budget),
                 style = MaterialTheme.typography.body2
             )
         }
@@ -423,7 +427,10 @@ fun OtherDetails(
                 style = MaterialTheme.typography.subtitle2
             )
             Text(
-                text = movieDetails.revenue.toString(),
+                text = if (movieDetails.revenue == 0) "-" else NumberFormat.getCurrencyInstance()
+                    .apply {
+                        minimumFractionDigits = 0
+                    }.format(movieDetails.revenue),
                 style = MaterialTheme.typography.body2
             )
         }

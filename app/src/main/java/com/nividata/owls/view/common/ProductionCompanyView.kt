@@ -17,7 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.accompanist.coil.rememberCoilPainter
+import coil.compose.rememberImagePainter
 import com.nividata.owls.domain.data.Constant
 import com.nividata.owls.domain.model.ProductionCompanies
 
@@ -54,7 +54,7 @@ fun ProductionCompanyView(productionCountriesList: List<ProductionCompanies>) {
                             shape = RoundedCornerShape(32.dp),
                         ) {
                             Image(
-                                painter = rememberCoilPainter(Constant.IMAGE_BASE_URL.plus(item.logo_path)),
+                                painter = rememberImagePainter(Constant.IMAGE_BASE_URL.plus(item.logo_path)),
                                 contentDescription = null,
                                 modifier = Modifier.fillMaxSize(),
                                 contentScale = ContentScale.Fit,

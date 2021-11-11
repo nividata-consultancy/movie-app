@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -60,11 +59,12 @@ fun MainView(
         }
     }) {
         Column {
-            Tabs(tabs = tabs, pagerState = pagerState, onPageChange = onPageChange)
+            Tabs(tabs = tabs, pagerState = pagerState)
             TabsContent(
                 tabs = tabs,
                 pagerState = pagerState,
                 navController = navController,
+                onPageChange = onPageChange,
             )
         }
     }
@@ -73,16 +73,16 @@ fun MainView(
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @Composable
-fun Tabs(tabs: List<Screen>, pagerState: PagerState, onPageChange: (Int) -> Unit) {
+fun Tabs(tabs: List<Screen>, pagerState: PagerState) {
     val scope = rememberCoroutineScope()
     TabRow(
         selectedTabIndex = pagerState.currentPage,
-        backgroundColor = colorResource(id = R.color.black),
         indicator = { tabPositions ->
             TabRowDefaults.Indicator(
                 Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage])
             )
         },
+        backgroundColor = MaterialTheme.colors.background,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp),
@@ -94,7 +94,6 @@ fun Tabs(tabs: List<Screen>, pagerState: PagerState, onPageChange: (Int) -> Unit
                     scope.launch {
                         pagerState.animateScrollToPage(index)
                     }
-                    onPageChange(index)
                 },
                 selectedContentColor = tab.selectedContentColor!!
             ) {
@@ -121,8 +120,10 @@ fun TabsContent(
     tabs: List<Screen>,
     pagerState: PagerState,
     navController: NavHostController,
+    onPageChange: (Int) -> Unit,
 ) {
     HorizontalPager(state = pagerState) { page ->
+        onPageChange(pagerState.currentPage)
         when (page) {
             0 -> NetflixView(viewModel = hiltViewModel(), navController = navController)
             1 -> AmazonView(viewModel = hiltViewModel(), navController = navController)

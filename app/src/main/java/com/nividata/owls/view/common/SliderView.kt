@@ -20,7 +20,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
-import com.google.accompanist.coil.rememberCoilPainter
+import coil.compose.rememberImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
@@ -81,7 +81,7 @@ fun SliderView(movieList: List<Movie>, title: String, onItemClicked: (Int, Strin
         ) {
             Box() {
                 Image(
-                    painter = rememberCoilPainter(Constant.IMAGE_BASE_URL.plus(movieList[it].backdropPath)),
+                    painter = rememberImagePainter(Constant.IMAGE_BASE_URL.plus(movieList[it].backdropPath)),
                     contentDescription = null,
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop,

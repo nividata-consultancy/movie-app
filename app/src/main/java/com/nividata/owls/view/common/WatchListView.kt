@@ -1,11 +1,12 @@
 package com.nividata.owls.view.common
 
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
@@ -15,13 +16,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.google.accompanist.coil.rememberCoilPainter
+import coil.compose.rememberImagePainter
 import com.nividata.owls.domain.data.Constant
 import com.nividata.owls.domain.model.WatchProviders
 import kotlinx.coroutines.CoroutineScope
@@ -56,7 +55,7 @@ fun WatchListView(
                     ) {
                         Surface(shape = RoundedCornerShape(4.dp)) {
                             Image(
-                                painter = rememberCoilPainter(Constant.IMAGE_BASE_URL.plus(it.logo_path)),
+                                painter = rememberImagePainter(Constant.IMAGE_BASE_URL.plus(it.logo_path)),
                                 contentDescription = null,
                                 modifier = Modifier.fillMaxSize(),
                                 contentScale = ContentScale.Crop,

@@ -24,7 +24,7 @@ class SplashViewModel @Inject constructor(
     override fun handleEvents(event: SplashContract.Event) {}
 
     private suspend fun saveToken() {
-        delay(2000L)
+        delay(200L)
         setState { SplashContract.State.Success(true) }
         setEffect { SplashContract.Effect.Navigation.ToMain }
     }

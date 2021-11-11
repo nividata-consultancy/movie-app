@@ -7,73 +7,69 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.nividata.owls.navigation.Screen
 
-private val DarkColorPalette = darkColors(
-    primary = Color.Black,
-    primaryVariant = Color.Black,
-    secondary = Color.Red,
-    background = Color.Black,
-    surface = Color.Black,
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onBackground = Color.White,
-    onSurface = Color.White,
-)
-
-private val LightColorPalette = lightColors(
-    primary = Color.White,
-    primaryVariant = Color.White,
-    secondary = Color.Red,
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.Black,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-)
-
-private val NetflixColorPalette = darkColors(
+private val NetflixLightColorPalette = lightColors(
     primary = Netflix,
-    primaryVariant = Color.Black,
+    onPrimary = NetflixBlack,
+//    primaryVariant = Color.Black,
     secondary = Netflix,
-    background = Color.Black,
-    surface = Color.Black,
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onBackground = Color.White,
-    onSurface = Color.White,
+    onSecondary = NetflixBlack,
+    background = NetflixWhite,
+    onBackground = NetflixBlack,
+    surface = NetflixWhite,
+    onSurface = NetflixBlack,
+    error = NetflixWhite,
+    onError = NetflixBlack,
 )
 
-private val AmazonColorPalette = darkColors(
+
+private val NetflixDarkColorPalette = darkColors(
+    primary = Netflix,
+    onPrimary = NetflixWhite,
+//    primaryVariant = Color.Black,
+    secondary = Netflix,
+    onSecondary = NetflixWhite,
+    background = NetflixBlack,
+    onBackground = NetflixWhite,
+    surface = NetflixBlack,
+    onSurface = NetflixWhite,
+    error = NetflixBlack,
+    onError = NetflixWhite,
+)
+
+private val AmazonDarkColorPalette = darkColors(
     primary = Amazon,
-    primaryVariant = Color.Black,
+    onPrimary = AmazonWhite,
+//    primaryVariant = Color.Black,
     secondary = Amazon,
-    background = Color.Black,
-    surface = Color.Black,
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onBackground = Color.White,
-    onSurface = Color.White,
+    onSecondary = AmazonWhite,
+    background = AmazonBlack,
+    onBackground = AmazonWhite,
+    surface = AmazonBlack,
+    onSurface = AmazonWhite,
+    error = AmazonBlack,
+    onError = AmazonWhite,
 )
 
-private val HotstarColorPalette = darkColors(
+private val HotstarDarkColorPalette = darkColors(
     primary = Hotstar,
-    primaryVariant = Color.Black,
+    onPrimary = HotstarWhite,
+    //    primaryVariant = Color.Black,
     secondary = Hotstar,
-    background = Color.Black,
-    surface = Color.Black,
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onBackground = Color.White,
-    onSurface = Color.White,
+    onSecondary = HotstarWhite,
+    background = HotstarBlack,
+    onBackground = HotstarWhite,
+    surface = HotstarBlack,
+    onSurface = HotstarWhite,
+    error = HotstarBlack,
+    onError = HotstarWhite,
 )
 
 @Composable
 fun OwlsTheme(themeType: String, content: @Composable() () -> Unit) {
     val colors = when (themeType) {
-        Screen.Netflix.route -> NetflixColorPalette
-        Screen.Amazon.route -> AmazonColorPalette
-        Screen.Hotstar.route -> HotstarColorPalette
-        else -> LightColorPalette
+        Screen.Netflix.route -> NetflixDarkColorPalette
+        Screen.Amazon.route -> AmazonDarkColorPalette
+        else -> HotstarDarkColorPalette
     }
 
     MaterialTheme(
