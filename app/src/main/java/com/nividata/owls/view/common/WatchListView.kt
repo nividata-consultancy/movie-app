@@ -5,8 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
@@ -16,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -35,7 +33,7 @@ fun WatchListView(
     modalBottomSheetState: ModalBottomSheetState,
     content: @Composable() () -> Unit,
 ) {
-    val localUriHandler = LocalUriHandler.current
+//    val localUriHandler = LocalUriHandler.current
     ModalBottomSheetLayout(
         sheetState = modalBottomSheetState,
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
@@ -48,17 +46,18 @@ fun WatchListView(
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
-                            .padding(12.dp)
                             .clickable {
 //                                localUriHandler.openUri(link)
+//                                localUriHandler.openUri("https://www.hotstar.com/")
+//                                localUriHandler.openUri("https://www.netflix.com")
                             }
                     ) {
                         Surface(shape = RoundedCornerShape(4.dp)) {
                             Image(
-                                painter = rememberImagePainter(Constant.IMAGE_BASE_URL.plus(it.logo_path)),
+                                painter = rememberImagePainter(Constant.IMAGE_BASE_URL_500.plus(it.logo_path)),
                                 contentDescription = null,
-                                modifier = Modifier.fillMaxSize(),
-                                contentScale = ContentScale.Crop,
+                                modifier = Modifier.size(50.dp),
+                                contentScale = ContentScale.Fit,
                             )
                         }
                         Text(
