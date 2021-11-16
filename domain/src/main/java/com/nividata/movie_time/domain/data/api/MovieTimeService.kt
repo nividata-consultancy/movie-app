@@ -6,7 +6,7 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 @JvmSuppressWildcards
-interface OwlsService {
+interface MovieTimeService {
     @POST("get-movie-list/")
     suspend fun getMoviesByType(@Body params: Map<String, Any>): Response<MovieList>
 }

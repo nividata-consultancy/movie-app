@@ -12,8 +12,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.nividata.movie_time.di.ThemeManager
-import com.nividata.movie_time.navigation.OwlsNavigation
-import com.nividata.movie_time.ui.theme.OwlsTheme
+import com.nividata.movie_time.navigation.MovieTimeNavigation
+import com.nividata.movie_time.ui.theme.MovieTimeTheme
 import com.nividata.movie_time.view.movieDetails.MovieDetailsViewModel
 import com.nividata.movie_time.view.movieList.MovieListViewModel
 import com.nividata.movie_time.view.tvDetails.TvDetailsViewModel
@@ -51,9 +51,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             val themeType by themeManager.themeType.collectAsState()
 
-            OwlsTheme(themeType = themeType) {
+            MovieTimeTheme(themeType = themeType) {
                 Surface(color = MaterialTheme.colors.background) {
-                    OwlsNavigation()
+                    MovieTimeNavigation()
                 }
             }
         }

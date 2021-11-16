@@ -2,14 +2,14 @@ package com.nividata.movie_time.view.movieList
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.nividata.movie_time.domain.core.repository.OwlsRepository
+import com.nividata.movie_time.domain.core.repository.MovieTimeRepository
 import com.nividata.movie_time.domain.core.repository.TmdbRepository
 import com.nividata.movie_time.domain.model.Movie
 import kotlinx.coroutines.delay
 
 class MovieSource(
     private val tmdbRepository: TmdbRepository,
-    private val owlsRepository: OwlsRepository,
+    private val movieTimeRepository: MovieTimeRepository,
     private val id: Int?,
     private val type: String?,
     private val categoryType: String,
@@ -18,7 +18,7 @@ class MovieSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
         val homeMovieList =
             if (id == null)
-                owlsRepository.getMovieList(
+                movieTimeRepository.getMovieList(
                     page = params.key ?: 1,
                     pageSize = 10,
                     categoryType = categoryType,

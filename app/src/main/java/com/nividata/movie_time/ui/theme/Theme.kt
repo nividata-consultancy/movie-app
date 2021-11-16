@@ -64,7 +64,7 @@ private val HotstarDarkColorPalette = darkColors(
 )
 
 @Composable
-fun OwlsTheme(themeType: String, content: @Composable() () -> Unit) {
+fun MovieTimeTheme(themeType: String, content: @Composable() () -> Unit) {
     val colors = when (themeType) {
         Screen.Netflix.route -> NetflixDarkColorPalette
         Screen.Amazon.route -> AmazonDarkColorPalette

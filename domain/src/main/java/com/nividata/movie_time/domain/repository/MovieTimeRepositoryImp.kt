@@ -1,7 +1,7 @@
 package com.nividata.movie_time.domain.repository
 
-import com.nividata.movie_time.domain.core.repository.OwlsRepository
-import com.nividata.movie_time.domain.data.api.OwlsService
+import com.nividata.movie_time.domain.core.repository.MovieTimeRepository
+import com.nividata.movie_time.domain.data.api.MovieTimeService
 import com.nividata.movie_time.domain.data.util.getResponse
 import com.nividata.movie_time.domain.model.HomeMovieList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -13,13 +13,13 @@ import javax.inject.Singleton
  */
 @ExperimentalCoroutinesApi
 @Singleton
-class OwlsRepositoryImp @Inject internal constructor(
-    private val tmdbService: OwlsService
-) : OwlsRepository {
+class MovieTimeRepositoryImp @Inject internal constructor(
+    private val movieTimeService: MovieTimeService
+) : MovieTimeRepository {
     override suspend fun getNetflixData(): List<HomeMovieList> {
         val list = arrayListOf<HomeMovieList>()
         val netflixUpcoming =
-            tmdbService.getMoviesByType(
+            movieTimeService.getMoviesByType(
                 params = mapOf(
                     "type" to "NetflixUpcoming",
                     "page" to 1,
@@ -35,7 +35,7 @@ class OwlsRepositoryImp @Inject internal constructor(
             )
         )
         val netflixTop10 =
-            tmdbService.getMoviesByType(
+            movieTimeService.getMoviesByType(
                 params = mapOf(
                     "type" to "NetflixTop10",
                     "page" to 1,
@@ -51,7 +51,7 @@ class OwlsRepositoryImp @Inject internal constructor(
             )
         )
         val netflixTrending =
-            tmdbService.getMoviesByType(
+            movieTimeService.getMoviesByType(
                 params = mapOf(
                     "type" to "NetflixTrending",
                     "page" to 1,
@@ -67,7 +67,7 @@ class OwlsRepositoryImp @Inject internal constructor(
             )
         )
         val netflixPopular =
-            tmdbService.getMoviesByType(
+            movieTimeService.getMoviesByType(
                 params = mapOf(
                     "type" to "NetflixPopular",
                     "page" to 1,
@@ -88,7 +88,7 @@ class OwlsRepositoryImp @Inject internal constructor(
     override suspend fun getAmazonData(): List<HomeMovieList> {
         val list = arrayListOf<HomeMovieList>()
         val amazonUpcoming =
-            tmdbService.getMoviesByType(
+            movieTimeService.getMoviesByType(
                 params = mapOf(
                     "type" to "AmazonUpcoming",
                     "page" to 1,
@@ -104,7 +104,7 @@ class OwlsRepositoryImp @Inject internal constructor(
             )
         )
         val amazonTopMovie =
-            tmdbService.getMoviesByType(
+            movieTimeService.getMoviesByType(
                 params = mapOf(
                     "type" to "AmazonTopMovies",
                     "page" to 1,
@@ -120,7 +120,7 @@ class OwlsRepositoryImp @Inject internal constructor(
             )
         )
         val amazonLatestMovie =
-            tmdbService.getMoviesByType(
+            movieTimeService.getMoviesByType(
                 params = mapOf(
                     "type" to "AmazonLatestMovies",
                     "page" to 1,
@@ -137,7 +137,7 @@ class OwlsRepositoryImp @Inject internal constructor(
             )
         )
         val amazonOriginal =
-            tmdbService.getMoviesByType(
+            movieTimeService.getMoviesByType(
                 params = mapOf(
                     "type" to "AmazonOriginal",
                     "page" to 1,
@@ -158,7 +158,7 @@ class OwlsRepositoryImp @Inject internal constructor(
     override suspend fun getHotstarData(): List<HomeMovieList> {
         val list = arrayListOf<HomeMovieList>()
         val hotstarTrending =
-            tmdbService.getMoviesByType(
+            movieTimeService.getMoviesByType(
                 params = mapOf(
                     "type" to "HotstarTrending",
                     "page" to 1,
@@ -174,7 +174,7 @@ class OwlsRepositoryImp @Inject internal constructor(
             )
         )
         val hotstatNew =
-            tmdbService.getMoviesByType(
+            movieTimeService.getMoviesByType(
                 params = mapOf(
                     "type" to "HotstarNew",
                     "page" to 1,
@@ -190,7 +190,7 @@ class OwlsRepositoryImp @Inject internal constructor(
             )
         )
         val hotstarSpecials =
-            tmdbService.getMoviesByType(
+            movieTimeService.getMoviesByType(
                 params = mapOf(
                     "type" to "HotstarSpecials",
                     "page" to 1,
@@ -214,7 +214,7 @@ class OwlsRepositoryImp @Inject internal constructor(
         pageSize: Int
     ): HomeMovieList {
         val movieList =
-            tmdbService.getMoviesByType(
+            movieTimeService.getMoviesByType(
                 params = mapOf(
                     "type" to categoryType,
                     "page" to page,

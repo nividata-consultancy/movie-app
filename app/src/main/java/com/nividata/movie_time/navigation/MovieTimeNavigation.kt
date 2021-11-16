@@ -32,7 +32,7 @@ const val NOTY_NAV_HOST_ROUTE = "noty-main-route"
 @ExperimentalPagerApi
 @ExperimentalCoroutinesApi
 @Composable
-fun OwlsNavigation() {
+fun MovieTimeNavigation() {
     val navController = rememberNavController()
     NavHost(navController, startDestination = Screen.Splash.route, route = NOTY_NAV_HOST_ROUTE) {
         composable(Screen.Splash.route) {

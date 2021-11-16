@@ -2,7 +2,7 @@ package com.nividata.movie_time.view.amazon
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.nividata.movie_time.domain.core.repository.OwlsRepository
+import com.nividata.movie_time.domain.core.repository.MovieTimeRepository
 import com.nividata.movie_time.view.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AmazonViewModel @Inject constructor(
-    private val owlsRepository: OwlsRepository
+    private val movieTimeRepository: MovieTimeRepository
 ) : BaseViewModel<AmazonContract.Event,
         AmazonContract.State,
         AmazonContract.Effect>() {
@@ -49,7 +49,7 @@ class AmazonViewModel @Inject constructor(
 
     private suspend fun getAmazonData() {
         try {
-            val homeMovieList = owlsRepository.getAmazonData()
+            val homeMovieList = movieTimeRepository.getAmazonData()
             setState { AmazonContract.State.Success(homeMovieList) }
         } catch (e: Exception) {
             Log.e("ok", e.toString())

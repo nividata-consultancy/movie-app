@@ -2,7 +2,7 @@ package com.nividata.movie_time.view.hotstar
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.nividata.movie_time.domain.core.repository.OwlsRepository
+import com.nividata.movie_time.domain.core.repository.MovieTimeRepository
 import com.nividata.movie_time.view.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HotstarViewModel @Inject constructor(
-    private val owlsRepository: OwlsRepository,
+    private val movieTimeRepository: MovieTimeRepository,
 ) : BaseViewModel<HotstarContract.Event,
         HotstarContract.State,
         HotstarContract.Effect>() {
@@ -49,7 +49,7 @@ class HotstarViewModel @Inject constructor(
 
     private suspend fun getHotstarData() {
         try {
-            val homeMovieList = owlsRepository.getHotstarData()
+            val homeMovieList = movieTimeRepository.getHotstarData()
             setState { HotstarContract.State.Success(homeMovieList) }
         } catch (e: Exception) {
             Log.e("ok", e.toString())

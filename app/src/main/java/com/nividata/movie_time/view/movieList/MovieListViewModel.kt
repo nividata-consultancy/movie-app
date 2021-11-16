@@ -7,7 +7,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.nividata.movie_time.domain.core.repository.OwlsRepository
+import com.nividata.movie_time.domain.core.repository.MovieTimeRepository
 import com.nividata.movie_time.domain.core.repository.TmdbRepository
 import com.nividata.movie_time.domain.model.Movie
 import com.nividata.movie_time.view.base.BaseViewModel
@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.Flow
 @ExperimentalCoroutinesApi
 class MovieListViewModel @AssistedInject constructor(
     tmdbRepository: TmdbRepository,
-    owlsRepository: OwlsRepository,
+    movieTimeRepository: MovieTimeRepository,
     @Assisted private val id: Int?,
     @Assisted("type") private val type: String?,
     @Assisted("categoryName") private val categoryName: String,
@@ -35,7 +35,7 @@ class MovieListViewModel @AssistedInject constructor(
     private var movieSource: MovieSource =
         MovieSource(
             tmdbRepository,
-            owlsRepository,
+            movieTimeRepository,
             id = id,
             type = type,
             categoryType = categoryType

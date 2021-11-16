@@ -4,7 +4,7 @@ import com.nividata.movie_time.domain.model.HomeMovieList
 import javax.inject.Singleton
 
 @Singleton
-interface OwlsRepository {
+interface MovieTimeRepository {
     suspend fun getNetflixData(): List<HomeMovieList>
     suspend fun getAmazonData(): List<HomeMovieList>
     suspend fun getHotstarData(): List<HomeMovieList>

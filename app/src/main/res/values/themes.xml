@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Owls" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.MovieTime" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryVariant">@color/white</item>
@@ -14,12 +14,12 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.Owls.NoActionBar">
+    <style name="Theme.MovieTime.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.Owls.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.MovieTime.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Theme.Owls.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.MovieTime.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
