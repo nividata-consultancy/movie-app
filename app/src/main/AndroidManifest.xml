@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.nividata.owls">
+    package="com.nividata.movie_time">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".OwlsApp"
+        android:name="com.nividata.movie_time.MovieTimeApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Owls">
         <activity
-            android:name=".view.MainActivity"
+            android:name="com.nividata.movie_time.view.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Owls.NoActionBar">

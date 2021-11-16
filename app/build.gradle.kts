@@ -10,7 +10,7 @@ android {
     buildToolsVersion = "30.0.3"
 
     defaultConfig {
-        applicationId = "com.nividata.owls"
+        applicationId = "com.nividata.movie_time"
         minSdk = 21
         targetSdk = 31
         versionCode = 1
