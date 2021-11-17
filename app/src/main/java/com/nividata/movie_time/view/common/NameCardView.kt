@@ -45,5 +45,4 @@ fun NameCardView(movie: Movie, index: Int, onItemClicked: (Int, String) -> Unit)
             )
         }
     }
-
 }

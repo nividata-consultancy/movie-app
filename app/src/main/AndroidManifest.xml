@@ -16,6 +16,7 @@
             android:name="com.nividata.movie_time.view.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.MovieTime.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

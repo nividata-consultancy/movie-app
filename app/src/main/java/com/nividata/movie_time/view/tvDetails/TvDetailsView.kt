@@ -33,6 +33,7 @@ import com.nividata.movie_time.domain.model.TvDetails
 import com.nividata.movie_time.navigation.Screen
 import com.nividata.movie_time.view.base.LAUNCH_LISTEN_FOR_EFFECTS
 import com.nividata.movie_time.view.common.*
+import com.nividata.movie_time.view.movieDetails.DetailsShimmerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -97,7 +98,7 @@ fun TvDetailsView(
     val coroutineScope = rememberCoroutineScope()
 
     when (state) {
-        is TvDetailsContract.State.Loading -> ProgressView()
+        is TvDetailsContract.State.Loading -> DetailsShimmerView()
         is TvDetailsContract.State.Success -> {
             WatchListView(
                 link = state.watchProviderData.link,

@@ -1,12 +1,25 @@
 package com.nividata.movie_time.view.splash
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
+import com.nividata.movie_time.BuildConfig
+import com.nividata.movie_time.R
 import com.nividata.movie_time.navigation.Screen
 import com.nividata.movie_time.view.base.LAUNCH_LISTEN_FOR_EFFECTS
-import com.nividata.movie_time.view.common.ErrorMessageView
-import com.nividata.movie_time.view.common.ProgressView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -19,7 +32,6 @@ fun SplashView(
     navController: NavHostController,
     viewModel: SplashViewModel
 ) {
-    val state = viewModel.viewState.value
 
     val onMainNavigation: () -> Unit = {
         navController.navigate(Screen.Main.route) {
@@ -36,12 +48,47 @@ fun SplashView(
             }
         }.collect()
     }
-
-    when (state) {
-        is SplashContract.State.Loading -> ProgressView()
-        is SplashContract.State.Success -> {
-            ProgressView()
+    ConstraintLayout(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        val (appNameAndIcon, progressBar, versionText) = createRefs()
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.constrainAs(appNameAndIcon) {
+                top.linkTo(parent.top)
+                bottom.linkTo(progressBar.top)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+            }
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_baseline_blur_on_24),
+                contentDescription = "",
+                modifier = Modifier.size(width = 64.dp, height = 64.dp)
+            )
+            Spacer(modifier = Modifier.height(32.dp))
+            Text(
+                text = stringResource(id = R.string.app_name),
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+            )
         }
-        is SplashContract.State.Failed -> ErrorMessageView(message = state.message)
+        CircularProgressIndicator(
+            color = MaterialTheme.colors.secondary,
+            modifier = Modifier.constrainAs(progressBar) {
+                bottom.linkTo(versionText.top, margin = 20.dp)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+            }
+        )
+        Text(
+            text = "App Version ${BuildConfig.VERSION_NAME}(${BuildConfig.VERSION_CODE})",
+            style = MaterialTheme.typography.caption.copy(fontSize = 10.sp),
+            modifier = Modifier.constrainAs(versionText) {
+                bottom.linkTo(parent.bottom, margin = 16.dp)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+            }
+        )
     }
 }

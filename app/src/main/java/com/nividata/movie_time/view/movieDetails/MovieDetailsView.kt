@@ -98,7 +98,7 @@ fun MovieDetailsView(
     val coroutineScope = rememberCoroutineScope()
 
     when (state) {
-        is MovieDetailsContract.State.Loading -> ProgressView()
+        is MovieDetailsContract.State.Loading -> DetailsShimmerView()
         is MovieDetailsContract.State.Success -> {
             WatchListView(
                 link = state.watchProviderData.link,

@@ -13,12 +13,14 @@ import com.nividata.movie_time.navigation.Screen
 import com.nividata.movie_time.view.base.LAUNCH_LISTEN_FOR_EFFECTS
 import com.nividata.movie_time.view.common.ErrorMessageView
 import com.nividata.movie_time.view.common.ListView
-import com.nividata.movie_time.view.common.ProgressView
 import com.nividata.movie_time.view.common.SliderView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.onEach
 
+@FlowPreview
 @ExperimentalPagerApi
 @ExperimentalCoroutinesApi
 @Composable
@@ -45,7 +47,7 @@ fun HotstarView(
     }
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
-        viewModel.effect.onEach { effect ->
+        viewModel.effect.debounce(200).onEach { effect ->
             when (effect) {
                 is HotstarContract.Effect.Navigation.ToMovieDetails -> {
                     navController.navigate(Screen.MovieDetail.route(effect.movieId))
@@ -66,7 +68,7 @@ fun HotstarView(
     }
 
     when (state) {
-        is HotstarContract.State.Loading -> ProgressView()
+        is HotstarContract.State.Loading -> HotstarShimmerView()
         is HotstarContract.State.Success -> {
             Column(
                 modifier = Modifier

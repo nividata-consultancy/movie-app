@@ -25,7 +25,6 @@ class SplashViewModel @Inject constructor(
 
     private suspend fun saveToken() {
         delay(2000L)
-        setState { SplashContract.State.Success(true) }
         setEffect { SplashContract.Effect.Navigation.ToMain }
     }
 }

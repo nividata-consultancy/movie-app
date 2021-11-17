@@ -24,7 +24,6 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.nividata.movie_time.navigation.Screen
 import com.nividata.movie_time.view.base.LAUNCH_LISTEN_FOR_EFFECTS
 import com.nividata.movie_time.view.common.CardView
-import com.nividata.movie_time.view.common.ProgressView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -77,7 +76,7 @@ fun MovieListView(
     }) {
         lazyMovieItems.apply {
             if (loadState.refresh is LoadState.Loading) {
-                ProgressView()
+                MovieListShimmerView()
             } else {
                 LazyVerticalGrid(
                     cells = GridCells.Fixed(3),

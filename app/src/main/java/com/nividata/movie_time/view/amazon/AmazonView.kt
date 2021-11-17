@@ -17,11 +17,17 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.nividata.movie_time.domain.model.Movie
 import com.nividata.movie_time.navigation.Screen
 import com.nividata.movie_time.view.base.LAUNCH_LISTEN_FOR_EFFECTS
-import com.nividata.movie_time.view.common.*
+import com.nividata.movie_time.view.common.ErrorMessageView
+import com.nividata.movie_time.view.common.ListView
+import com.nividata.movie_time.view.common.NameCardView
+import com.nividata.movie_time.view.common.SliderView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.onEach
 
+@FlowPreview
 @ExperimentalPagerApi
 @ExperimentalCoroutinesApi
 @Composable
@@ -48,7 +54,7 @@ fun AmazonView(
     }
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
-        viewModel.effect.onEach { effect ->
+        viewModel.effect.debounce(200).onEach { effect ->
             when (effect) {
                 is AmazonContract.Effect.Navigation.ToMovieDetails -> {
                     navController.navigate(Screen.MovieDetail.route(effect.movieId))
@@ -68,7 +74,7 @@ fun AmazonView(
         }.collect()
     }
     when (state) {
-        is AmazonContract.State.Loading -> ProgressView()
+        is AmazonContract.State.Loading -> AmazonShimmerView()
         is AmazonContract.State.Success -> {
             Column(
                 modifier = Modifier

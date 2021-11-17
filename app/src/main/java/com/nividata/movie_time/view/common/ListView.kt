@@ -4,11 +4,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -58,6 +61,32 @@ fun ListView(
                 items(movieList) {
                     CardView(movie = it, onItemClicked = onItemClicked)
                 }
+            }
+        }
+    }
+}
+
+
+@Composable
+fun ListShimmerView() {
+    Column(
+        modifier = Modifier
+            .padding(top = 10.dp)
+            .fillMaxWidth()
+    ) {
+        Spacer(modifier = Modifier.height(43.dp))
+        LazyRow(
+            contentPadding = PaddingValues(horizontal = 20.dp),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+            items(arrayOf(1, 2, 3, 4)) {
+                Card(
+                    modifier = Modifier
+                        .height(140.dp)
+                        .width(95.dp),
+                    shape = RoundedCornerShape(4.dp),
+                    backgroundColor = Color.DarkGray
+                ) {}
             }
         }
     }
