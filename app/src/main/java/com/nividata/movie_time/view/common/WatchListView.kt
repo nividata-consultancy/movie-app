@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
+import com.nividata.movie_time.R
 import com.nividata.movie_time.domain.data.Constant
 import com.nividata.movie_time.domain.model.WatchProviders
 import kotlinx.coroutines.CoroutineScope
@@ -54,7 +55,11 @@ fun WatchListView(
                     ) {
                         Surface(shape = RoundedCornerShape(4.dp)) {
                             Image(
-                                painter = rememberImagePainter(Constant.IMAGE_BASE_URL_500.plus(it.logo_path)),
+                                painter = rememberImagePainter(Constant.IMAGE_BASE_URL_500.plus(it.logo_path),
+                                    builder = {
+                                        placeholder(R.drawable.place_holder)
+                                        error(R.drawable.place_holder)
+                                    }),
                                 contentDescription = null,
                                 modifier = Modifier.size(50.dp),
                                 contentScale = ContentScale.Fit,

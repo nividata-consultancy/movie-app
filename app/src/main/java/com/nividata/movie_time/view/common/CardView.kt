@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
+import com.nividata.movie_time.R
 import com.nividata.movie_time.domain.data.Constant
 import com.nividata.movie_time.domain.model.Movie
 
@@ -27,7 +28,12 @@ fun CardView(movie: Movie, onItemClicked: (Int, String) -> Unit) {
         shape = RoundedCornerShape(4.dp)
     ) {
         Image(
-            painter = rememberImagePainter(Constant.IMAGE_BASE_URL.plus(movie.posterPath)),
+            painter = rememberImagePainter(
+                Constant.IMAGE_BASE_URL.plus(movie.posterPath),
+                builder = {
+                    placeholder(R.drawable.place_holder)
+                    error(R.drawable.place_holder)
+                }),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop,

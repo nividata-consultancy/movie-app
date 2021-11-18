@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.rememberImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.nividata.movie_time.R
 import com.nividata.movie_time.domain.data.Constant
 import com.nividata.movie_time.domain.model.CastCrew
 import com.nividata.movie_time.domain.model.ExternalIds
@@ -178,7 +179,11 @@ fun DetailsView(
                     .padding(bottom = 20.dp),
             ) {
                 Image(
-                    painter = rememberImagePainter(Constant.IMAGE_BASE_URL.plus(movieDetails.backdrop_path)),
+                    painter = rememberImagePainter(Constant.IMAGE_BASE_URL.plus(movieDetails.backdrop_path),
+                        builder = {
+                            placeholder(R.drawable.place_holder)
+                            error(R.drawable.place_holder)
+                        }),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                 )

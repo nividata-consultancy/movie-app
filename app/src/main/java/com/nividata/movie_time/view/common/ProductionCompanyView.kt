@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
+import com.nividata.movie_time.R
 import com.nividata.movie_time.domain.data.Constant
 import com.nividata.movie_time.domain.model.ProductionCompanies
 
@@ -54,10 +55,15 @@ fun ProductionCompanyView(productionCountriesList: List<ProductionCompanies>) {
                             shape = RoundedCornerShape(32.dp),
                         ) {
                             Image(
-                                painter = rememberImagePainter(Constant.IMAGE_BASE_URL.plus(item.logo_path)),
+                                painter = rememberImagePainter(Constant.IMAGE_BASE_URL.plus(item.logo_path),
+                                    builder = {
+                                        placeholder(R.drawable.place_holder)
+                                        error(R.drawable.place_holder)
+                                    }),
                                 contentDescription = null,
-                                modifier = Modifier.fillMaxSize(),
-                                contentScale = ContentScale.Fit,
+                                modifier = Modifier
+                                    .fillMaxSize(),
+                                contentScale = ContentScale.Fit
                             )
                         }
                         Text(

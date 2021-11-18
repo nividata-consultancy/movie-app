@@ -86,7 +86,11 @@ fun RoundCardView(movie: Movie, index: Int, onItemClicked: (Int, String) -> Unit
             )
         ) {
             Image(
-                painter = rememberImagePainter(Constant.IMAGE_BASE_URL.plus(movie.posterPath)),
+                painter = rememberImagePainter(Constant.IMAGE_BASE_URL.plus(movie.posterPath),
+                    builder = {
+                        placeholder(R.drawable.place_holder)
+                        error(R.drawable.place_holder)
+                    }),
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop,

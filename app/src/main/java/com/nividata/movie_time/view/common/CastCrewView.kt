@@ -14,6 +14,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
+import com.nividata.movie_time.R
 import com.nividata.movie_time.domain.data.Constant
 import com.nividata.movie_time.domain.model.CastCrew
 
@@ -31,11 +32,14 @@ fun CastCrewView(cast: CastCrew.Cast) {
             shape = RoundedCornerShape(32.dp),
         ) {
             Image(
-                painter = rememberImagePainter(Constant.IMAGE_BASE_URL.plus(cast.profile_path)),
+                painter = rememberImagePainter(Constant.IMAGE_BASE_URL.plus(cast.profile_path),
+                    builder = {
+                        placeholder(R.drawable.place_holder)
+                        error(R.drawable.place_holder)
+                    }),
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop,
-                alignment = Alignment.Center
             )
         }
         Text(

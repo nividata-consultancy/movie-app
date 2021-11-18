@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
+import com.nividata.movie_time.R
 import com.nividata.movie_time.domain.data.Constant
 import com.nividata.movie_time.domain.model.Movie
 
@@ -23,7 +24,11 @@ fun SmallHCardView(movie: Movie) {
         shape = RoundedCornerShape(4.dp)
     ) {
         Image(
-            painter = rememberImagePainter(Constant.IMAGE_BASE_URL.plus(movie.backdropPath)),
+            painter = rememberImagePainter(Constant.IMAGE_BASE_URL.plus(movie.backdropPath),
+                builder = {
+                    placeholder(R.drawable.place_holder)
+                    error(R.drawable.place_holder)
+                }),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop,

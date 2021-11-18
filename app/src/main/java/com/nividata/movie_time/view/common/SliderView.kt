@@ -25,6 +25,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
+import com.nividata.movie_time.R
 import com.nividata.movie_time.domain.data.Constant
 import com.nividata.movie_time.domain.model.Movie
 import java.util.*
@@ -81,7 +82,12 @@ fun SliderView(movieList: List<Movie>, title: String, onItemClicked: (Int, Strin
         ) {
             Box() {
                 Image(
-                    painter = rememberImagePainter(Constant.IMAGE_BASE_URL.plus(movieList[it].backdropPath)),
+                    painter = rememberImagePainter(Constant.IMAGE_BASE_URL.plus(movieList[it].backdropPath),
+                        builder = {
+                            placeholder(R.drawable.place_holder)
+                            error(R.drawable.place_holder)
+                        }
+                    ),
                     contentDescription = null,
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop,
