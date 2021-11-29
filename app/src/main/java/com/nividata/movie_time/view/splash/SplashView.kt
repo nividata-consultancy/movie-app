@@ -2,6 +2,8 @@ package com.nividata.movie_time.view.splash
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -61,22 +63,27 @@ fun SplashView(
                 end.linkTo(parent.end)
             }
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_baseline_blur_on_24),
-                contentDescription = "",
-                modifier = Modifier.size(width = 64.dp, height = 64.dp)
-            )
-            Spacer(modifier = Modifier.height(32.dp))
+            Card(
+                elevation = 4.dp,
+                shape = RoundedCornerShape(8.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_launcher_playstore),
+                    contentDescription = "",
+                    modifier = Modifier.size(width = 64.dp, height = 64.dp)
+                )
+            }
+            Spacer(modifier = Modifier.height(24.dp))
             Text(
                 text = stringResource(id = R.string.app_name),
-                fontSize = 20.sp,
+                fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
             )
         }
         CircularProgressIndicator(
             color = MaterialTheme.colors.secondary,
             modifier = Modifier.constrainAs(progressBar) {
-                bottom.linkTo(versionText.top, margin = 20.dp)
+                bottom.linkTo(versionText.top, margin = 24.dp)
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
             }
@@ -85,7 +92,7 @@ fun SplashView(
             text = "App Version ${BuildConfig.VERSION_NAME}(${BuildConfig.VERSION_CODE})",
             style = MaterialTheme.typography.caption.copy(fontSize = 10.sp),
             modifier = Modifier.constrainAs(versionText) {
-                bottom.linkTo(parent.bottom, margin = 16.dp)
+                bottom.linkTo(parent.bottom, margin = 28.dp)
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
             }

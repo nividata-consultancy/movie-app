@@ -68,15 +68,15 @@ class TmdbRepositoryImp @Inject internal constructor(
         val watchProviders = tmdbService.getMovieWatchProviders(id).getResponse()
         val list = arrayListOf<WatchProviders.Results.IN.Flatrate>()
         if (watchProviders.results.iN != null) {
-            if (!watchProviders.results.iN.buy.isNullOrEmpty()) {
-                list.addAll(watchProviders.results.iN.buy)
-            }
+//            if (!watchProviders.results.iN.buy.isNullOrEmpty()) {
+//                list.addAll(watchProviders.results.iN.buy)
+//            }
             if (!watchProviders.results.iN.flatrate.isNullOrEmpty()) {
                 list.addAll(watchProviders.results.iN.flatrate)
             }
-            if (!watchProviders.results.iN.rent.isNullOrEmpty()) {
-                list.addAll(watchProviders.results.iN.rent)
-            }
+//            if (!watchProviders.results.iN.rent.isNullOrEmpty()) {
+//                list.addAll(watchProviders.results.iN.rent)
+//            }
             return WatchProviderData(
                 link = watchProviders.results.iN.link,
                 list = list

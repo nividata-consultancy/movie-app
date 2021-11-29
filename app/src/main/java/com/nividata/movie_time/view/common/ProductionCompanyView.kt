@@ -57,8 +57,8 @@ fun ProductionCompanyView(productionCountriesList: List<ProductionCompanies>) {
                             Image(
                                 painter = rememberImagePainter(Constant.IMAGE_BASE_URL.plus(item.logo_path),
                                     builder = {
-                                        placeholder(R.drawable.place_holder)
-                                        error(R.drawable.place_holder)
+                                        placeholder(R.drawable.place_holder_rect)
+                                        error(R.drawable.place_holder_rect)
                                     }),
                                 contentDescription = null,
                                 modifier = Modifier
